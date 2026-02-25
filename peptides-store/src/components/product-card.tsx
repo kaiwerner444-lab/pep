@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Beaker } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -19,10 +20,16 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group relative rounded-2xl bg-gray-900 border border-gray-800 overflow-hidden hover:border-gray-700 transition-all hover:-translate-y-1">
-      {/* Image placeholder */}
+      {/* Vial Image */}
       <Link href={`/products/${product.id}`} className="block aspect-square bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Beaker className="w-16 h-16 text-gray-700 group-hover:text-gray-600 transition-colors" />
+        <div className="absolute inset-0 flex items-center justify-center p-8">
+          <Image 
+            src="/vial.svg" 
+            alt={product.name}
+            width={120}
+            height={180}
+            className="object-contain group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
         

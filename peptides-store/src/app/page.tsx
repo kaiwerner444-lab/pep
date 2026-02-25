@@ -3,38 +3,10 @@ import { ArrowRight, Beaker, Shield, Truck, Award } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 
 const featuredProducts = [
-  {
-    id: 1,
-    name: "BPC-157",
-    description: "Body Protection Compound - 5mg vial",
-    price: 49.99,
-    category: "Healing",
-    image: "/product-1.jpg",
-  },
-  {
-    id: 2,
-    name: "TB-500",
-    description: "Thymosin Beta-4 - 5mg vial",
-    price: 54.99,
-    category: "Recovery",
-    image: "/product-2.jpg",
-  },
-  {
-    id: 3,
-    name: "CJC-1295",
-    description: "Growth Hormone Releasing Hormone - 2mg",
-    price: 39.99,
-    category: "Performance",
-    image: "/product-3.jpg",
-  },
-  {
-    id: 4,
-    name: "Ipamorelin",
-    description: "Growth Hormone Secretagogue - 2mg",
-    price: 34.99,
-    category: "Performance",
-    image: "/product-4.jpg",
-  },
+  { id: 6, name: "BPC-157", description: "Body Protection Compound - 5mg/10mg", price: 35.00, category: "Healing", image: "/vial.svg" },
+  { id: 30, name: "TB-500 (Thymosin Beta-4)", description: "Recovery peptide - 5mg", price: 35.00, category: "Recovery", image: "/vial.svg" },
+  { id: 12, name: "GLP-1 SM 10MG", description: "Semaglutide analog - 10mg", price: 128.00, category: "GLP-1", image: "/vial.svg" },
+  { id: 16, name: "Glow (GHK-CU, TB-500, BPC-157)", description: "Skin & healing blend", price: 115.00, category: "Bundles", image: "/vial.svg" },
 ];
 
 const features = [
