@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <Link href={`/products/${product.id}`} className="block aspect-square bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center p-8">
           <Image 
-            src="/vial.svg" 
+            src="/vial.jpg" 
             alt={product.name}
             width={120}
             height={180}

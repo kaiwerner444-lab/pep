@@ -73,7 +73,7 @@ export function ProductContent({ id }: ProductContentProps) {
           {/* Product Image */}
           <div className="aspect-square rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative p-12">
             <Image 
-              src="/vial.svg" 
+              src="/vial.jpg" 
               alt={product.name}
               width={200}
               height={300}
