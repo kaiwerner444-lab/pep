@@ -3,10 +3,10 @@ import { ArrowRight, Beaker, Shield, Truck, Award, Zap, Sparkles } from "lucide-
 import { ProductCard } from "@/components/product-card";
 
 const featuredProducts = [
-  { id: 6, name: "BPC-157", description: "Body Protection Compound - 5mg/10mg", price: 35.00, category: "Healing", image: "/vial.jpg" },
-  { id: 30, name: "TB-500 (Thymosin Beta-4)", description: "Recovery peptide - 5mg", price: 35.00, category: "Recovery", image: "/vial.jpg" },
-  { id: 12, name: "GLP-1 SM 10MG", description: "Semaglutide analog - 10mg", price: 128.00, category: "GLP-1", image: "/vial.jpg" },
-  { id: 16, name: "Glow (GHK-CU, TB-500, BPC-157)", description: "Skin & healing blend", price: 115.00, category: "Bundles", image: "/vial.jpg" },
+  { id: 6, name: "BPC-157", description: "Body Protection Compound - 5mg/10mg", price: 35.00, category: "Tissue Research", image: "/vial.jpg" },
+  { id: 30, name: "TB-500 (Thymosin Beta-4)", description: "Thymosin peptide - 5mg", price: 35.00, category: "Thymosin Research", image: "/vial.jpg" },
+  { id: 12, name: "GLP-1 SM 10MG", description: "Semaglutide analog - 10mg", price: 128.00, category: "Glucagon Analogs", image: "/vial.jpg" },
+  { id: 16, name: "Glow (GHK-CU, TB-500, BPC-157)", description: "Research blend", price: 115.00, category: "Research Bundles", image: "/vial.jpg" },
 ];
 
 const features = [
