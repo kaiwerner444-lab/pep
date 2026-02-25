@@ -59,15 +59,15 @@ export default function AboutPage() {
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="p-8 rounded-2xl bg-gray-900 border border-gray-800 text-center">
-                <div className="text-4xl font-bold text-blue-400 mb-2">10k+</div>
+                <div className="text-4xl font-bold text-orange-400 mb-2">10k+</div>
                 <div className="text-gray-400">Researchers</div>
               </div>
               <div className="p-8 rounded-2xl bg-gray-900 border border-gray-800 text-center">
-                <div className="text-4xl font-bold text-purple-400 mb-2">50+</div>
+                <div className="text-4xl font-bold text-yellow-400 mb-2">50+</div>
                 <div className="text-gray-400">Products</div>
               </div>
               <div className="p-8 rounded-2xl bg-gray-900 border border-gray-800 text-center">
-                <div className="text-4xl font-bold text-pink-400 mb-2">99%+</div>
+                <div className="text-4xl font-bold text-amber-400 mb-2">99%+</div>
                 <div className="text-gray-400">Purity</div>
               </div>
               <div className="p-8 rounded-2xl bg-gray-900 border border-gray-800 text-center">
@@ -95,8 +95,8 @@ export default function AboutPage() {
                 key={value.title}
                 className="p-8 rounded-2xl bg-gray-900/50 border border-gray-800 hover:border-gray-700 transition-all group"
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <value.icon className="w-7 h-7 text-blue-400" />
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <value.icon className="w-7 h-7 text-orange-400" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{value.title}</h3>
                 <p className="text-gray-400">{value.description}</p>

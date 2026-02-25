@@ -46,8 +46,8 @@ export default function ContactPage() {
 
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-orange-400" />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Email</h3>
@@ -57,8 +57,8 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-purple-400" />
+                  <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-yellow-400" />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Phone</h3>
@@ -68,8 +68,8 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-pink-400" />
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-amber-400" />
                   </div>
                   <div>
                     <h3 className="text-white font-semibold mb-1">Location</h3>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                 <p className="text-gray-400 text-sm mb-4">
                   Check our FAQ for instant answers to common questions.
                 </p>
-                <a href="#faq" className="text-blue-400 hover:text-blue-300 text-sm font-medium">
+                <a href="#faq" className="text-orange-400 hover:text-orange-300 text-sm font-medium">
                   View FAQ →
                 </a>
               </div>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                       id="name"
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
                       placeholder="Your name"
                       required
                     />
@@ -127,7 +127,7 @@ export default function ContactPage() {
                       id="email"
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
                       placeholder="you@example.com"
                       required
                     />
@@ -141,7 +141,7 @@ export default function ContactPage() {
                       id="subject"
                       value={formState.subject}
                       onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
-                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white focus:outline-none focus:border-orange-500 transition-colors"
                       required
                     >
                       <option value="">Select a subject</option>
@@ -162,7 +162,7 @@ export default function ContactPage() {
                       rows={5}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-black border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors resize-none"
                       placeholder="How can we help you?"
                       required
                     />
@@ -170,7 +170,7 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02]"
+                    className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02]"
                   >
                     <Send className="w-5 h-5" />
                     Send Message

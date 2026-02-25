@@ -28,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
         
         {/* Category badge */}
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-medium border border-blue-500/20">
+          <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium border border-orange-500/20">
             {product.category}
           </span>
         </div>
@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
       {/* Content */}
       <div className="p-5">
         <Link href={`/products/${product.id}`}>
-          <h3 className="text-lg font-semibold text-white mb-1 group-hover:text-blue-400 transition-colors">
+          <h3 className="text-lg font-semibold text-white mb-1 group-hover:text-orange-400 transition-colors">
             {product.name}
           </h3>
         </Link>
@@ -47,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div>
             <span className="text-2xl font-bold text-white">${product.price}</span>
           </div>
-          <button className="p-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105">
+          <button className="p-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white transition-all hover:scale-105 glow-orange">
             <ShoppingCart className="w-5 h-5" />
           </button>
         </div>

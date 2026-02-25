@@ -146,7 +146,7 @@ export function ProductContent({ id }: ProductContentProps) {
     return (
       <div className="pt-32 text-center min-h-screen">
         <h1 className="text-2xl text-white">Product not found</h1>
-        <Link href="/products" className="text-blue-400 hover:text-blue-300 mt-4 inline-block">
+        <Link href="/products" className="text-orange-400 hover:text-orange-300 mt-4 inline-block">
           Back to products
         </Link>
       </div>
@@ -170,7 +170,7 @@ export function ProductContent({ id }: ProductContentProps) {
           <div className="aspect-square rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
             <Beaker className="w-32 h-32 text-gray-700" />
             <div className="absolute top-4 left-4">
-              <span className="px-4 py-2 rounded-full bg-blue-500/20 text-blue-400 text-sm font-medium border border-blue-500/20">
+              <span className="px-4 py-2 rounded-full bg-orange-500/20 text-orange-400 text-sm font-medium border border-orange-500/20">
                 {product.category}
               </span>
             </div>
@@ -213,7 +213,7 @@ export function ProductContent({ id }: ProductContentProps) {
                 <span className="px-4 py-3 text-white">1</span>
                 <button className="px-4 py-3 text-gray-400 hover:text-white">+</button>
               </div>
-              <button className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02] glow-blue">
+              <button className="flex-1 flex items-center justify-center gap-2 px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02] glow-orange">
                 <ShoppingCart className="w-5 h-5" />
                 Add to Cart
               </button>

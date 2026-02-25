@@ -117,7 +117,7 @@ export default function ProductsPage() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-900 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-900 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
               />
             </div>
 
@@ -130,7 +130,7 @@ export default function ProductsPage() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                     selectedCategory === category
-                      ? "bg-blue-600 text-white"
+                      ? "bg-orange-600 text-white"
                       : "bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white"
                   }`}
                 >
@@ -143,7 +143,7 @@ export default function ProductsPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2.5 bg-gray-900 border border-gray-800 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500"
+              className="px-4 py-2.5 bg-gray-900 border border-gray-800 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500"
             >
               <option value="featured">Featured</option>
               <option value="price-low">Price: Low to High</option>
@@ -175,7 +175,7 @@ export default function ProductsPage() {
                 setSearchQuery("");
                 setSelectedCategory("All");
               }}
-              className="mt-4 text-blue-400 hover:text-blue-300"
+              className="mt-4 text-orange-400 hover:text-orange-300"
             >
               Clear filters
             </button>
