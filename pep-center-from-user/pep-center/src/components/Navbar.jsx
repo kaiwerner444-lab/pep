@@ -27,10 +27,10 @@ export default function Navbar() {
 
             <div className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm text-white/70 hover:text-white transition-colors">Home</Link>
-              <a href="/#products" className="text-sm text-white/70 hover:text-white transition-colors">Products</a>
+              <Link to="/products" className="text-sm text-white/70 hover:text-white transition-colors">Products</Link>
               <Link to="/bundles" className="text-sm text-[#f97316] hover:text-[#ff8c5a] transition-colors font-medium">Bundles</Link>
-              <a href="/#blog" className="text-sm text-white/70 hover:text-white transition-colors">Blog</a>
-              <a href="/#contact" className="text-sm text-white/70 hover:text-white transition-colors">Contact</a>
+              <Link to="/blog" className="text-sm text-white/70 hover:text-white transition-colors">Blog</Link>
+              <Link to="/contact" className="text-sm text-white/70 hover:text-white transition-colors">Contact</Link>
             </div>
 
             <div className="flex items-center gap-3">
@@ -67,10 +67,10 @@ export default function Navbar() {
           <div className="md:hidden border-t border-white/10 bg-navy-secondary/95 backdrop-blur-xl">
             <div className="px-4 py-4 flex flex-col gap-3">
               <Link to="/" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Home</Link>
-              <a href="/#products" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Products</a>
+              <Link to="/products" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Products</Link>
               <Link to="/bundles" onClick={() => setMobileOpen(false)} className="text-sm text-[#f97316] font-medium py-2">Bundles</Link>
-              <a href="/#blog" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Blog</a>
-              <a href="/#contact" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Contact</a>
+              <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Blog</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Contact</Link>
             </div>
           </div>
         )}
