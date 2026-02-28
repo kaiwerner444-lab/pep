@@ -1,78 +1,195 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
-import { Plus, Check } from 'lucide-react';
+import { Plus, Check, ShoppingBag, TrendingDown } from 'lucide-react';
+
+// Volume pricing tiers
+const volumeTiers = [
+  { min: 1, max: 9, discount: 0, label: '1-9 units' },
+  { min: 10, max: 49, discount: 10, label: '10-49 units' },
+  { min: 50, max: 99, discount: 20, label: '50-99 units' },
+  { min: 100, max: null, discount: 30, label: '100+ units' },
+];
+
+// Calculate volume price
+function calculateVolumePrice(basePrice, quantity) {
+  const tier = volumeTiers.find(t => 
+    quantity >= t.min && (t.max === null || quantity <= t.max)
+  );
+  const discount = tier?.discount || 0;
+  const discountedPrice = basePrice * (1 - discount / 100);
+  return {
+    unitPrice: discountedPrice,
+    totalPrice: discountedPrice * quantity,
+    discount: discount,
+    tier: tier?.label,
+  };
+}
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product);
+    
+    // Add item multiple times for quantity
+    for (let i = 0; i < quantity; i++) {
+      addItem(product);
+    }
+    
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
+    setQuantity(1);
   };
+
+  // Calculate volume pricing
+  const pricing = calculateVolumePrice(product.price, quantity);
+  const nextTier = volumeTiers.find(t => t.min > quantity);
+  const savings = (product.price - pricing.unitPrice) * quantity;
 
   return (
     <div 
-      className="group flex flex-col rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden hover:border-white/[0.12] transition-all duration-500"
-      style={{ animationDelay: `${index * 50}ms` }}
+      className="group flex flex-col rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden transition-all duration-500 hover:border-white/[0.15] hover:bg-white/[0.04] hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#f97316]/10"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Area */}
       <Link to={`/products/${product.id}`} className="block relative">
         <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-b from-white/[0.02] to-transparent">
           {/* Purity Badge */}
           <div className="absolute top-4 left-4 z-10">
-            <span className="px-3 py-1.5 rounded-full bg-[#f97316]/15 border border-[#f97316]/25 text-xs font-medium text-[#f97316]">
+            <span className="px-3 py-1.5 rounded-full bg-[#f97316]/15 border border-[#f97316]/30 text-xs font-medium text-[#f97316] backdrop-blur-sm">
               {product.purity}
             </span>
           </div>
+
+          {/* Volume Discount Badge */}
+          {quantity >= 10 && (
+            <div className="absolute top-4 right-4 z-10">
+              <span className="px-3 py-1.5 rounded-full bg-green-500/15 border border-green-500/30 text-xs font-medium text-green-400 backdrop-blur-sm flex items-center gap-1">
+                <TrendingDown className="w-3 h-3" />
+                {pricing.discount}% OFF
+              </span>
+            </div>
+          )}
           
           <img 
             src={product.image} 
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          />
+
+          {/* Shine sweep */}
+          <div 
+            className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000"
+            style={{
+              transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+            }}
           />
         </div>
       </Link>
       
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        <div className="flex items-start justify-between mb-1">
-          <h3 className="font-semibold text-white text-lg group-hover:text-[#f97316] transition-colors duration-300">
-            {product.name}
-          </h3>
-          <span className="text-xl font-bold text-[#f97316]">${product.price}</span>
+        <Link to={`/products/${product.id}`}>
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="font-semibold text-white text-lg group-hover:text-[#f97316] transition-colors">
+              {product.name}
+            </h3>
+            <div className="text-right">
+              <span className="text-xl font-bold text-[#f97316]">${pricing.unitPrice.toFixed(0)}</span>
+              {pricing.discount > 0 && (
+                <span className="text-sm text-white/30 line-through block">${product.price}</span>
+              )}
+            </div>
+          </div>
+          
+          <p className="text-sm text-[#f97316]/70 mb-2">{product.subtitle}</p>
+        </Link>
+
+        {/* Volume Pricing Info */}
+        <div 
+          className="mb-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] cursor-pointer transition-all hover:border-white/[0.1]"
+          onClick={() => setShowPricing(!showPricing)}
+        >
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-white/50">Volume Pricing Available</span>
+            <span className="text-[#f97316]">{showPricing ? 'Hide' : 'View'} →</span>
+          </div>
+          
+          {showPricing && (
+            <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-2">
+              {volumeTiers.slice(1).map((tier, i) => (
+                <div key={i} className="flex items-center justify-between text-xs">
+                  <span className="text-white/40">{tier.label}</span>
+                  <span className="text-[#f97316]">{tier.discount}% off</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Quantity Selector */}
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-sm text-white/50">Qty:</span>
+          <div className="flex items-center gap-2">
+            {[1, 10, 50, 100].map((qty) => (
+              <button
+                key={qty}
+                onClick={() => setQuantity(qty)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                  quantity === qty
+                    ? 'bg-[#f97316] text-white'
+                    : 'bg-white/[0.05] text-white/60 hover:bg-white/[0.1] hover:text-white'
+                }`}
+              >
+                {qty}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Savings indicator */}
+        {savings > 0 && (
+          <div className="mb-3 p-2 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center gap-2">
+            <TrendingDown className="w-4 h-4 text-green-400" />
+            <span className="text-sm text-green-400">Save ${savings.toFixed(0)}</span>
+          </div>
+        )}
         
-        <p className="text-sm text-[#f97316]/70 mb-3">{product.subtitle}</p>
-        
-        <p className="text-sm text-white/35 line-clamp-2 mb-4 flex-1 leading-relaxed">
-          {product.description}
-        </p>
-        
+        {/* Add to Cart Button */}
         <button
           onClick={handleAddToCart}
-          className={`w-full py-3.5 rounded-xl font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
+          className={`w-full py-3.5 rounded-xl font-medium text-sm transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden ${
             isAdded 
-              ? 'bg-green-500/15 border border-green-500/30 text-green-400' 
+              ? 'bg-green-500/20 border border-green-500/40 text-green-400' 
               : 'bg-white/[0.04] border border-white/[0.08] text-white/80 hover:bg-[#f97316] hover:border-[#f97316] hover:text-white'
           }`}
         >
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-700" />
+          
           {isAdded ? (
-            <>
-              <Check className="w-4 h-4" />
-              Added
-            </>
+            <><Check className="w-4 h-4" /> Added {quantity > 1 ? `(${quantity})` : ''}</>
           ) : (
             <>
-              <Plus className="w-4 h-4" />
-              Add to Cart
+              <ShoppingBag className="w-4 h-4" />
+              Add {quantity > 1 ? `${quantity} to Cart` : 'to Cart'}
+              {quantity > 1 && <span className="ml-1 text-xs opacity-70">${pricing.totalPrice.toFixed(0)}</span>}
             </>
           )}
         </button>
+
+        {/* Next tier incentive */}
+        {nextTier && quantity < nextTier.min && (
+          <p className="mt-2 text-xs text-center text-white/30">
+            Add {nextTier.min - quantity} more for {nextTier.discount}% off
+          </p>
+        )}
       </div>
     </div>
   );

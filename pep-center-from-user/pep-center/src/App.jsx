@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import BlogPost from './pages/BlogPost';
+import Bundles from './pages/Bundles';
 import Checkout from './pages/Checkout';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/:slug" element={<ProductDetail />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/bundles" element={<Bundles />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />

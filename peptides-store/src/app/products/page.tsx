@@ -1,127 +1,212 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import { 
+  ShoppingCart, 
+  ArrowLeft, 
+  Shield, 
+  Check, 
+  FileText, 
+  ChevronRight,
+  Search,
+  Menu,
+  FlaskConical,
+  Home,
+  Package,
+  User
+} from "lucide-react";
 import { useState } from "react";
-import { Search } from "lucide-react";
-import { ProductCard } from "@/components/product-card";
+import { allProducts } from "@/lib/products";
 
-const allProducts = [
-  // Core Peptides - One of each
-  { id: 1, name: "BPC-157", description: "5mg Vial - Body protection compound", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 2, name: "TB-500", description: "5mg Vial - Thymosin beta-4", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 3, name: "GHK-CU", description: "50mg Vial - Copper peptide", price: 48, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 4, name: "GLP-1 SM", description: "10mg Vial - Semaglutide analog", price: 128, category: "GLP-1", image: "/vial-3d.svg" },
-  { id: 5, name: "GLP-2 TZ", description: "10mg Vial - Tirzepatide analog", price: 184, category: "GLP-1", image: "/vial-3d.svg" },
-  { id: 6, name: "GLP-3 RT", description: "10mg Vial - Retatrutide analog", price: 140, category: "GLP-1", image: "/vial-3d.svg" },
-  { id: 7, name: "Glutathione", description: "600mg Vial - Antioxidant peptide", price: 54, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 8, name: "HCG", description: "5000iu Vial - Human chorionic gonadotropin", price: 40, category: "Research Chemicals", image: "/vial-3d.svg" },
-  { id: 9, name: "IGF-1 LR3", description: "1mg Vial - Insulin-like growth factor", price: 75, category: "Peptides", image: "/vial-3d.svg", outOfStock: true },
-  { id: 10, name: "KISSPEPTIN", description: "10mg Vial - Reproductive hormone peptide", price: 60, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 11, name: "KLOW", description: "Advanced healing peptide blend", price: 140, category: "Peptide Blends", image: "/vial-3d.svg" },
-  { id: 12, name: "KPV", description: "10mg Vial - Anti-inflammatory tripeptide", price: 55, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 13, name: "Melanotan II", description: "10mg Vial - Melanocortin peptide", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 14, name: "MOTS-C", description: "10mg Vial - Mitochondrial peptide", price: 100, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 15, name: "NAD+", description: "500mg Vial - SALE PRICE", price: 85, originalPrice: 100, category: "Peptides", image: "/vial-3d.svg", onSale: true },
-  { id: 16, name: "PT-141", description: "10mg Vial - Bremelanotide peptide", price: 40, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 17, name: "Selank", description: "10mg Vial - Nootropic peptide", price: 45, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 18, name: "Semax", description: "10mg Vial - Cognitive peptide", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 19, name: "Sermorelin", description: "5mg Vial - GHRH analog", price: 48, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 20, name: "Tesamorelin", description: "5mg Vial - GHRF analog", price: 45, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 21, name: "GHRP-6", description: "5mg Vial - Growth hormone releasing peptide", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 22, name: "CJC-1295", description: "5mg Vial - No DAC", price: 45, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 23, name: "Ipamorelin", description: "5mg Vial - GH secretagogue", price: 40, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 24, name: "DSIP", description: "5mg Vial - Delta sleep inducing peptide", price: 35, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 25, name: "AOD-9604", description: "5mg Vial - Fat loss peptide fragment", price: 50, category: "Peptides", image: "/vial-3d.svg" },
-  { id: 26, name: "BPC-157/TB-500", description: "Blend - Healing & recovery combo", price: 75, category: "Peptide Blends", image: "/vial-3d.svg" },
-  { id: 27, name: "CJC-1295/Ipamorelin", description: "5mg/5mg - GH releasing combo", price: 75, category: "Peptide Blends", image: "/vial-3d.svg" },
-  { id: 28, name: "Glow", description: "GHK-CU, TB-500, BPC-157 blend", price: 115, category: "Peptide Blends", image: "/vial-3d.svg" },
-  { id: 29, name: "SLU-PP-332", description: "10mg Vial - ERR agonist", price: 175, category: "Research Chemicals", image: "/vial-3d.svg" },
-  { id: 30, name: "5% RU-58841", description: "30ml - Anti-androgen solution", price: 45, category: "Research Chemicals", image: "/vial-3d.svg" },
-  { id: 31, name: "Enclomiphene", description: "12.5mg/ml - SERM", price: 75, category: "Research Chemicals", image: "/vial-3d.svg" },
-  { id: 32, name: "Amino Tadalafil", description: "Liquid research compound 30ml", price: 54, category: "Research Chemicals", image: "/vial-3d.svg" },
-  { id: 33, name: "BAC Water", description: "10ml - Bacteriostatic water", price: 12, category: "Lab Supplies", image: "/vial-3d.svg" },
-  { id: 34, name: "Acetic Acid", description: "10ml - 0.6% solution", price: 10, category: "Lab Supplies", image: "/vial-3d.svg" },
+const categories = [
+  { name: "All", count: 34 },
+  { name: "Peptides", count: 18 },
+  { name: "Blends", count: 4 },
+  { name: "GLP-1", count: 3 },
+  { name: "Chemicals", count: 9 },
+  { name: "Lab Supplies", count: 2 },
 ];
-
-const categories = ["All", "Peptides", "GLP-1", "Peptide Blends", "Research Chemicals", "Lab Supplies"];
 
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const filteredProducts = allProducts.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
+                         product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = activeCategory === "All" || 
+                           (activeCategory === "Chemicals" && product.category === "Research Chemicals") ||
+                           product.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0a0a0b]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-[#b87333] text-sm tracking-wider uppercase mb-4">Complete Catalog</p>
-          <h1 className="text-4xl md:text-5xl font-light text-white mb-4">
-            Research <span className="gradient-text font-semibold">Compounds</span>
-          </h1>
-          <p className="text-zinc-500 max-w-2xl mx-auto">
-            {allProducts.length} laboratory-grade peptides and research chemicals with verified purity.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#0a0c10] pb-24">
+      {/* Header */}
+      <header className="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#f97316] rounded-xl flex items-center justify-center">
+              <FlaskConical className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold text-white">pep.center</span>
+          </Link>
 
-        {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-12">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-            <input
+          <div className="flex items-center gap-3">
+            <button className="icon-btn relative">
+              <ShoppingCart className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#f97316] rounded-full text-xs font-bold flex items-center justify-center">
+                0
+              </span>
+            </button>
+            <button 
+              className="icon-btn md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#0a0c10] pt-20 px-4 md:hidden">
+          <nav className="space-y-4">
+            <Link href="/" className="block py-3 text-lg text-white border-b border-[#2a303c]">
+              Home
+            </Link>
+            <Link href="/about" className="block py-3 text-lg text-white border-b border-[#2a303c]">
+              About
+            </Link>
+            <Link href="/contact" className="block py-3 text-lg text-white border-b border-[#2a303c]">
+              Contact
+            </Link>
+          </nav>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="pt-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          {/* Back Link */}
+          <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6">
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Link>
+
+          {/* Page Title */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-white mb-2">All Products</h1>
+            <p className="text-gray-400">{filteredProducts.length} research compounds available</p>
+          </div>
+
+          {/* Search */}
+          <div className="relative mb-4">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <input 
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-[#141415] border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#b87333]/50"
+              className="input-field w-full pl-12 pr-4 py-4"
             />
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
-            {categories.map((category) => (
+
+          {/* Categories */}
+          <div className="flex gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">
+            {categories.map((cat) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
-                  selectedCategory === category
-                    ? "bg-[#b87333] text-white"
-                    : "bg-[#141415] text-zinc-400 hover:text-white border border-zinc-800"
+                key={cat.name}
+                onClick={() => setActiveCategory(cat.name)}
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  activeCategory === cat.name
+                    ? "bg-[#f97316] text-white"
+                    : "bg-[#161922] text-gray-400 border border-[#2a303c] hover:border-[#f97316]"
                 }`}
               >
-                {category}
+                {cat.name}
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Results Count */}
-        <p className="text-zinc-500 text-sm mb-6">
-          Showing {filteredProducts.length} of {allProducts.length} products
-        </p>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-zinc-500 text-lg">No products found matching your criteria.</p>
-            <button
-              onClick={() => {setSearchQuery(""); setSelectedCategory("All");}}
-              className="mt-4 text-[#b87333] hover:text-[#cd7f32]"
-            >
-              Clear filters
-            </button>
+          {/* Products Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredProducts.map((product) => (
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <div className="card card-hover p-4">
+                  <div className="aspect-square bg-[#111318] rounded-xl mb-4 flex items-center justify-center relative">
+                    <Image
+                      src={product.image || "/vial-3d.svg"}
+                      alt={product.name}
+                      width={70}
+                      height={100}
+                      className="object-contain"
+                    />
+                    {product.onSale && (
+                      <span className="absolute top-2 right-2 badge">Sale</span>
+                    )}
+                    {product.outOfStock && (
+                      <span className="absolute top-2 right-2 px-2 py-1 bg-gray-700 text-gray-300 text-xs font-medium rounded-full">
+                        OOS
+                      </span>
+                    )}
+                  </div>
+                  
+                  <p className="text-xs text-[#f97316] font-medium mb-1">{product.category}</p>
+                  <h3 className="font-semibold text-white text-sm mb-1">{product.name}</h3>
+                  <p className="text-xs text-gray-500 mb-2 line-clamp-1">{product.description}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-bold text-white">${product.price}</p>
+                    {product.originalPrice && (
+                      <p className="text-sm text-gray-600 line-through">${product.originalPrice}</p>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-        )}
-      </div>
+
+          {filteredProducts.length === 0 && (
+            <div className="card p-8 text-center">
+              <p className="text-gray-400 mb-4">No products found</p>
+              <button 
+                onClick={() => {setSearchQuery(""); setActiveCategory("All");}}
+                className="text-[#f97316] hover:underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Bottom Navigation */}
+      <nav className="bottom-nav fixed bottom-0 left-0 right-0 z-50 md:hidden">
+        <div className="flex items-center justify-around py-3">
+          <Link href="/" className="nav-item flex flex-col items-center gap-1">
+            <Home className="w-6 h-6" />
+            <span className="text-xs">Home</span>
+          </Link>
+          <Link href="/products" className="nav-item active flex flex-col items-center gap-1">
+            <Package className="w-6 h-6" />
+            <span className="text-xs">Shop</span>
+          </Link>
+          <Link href="#" className="nav-item flex flex-col items-center gap-1">
+            <User className="w-6 h-6" />
+            <span className="text-xs">Account</span>
+          </Link>
+        </div>
+      </nav>
+
+      {/* Footer */}
+      <footer className="max-w-5xl mx-auto px-4 py-8 text-center hidden md:block">
+        <p className="text-gray-600 text-sm">
+          © 2026 pep.center — For research purposes only
+        </p>
+      </footer>
     </div>
   );
 }
