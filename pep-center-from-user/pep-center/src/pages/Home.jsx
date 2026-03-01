@@ -18,7 +18,7 @@ const features = [
 ];
 
 const stats = [
-  { value: 60, suffix: '+', label: 'Research Compounds' },
+  { value: 60, suffix: '+', label: 'RESEARCH Compounds' },
   { value: 99, suffix: '%', label: 'Purity Standards' },
   { value: 100, suffix: '+', label: 'Countries Shipped' },
 ];
@@ -142,9 +142,9 @@ function TiltCard({ children, className = '' }) {
         setIsHovered(false);
         setTransform({ rotateX: 0, rotateY: 0 });
       }}
-    >
-      {children}
-    </div>
+                <span className="text-white block">RESEARCH</span>
+                <span className="text-[#f97316] block">GRADE</span>{' '}
+                <span className="text-[#fb923c] block">PEPTIDES</span>
   );
 }
 
@@ -197,15 +197,15 @@ export default function Home() {
               <AnimatedSection animation="fadeUp" delay={0}>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-[#f97316]/50 transition-all cursor-pointer group animate-pulse-glow">
                   <Sparkles className="w-4 h-4 text-[#f97316]" />
-                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Premium Research Compounds</span>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Premium RESEARCH Compounds</span>
                 </div>
               </AnimatedSection>
 
               <AnimatedSection animation="fadeUp" delay={100}>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                  <span className="text-white">Research</span>
+                  <span className="text-white">RESEARCH</span>
                   <span className="block bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent animate-gradient">
-                    <ScrambleText text="Grade Peptides" />
+                    <ScrambleText text="GRADE PEPTIDES" />
                   </span>
                 </h1>
               </AnimatedSection>
@@ -356,7 +356,7 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-4 pt-4">
                   {[
                     { icon: Shield, title: 'HPLC Verified', desc: 'Every batch undergoes High-Performance Liquid Chromatography analysis to confirm purity and identity.', color: '#f97316' },
-                    { icon: Sparkles, title: '99%+ Purity', desc: 'Peptides meet or exceed 99% purity standards for consistent and reliable research results.', color: '#fb923c' },
+                    { icon: Sparkles, title: '99%+ Purity', desc: 'PEPTIDES meet or exceed 99% purity standards for consistent and reliable research results.', color: '#fb923c' },
                     { icon: FileText, title: 'COA Provided', desc: 'Certificate of Analysis included with every order, documenting batch-specific test results.', color: '#fdba74' },
                     { icon: Beaker, title: 'Lab Synthesized', desc: 'Manufactured in specialized facilities under strict quality control protocols.', color: '#f97316' },
                   ].map((item, i) => (
@@ -374,7 +374,7 @@ export default function Home() {
                 <div className="pt-4 space-y-3">
                   {[
                     { title: 'Batch Consistency', desc: 'Rigorous quality control ensures consistent peptide composition across all batches.' },
-                    { title: 'Research Grade', desc: 'Specifically formulated and tested for laboratory research applications.' },
+                    { title: 'RESEARCH GRADE', desc: 'Specifically formulated and tested for laboratory research applications.' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -566,7 +566,7 @@ export default function Home() {
                 </div>
                 {/* Badge */}
                 <div className="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
-                  <p className="text-[10px] text-white/60 uppercase tracking-wider">Research Grade</p>
+                  <p className="text-[10px] text-white/60 uppercase tracking-wider">RESEARCH GRADE</p>
                   <p className="text-white font-bold">BPC-157</p>
                 </div>
               </div>
@@ -588,7 +588,7 @@ export default function Home() {
                 </div>
                 {/* Badge */}
                 <div className="absolute bottom-6 left-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
-                  <p className="text-[10px] text-white/60 uppercase tracking-wider">Research Grade</p>
+                  <p className="text-[10px] text-white/60 uppercase tracking-wider">RESEARCH GRADE</p>
                   <p className="text-white font-bold">TB-500</p>
                 </div>
               </div>
@@ -657,7 +657,7 @@ export default function Home() {
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Testimonials</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Trusted by Researchers
+              Trusted by RESEARCHers
             </h2>
             <p className="text-white/50 max-w-2xl mx-auto">
               Join thousands of satisfied researchers who trust PEP.CENTER for their laboratory needs.
@@ -668,7 +668,7 @@ export default function Home() {
             {[
               {
                 name: 'Dr. Michael Chen',
-                role: 'Biochemistry Researcher',
+                role: 'Biochemistry RESEARCHer',
                 content: 'The purity and consistency of their peptides is exceptional. HPLC results always match their certificates of analysis. Highly recommended for any serious research.',
                 rating: 5,
                 verified: true,
@@ -682,7 +682,7 @@ export default function Home() {
               },
               {
                 name: 'Dr. James Rodriguez',
-                role: 'Regenerative Medicine Research',
+                role: 'Regenerative Medicine RESEARCH',
                 content: 'Their BPC-157 and TB-500 have been instrumental in our tissue repair studies. The batch consistency is remarkable. A reliable partner for our lab.',
                 rating: 5,
                 verified: true,
@@ -744,7 +744,7 @@ export default function Home() {
       <section id="bundles" className="py-12 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <p className="text-[#f97316] font-medium mb-2">Research Bundles</p>
+            <p className="text-[#f97316] font-medium mb-2">RESEARCH Bundles</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Curated Peptide <span className="text-gradient">Collections</span>
             </h2>
@@ -756,7 +756,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                name: 'Healing Research Bundle',
+                name: 'Healing RESEARCH Bundle',
                 description: 'BPC-157 and TB-500 for tissue repair and recovery studies',
                 price: 120,
                 originalPrice: 140,
@@ -768,7 +768,7 @@ export default function Home() {
                 popular: true,
               },
               {
-                name: 'Metabolic Research Bundle',
+                name: 'Metabolic RESEARCH Bundle',
                 description: 'GLP-1 sequences for metabolic pathway studies',
                 price: 360,
                 originalPrice: 452,
@@ -855,7 +855,7 @@ export default function Home() {
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Our Promise</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Why Researchers Trust Us
+              Why RESEARCHers Trust Us
             </h2>
           </AnimatedSection>
 
@@ -907,7 +907,7 @@ export default function Home() {
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
-                Research
+                RESEARCH
               </span>
               <span className="text-white"> Catalog</span>
             </h2>
@@ -1017,7 +1017,7 @@ export default function Home() {
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
               <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
-                Research
+                RESEARCH
               </span>
               <span className="text-white"> Journal</span>
             </h2>
