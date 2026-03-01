@@ -10,15 +10,15 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Trust Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[51] bg-[#0a0e17]/90 backdrop-blur-sm border-b border-white/5 py-1.5">
+      {/* Trust Bar - Hidden on mobile, visible on sm+ */}
+      <div className="hidden sm:block fixed top-0 left-0 right-0 z-[51] bg-[#0a0e17]/90 backdrop-blur-sm border-b border-white/5 py-1.5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-6 text-[10px] sm:text-xs text-white/40">
             <span className="flex items-center gap-1">
               <Shield className="w-3 h-3 text-[#f97316]" />
               HPLC Verified Products
             </span>
-            <span className="hidden sm:flex items-center gap-1">
+            <span className="flex items-center gap-1">
               <Lock className="w-3 h-3 text-[#f97316]" />
               Secure SSL Checkout
             </span>
@@ -27,7 +27,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <nav className="fixed top-7 left-0 right-0 z-50 bg-[#0a0e17]/80 backdrop-blur-xl border-b border-white/10">
+      <nav className="fixed top-0 sm:top-7 left-0 right-0 z-50 bg-[#0a0e17]/80 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2">
