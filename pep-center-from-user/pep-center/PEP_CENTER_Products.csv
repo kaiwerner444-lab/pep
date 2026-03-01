@@ -1,0 +1,58 @@
+ID,Name,Subtitle,Price,Category,Purity
+bpc-157-5mg,BPC-157,5mg Vial,45,Amino Acid Peptides,≥99%
+bpc-157-10mg,BPC-157,10mg Vial,65,Amino Acid Peptides,≥99%
+tb-500-5mg,TB-500,5mg Vial,45,Amino Acid Peptides,≥99%
+tb-500-10mg,TB-500,10mg Vial,65,Amino Acid Peptides,≥99%
+igf-1-lr3-1mg,IGF-1 LR3,1mg Vial,85,Amino Acid Peptides,≥99%
+igf-1-des-1mg,IGF-1 DES,1mg Vial,95,Amino Acid Peptides,≥99%
+peg-mgf-2mg,PEG-MGF,2mg Vial,65,Amino Acid Peptides,≥99%
+mgf-2mg,MGF,2mg Vial,55,Amino Acid Peptides,≥99%
+follistatin-344-1mg,Follistatin 344,1mg Vial,165,Amino Acid Peptides,≥99%
+ace-031-1mg,ACE-031,1mg Vial,185,Amino Acid Peptides,≥99%
+hgh-fragment-5mg,HGH Fragment 176-191,5mg Vial,55,Amino Acid Peptides,≥99%
+ghrp-6-5mg,GHRP-6,5mg Vial,35,Amino Acid Peptides,≥99%
+ghk-cu-50mg,GHK-Cu,50mg Vial,58,Laboratory Peptides,≥99%
+ghk-cu-100mg,GHK-Cu,100mg Vial,95,Laboratory Peptides,≥99%
+kpv-10mg,KPV,10mg Vial,65,Laboratory Peptides,≥99%
+ll-37-5mg,LL-37,5mg Vial,85,Laboratory Peptides,≥99%
+thymosin-beta-4-5mg,Thymosin Beta-4,5mg Vial,55,Laboratory Peptides,≥99%
+bpc-tb-blend,BPC-157/TB-500 Blend,5mg/5mg Vial,85,Laboratory Peptides,≥99%
+klow-blend,KLOW Blend,GHK-Cu, TB-500, BPC-157, KPV,150,Laboratory Peptides,≥99%
+glow-blend,GLOW Blend,GHK-Cu, TB-500, BPC-157,125,Laboratory Peptides,≥99%
+argireline-100mg,Argireline,100mg Vial,55,Synthetic Peptides,≥99%
+matrixyl-100mg,Matrixyl,100mg Vial,55,Synthetic Peptides,≥99%
+snap-8-100mg,Snap-8,100mg Vial,60,Synthetic Peptides,≥99%
+melanotan-2-10mg,Melanotan II,10mg Vial,45,Synthetic Peptides,≥99%
+pt-141-10mg,PT-141,10mg Vial,50,Synthetic Peptides,≥99%
+palmitoyl-pentapeptide,Palmitoyl Pentapeptide,100mg Vial,65,Synthetic Peptides,≥99%
+palmitoyl-tripeptide,Palmitoyl Tripeptide-1,100mg Vial,60,Synthetic Peptides,≥99%
+acetyl-hexapeptide,Acetyl Hexapeptide-8,100mg Vial,55,Synthetic Peptides,≥99%
+copper-peptide-complex,Copper Peptide Complex,50mg Vial,75,Synthetic Peptides,≥99%
+tripeptide-10,Tripeptide-10 Citrulline,50mg Vial,70,Synthetic Peptides,≥99%
+tetrapeptide-21,Tetrapeptide-21,50mg Vial,68,Synthetic Peptides,≥99%
+hexapeptide-11,Hexapeptide-11,50mg Vial,62,Synthetic Peptides,≥99%
+heptapeptide-15,Heptapeptide-15,50mg Vial,72,Synthetic Peptides,≥99%
+semaglutide-5mg,Semaglutide,5mg Vial,138,Research Peptides,≥99%
+semaglutide-10mg,Semaglutide,10mg Vial,228,Research Peptides,≥99%
+tirzepatide-5mg,Tirzepatide,5mg Vial,148,Research Peptides,≥99%
+tirzepatide-10mg,Tirzepatide,10mg Vial,258,Research Peptides,≥99%
+aod-9604-5mg,AOD-9604,5mg Vial,60,Research Peptides,≥99%
+aod-9604-10mg,AOD-9604,10mg Vial,100,Research Peptides,≥99%
+semax-10mg,Semax,10mg Vial,45,Research Peptides,≥99%
+selank-10mg,Selank,10mg Vial,55,Research Peptides,≥99%
+dihexa-10mg,Dihexa,10mg Vial,115,Research Peptides,≥99%
+p21-10mg,P21,10mg Vial,135,Research Peptides,≥99%
+cerebrolysin-10ml,Cerebrolysin,10ml Vial,95,Research Peptides,≥99%
+noopept-10mg,Noopept,10mg Vial,35,Research Peptides,≥99%
+bromantane-100mg,Bromantane,100mg Vial,65,Research Peptides,≥99%
+mots-c-10mg,MOTS-c,10mg Vial,65,Research Peptides,≥99%
+mots-c-20mg,MOTS-c,20mg Vial,185,Research Peptides,≥99%
+epitalon-10mg,Epitalon,10mg Vial,75,Research Peptides,≥99%
+epitalon-50mg,Epitalon,50mg Vial,285,Research Peptides,≥99%
+nad-plus-500mg,NAD+,500mg Vial,95,Research Peptides,≥99%
+dsip-5mg,DSIP,5mg Vial,45,Research Peptides,≥99%
+slu-pp-332-10mg,SLU-PP-332,10mg Vial,185,Research Peptides,≥99%
+glutathione-500mg,Glutathione,500mg Vial,64,Research Peptides,≥99%
+hcg-5000iu,HCG,5000iu Vial,50,Research Peptides,≥99%
+oxytocin-5mg,Oxytocin,5mg Vial,40,Research Peptides,≥99%
+leuprolide-5mg,Leuprolide,5mg Vial,95,Research Peptides,≥99%

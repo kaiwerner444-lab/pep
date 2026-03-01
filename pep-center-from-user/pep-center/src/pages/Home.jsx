@@ -260,7 +260,7 @@ export default function Home() {
                 <img 
                   src="/vial-hero.jpg" 
                   alt="Premium Vial"
-                  className="w-[340px] sm:w-[380px] lg:w-[450px] h-auto rounded-2xl transition-all duration-500 hover:scale-105"
+                  className="w-[340px] sm:w-[380px] lg:w-[450px] h-auto rounded-2xl"
                   style={{
                     filter: 'drop-shadow(0 30px 60px rgba(249,115,22,0.4))',
                   }}
@@ -312,7 +312,7 @@ export default function Home() {
       </section>
 
       {/* Laboratory Quality Standards Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-12 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left - Image */}
@@ -495,7 +495,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products - Alternating Layout */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-12 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-24">
           
           {/* BPC-157 - Image on Right */}
@@ -652,7 +652,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-12 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Testimonials</p>
@@ -741,7 +741,7 @@ export default function Home() {
       </section>
 
       {/* Bundles Section */}
-      <section id="bundles" className="py-24 relative overflow-hidden">
+      <section id="bundles" className="py-12 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Research Bundles</p>
@@ -850,7 +850,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us / Guarantees Section */}
-      <section className="py-24 relative bg-gradient-to-b from-white/[0.02] to-transparent">
+      <section className="py-12 sm:py-24 relative bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Our Promise</p>
@@ -902,7 +902,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-32 relative">
+      <section id="products" className="py-16 sm:py-32 relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -954,7 +954,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-24 relative">
+      <section id="faq" className="py-12 sm:py-24 relative">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">FAQ</p>

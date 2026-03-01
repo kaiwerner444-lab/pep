@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import CartSidebar from './CartSidebar';
 import { Lock, Shield } from 'lucide-react';
@@ -7,6 +7,8 @@ import { Lock, Shield } from 'lucide-react';
 export default function Navbar() {
   const { totalItems, setIsOpen } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   return (
     <>
@@ -44,11 +46,11 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden md:flex items-center gap-6">
-              <Link to="/" className="text-sm text-white/70 hover:text-white transition-colors">Home</Link>
-              <Link to="/products" className="text-sm text-white/70 hover:text-white transition-colors">Products</Link>
-              <Link to="/bundles" className="text-sm text-[#f97316] hover:text-[#ff8c5a] transition-colors font-medium">Bundles</Link>
-              <Link to="/blog" className="text-sm text-white/70 hover:text-white transition-colors">Blog</Link>
-              <Link to="/contact" className="text-sm text-white/70 hover:text-white transition-colors">Contact</Link>
+              <Link to="/" className={`text-sm transition-colors ${isActive('/') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Home</Link>
+              <Link to="/products" className={`text-sm transition-colors ${isActive('/products') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Products</Link>
+              <Link to="/bundles" className={`text-sm transition-colors ${isActive('/bundles') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Bundles</Link>
+              <Link to="/blog" className={`text-sm transition-colors ${isActive('/blog') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Blog</Link>
+              <Link to="/contact" className={`text-sm transition-colors ${isActive('/contact') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Contact</Link>
             </div>
 
             <div className="flex items-center gap-3">
@@ -84,11 +86,11 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-white/10 bg-navy-secondary/95 backdrop-blur-xl">
             <div className="px-4 py-4 flex flex-col gap-3">
-              <Link to="/" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Home</Link>
-              <Link to="/products" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Products</Link>
-              <Link to="/bundles" onClick={() => setMobileOpen(false)} className="text-sm text-[#f97316] font-medium py-2">Bundles</Link>
-              <Link to="/blog" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Blog</Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className="text-sm text-white/70 hover:text-white py-2">Contact</Link>
+              <Link to="/" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Home</Link>
+              <Link to="/products" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/products') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Products</Link>
+              <Link to="/bundles" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/bundles') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Bundles</Link>
+              <Link to="/blog" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/blog') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Blog</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/contact') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Contact</Link>
             </div>
           </div>
         )}
