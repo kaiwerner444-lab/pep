@@ -55,7 +55,7 @@ function ReadingProgress() {
   return (
     <div className="fixed top-0 left-0 right-0 h-1 bg-white/5 z-[100]">
       <div
-        className="h-full bg-gradient-to-r from-[#f97316] to-[#ec4899] transition-all duration-150"
+        className="h-full bg-gradient-to-r from-[#f97316] to-[#fb923c] transition-all duration-150"
         style={{ width: `${progress}%` }}
       />
     </div>
@@ -108,7 +108,7 @@ function SectionDivider({ icon: Icon, text, color }) {
 // Pull quote component
 function PullQuote({ children, author }) {
   return (
-    <blockquote className="relative my-8 p-8 rounded-2xl bg-gradient-to-br from-[#f97316]/10 to-[#ec4899]/5 border-l-4 border-[#f97316]">
+    <blockquote className="relative my-8 p-8 rounded-2xl bg-gradient-to-br from-[#f97316]/10 to-[#fb923c]/5 border-l-4 border-[#f97316]">
       <Sparkles className="absolute top-4 right-4 w-6 h-6 text-[#f97316]/50" />
       <p className="text-xl sm:text-2xl font-medium text-white leading-relaxed italic">
         "{children}"
@@ -172,7 +172,7 @@ export default function BlogPost() {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     delay: Math.random() * 5,
-    color: ['#f97316', '#ec4899', '#06b6d4', '#8b5cf6'][Math.floor(Math.random() * 4)],
+    color: ['#f97316', '#fb923c', '#f97316', '#fdba74'][Math.floor(Math.random() * 4)],
   }));
 
   // Parse content with enhanced formatting
@@ -253,10 +253,10 @@ export default function BlogPost() {
         
         if (title.toLowerCase().includes('science') || title.toLowerCase().includes('research')) {
           icon = Microscope;
-          color = '#06b6d4';
+          color = '#f97316';
         } else if (title.toLowerCase().includes('mechanism') || title.toLowerCase().includes('action')) {
           icon = Beaker;
-          color = '#ec4899';
+          color = '#fb923c';
         }
         
         elements.push(
@@ -345,7 +345,7 @@ export default function BlogPost() {
           ))}
           <div className="absolute inset-0 bg-gradient-to-b from-[#f97316]/5 via-transparent to-transparent" />
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#f97316]/10 rounded-full blur-[120px]" />
-          <div className="absolute top-0 right-1/4 w-64 h-64 bg-[#ec4899]/10 rounded-full blur-[100px]" />
+          <div className="absolute top-0 right-1/4 w-64 h-64 bg-[#fb923c]/10 rounded-full blur-[100px]" />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-6 lg:px-8">

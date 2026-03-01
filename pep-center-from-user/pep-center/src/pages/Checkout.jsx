@@ -36,21 +36,21 @@ const paymentMethods = [
     name: 'Zelle', 
     icon: Smartphone, 
     desc: 'Fast bank transfer',
-    color: '#06b6d4'
+    color: '#f97316'
   },
   { 
     id: 'wire', 
     name: 'Wire Transfer', 
     icon: Banknote, 
     desc: 'ACH / Domestic wire',
-    color: '#8b5cf6'
+    color: '#fdba74'
   },
   { 
     id: 'card', 
     name: 'Credit Card', 
     icon: CreditCard, 
     desc: 'Secure card processing',
-    color: '#ec4899'
+    color: '#fb923c'
   },
 ];
 
@@ -592,8 +592,8 @@ export default function Checkout() {
                         onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
                         className="w-4 h-4 accent-[#f97316]"
                       />
-                      <div className="w-12 h-12 rounded-xl bg-[#ec4899]/20 flex items-center justify-center">
-                        <CreditCard className="w-6 h-6 text-[#ec4899]" />
+                      <div className="w-12 h-12 rounded-xl bg-[#fb923c]/20 flex items-center justify-center">
+                        <CreditCard className="w-6 h-6 text-[#fb923c]" />
                       </div>
                       <div className="flex-1">
                         <p className="text-white font-medium">Credit/Debit Card</p>
@@ -642,8 +642,8 @@ export default function Checkout() {
                         onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
                         className="w-4 h-4 accent-[#f97316]"
                       />
-                      <div className="w-12 h-12 rounded-xl bg-[#06b6d4]/20 flex items-center justify-center">
-                        <Smartphone className="w-6 h-6 text-[#06b6d4]" />
+                      <div className="w-12 h-12 rounded-xl bg-[#f97316]/20 flex items-center justify-center">
+                        <Smartphone className="w-6 h-6 text-[#f97316]" />
                       </div>
                       <div className="flex-1">
                         <p className="text-white font-medium">Zelle</p>
@@ -781,10 +781,10 @@ export default function Checkout() {
 
               {/* BAC Water Upsell */}
               {showBACUpsell && (
-                <div className="mb-4 p-4 rounded-xl bg-gradient-to-r from-[#06b6d4]/10 to-blue-500/5 border border-[#06b6d4]/30">
+                <div className="mb-4 p-4 rounded-xl bg-gradient-to-r from-[#f97316]/10 to-blue-500/5 border border-[#f97316]/30">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#06b6d4]/20 flex items-center justify-center flex-shrink-0">
-                      <Droplets className="w-5 h-5 text-[#06b6d4]" />
+                    <div className="w-10 h-10 rounded-lg bg-[#f97316]/20 flex items-center justify-center flex-shrink-0">
+                      <Droplets className="w-5 h-5 text-[#f97316]" />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-white font-medium text-sm mb-1">Need BAC Water?</h4>
@@ -803,7 +803,7 @@ export default function Checkout() {
                             category: 'Lab Supplies'
                           });
                         }}
-                        className="flex items-center gap-2 px-4 py-2 bg-[#06b6d4] text-white rounded-lg text-sm font-medium hover:bg-[#0891b2] transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#f97316] text-white rounded-lg text-sm font-medium hover:bg-[#0891b2] transition-colors"
                       >
                         <Plus className="w-4 h-4" />
                         Add for $12

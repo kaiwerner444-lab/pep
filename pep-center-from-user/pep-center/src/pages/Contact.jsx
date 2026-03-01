@@ -91,12 +91,12 @@ export default function Contact() {
 
             <AnimatedSection animation="fadeUp" delay={100}>
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="w-12 h-12 rounded-xl bg-[#06b6d4]/20 flex items-center justify-center mb-4">
-                  <Phone className="w-6 h-6 text-[#06b6d4]" />
+                <div className="w-12 h-12 rounded-xl bg-[#f97316]/20 flex items-center justify-center mb-4">
+                  <Phone className="w-6 h-6 text-[#f97316]" />
                 </div>
                 <h3 className="text-white font-semibold mb-2">Phone</h3>
                 <p className="text-white/60 text-sm mb-1">Mon-Fri 9am-6pm EST</p>
-                <a href="tel:+1-800-PEP-LABS" className="text-[#06b6d4] hover:underline">
+                <a href="tel:+1-800-PEP-LABS" className="text-[#f97316] hover:underline">
                   1-800-PEP-LABS
                 </a>
               </div>
@@ -104,8 +104,8 @@ export default function Contact() {
 
             <AnimatedSection animation="fadeUp" delay={200}>
               <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10">
-                <div className="w-12 h-12 rounded-xl bg-[#8b5cf6]/20 flex items-center justify-center mb-4">
-                  <Clock className="w-6 h-6 text-[#8b5cf6]" />
+                <div className="w-12 h-12 rounded-xl bg-[#fdba74]/20 flex items-center justify-center mb-4">
+                  <Clock className="w-6 h-6 text-[#fdba74]" />
                 </div>
                 <h3 className="text-white font-semibold mb-2">Response Time</h3>
                 <p className="text-white/60 text-sm">

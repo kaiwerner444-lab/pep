@@ -12,9 +12,9 @@ import {
 
 const features = [
   { icon: Shield, title: 'HPLC Verified', desc: 'High-Performance Liquid Chromatography analysis confirms purity.', color: '#f97316' },
-  { icon: FileText, title: 'Certificate of Analysis', desc: 'Comprehensive documentation with every order.', color: '#06b6d4' },
-  { icon: Beaker, title: 'Third-Party Tested', desc: 'Independent laboratory verification.', color: '#ec4899' },
-  { icon: Zap, title: '24/7 Support', desc: 'Always available help for your research needs.', color: '#8b5cf6' },
+  { icon: FileText, title: 'Certificate of Analysis', desc: 'Comprehensive documentation with every order.', color: '#fb923c' },
+  { icon: Beaker, title: 'Third-Party Tested', desc: 'Independent laboratory verification.', color: '#fdba74' },
+  { icon: Zap, title: '24/7 Support', desc: 'Always available help for your research needs.', color: '#fed7aa' },
 ];
 
 const stats = [
@@ -32,7 +32,7 @@ function StaticParticle({ index }) {
     opacity: Math.random() * 0.3 + 0.1,
   })[0];
 
-  const colors = ['#f97316', '#ec4899', '#06b6d4', '#8b5cf6'];
+  const colors = ['#f97316', '#fb923c', '#fdba74', '#fed7aa'];
   const color = colors[index % colors.length];
 
   return (
@@ -101,7 +101,7 @@ function AnimatedCounter({ value, suffix, label }) {
   const { ref, count } = useCountUp(value, 2000);
   return (
     <div ref={ref} className="text-center group cursor-pointer">
-      <div className="text-xl sm:text-4xl font-bold bg-gradient-to-r from-[#f97316] to-[#ec4899] bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform">
+      <div className="text-xl sm:text-4xl font-bold bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform">
         {count}{suffix}
       </div>
       <div className="text-[10px] sm:text-sm text-white/40 group-hover:text-white/60 transition-colors">{label}</div>
@@ -184,8 +184,8 @@ export default function Home() {
       {/* Animated Background Blobs */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <MorphingBlob color="#f97316" className="w-[600px] h-[600px] top-1/4 -left-40" />
-        <MorphingBlob color="#ec4899" className="w-[500px] h-[500px] bottom-1/4 -right-40" style={{ animationDelay: '2s' }} />
-        <MorphingBlob color="#06b6d4" className="w-[400px] h-[400px] top-1/2 left-1/2" style={{ animationDelay: '4s' }} />
+        <MorphingBlob color="#fb923c" className="w-[500px] h-[500px] bottom-1/4 -right-40" />
+        <MorphingBlob color="#fdba74" className="w-[400px] h-[400px] top-1/2 left-1/2" />
       </div>
 
       {/* Hero Section */}
@@ -204,7 +204,7 @@ export default function Home() {
               <AnimatedSection animation="fadeUp" delay={100}>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
                   <span className="text-white">Research</span>
-                  <span className="block bg-gradient-to-r from-[#f97316] via-[#ec4899] to-[#8b5cf6] bg-clip-text text-transparent animate-gradient">
+                  <span className="block bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent animate-gradient">
                     <ScrambleText text="Grade Peptides" />
                   </span>
                 </h1>
@@ -289,7 +289,7 @@ export default function Home() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
           <span className="text-xs text-white/40 uppercase tracking-widest">Scroll</span>
           <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-1">
-            <div className="w-1.5 h-3 bg-gradient-to-b from-[#f97316] to-[#ec4899] rounded-full" />
+            <div className="w-1.5 h-3 bg-gradient-to-b from-[#f97316] to-[#fb923c] rounded-full" />
           </div>
         </div>
       </section>
@@ -339,9 +339,9 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-4 pt-4">
                   {[
                     { icon: Shield, title: 'HPLC Verified', desc: 'Every batch undergoes High-Performance Liquid Chromatography analysis to confirm purity and identity.', color: '#f97316' },
-                    { icon: Sparkles, title: '99%+ Purity', desc: 'Peptides meet or exceed 99% purity standards for consistent and reliable research results.', color: '#ec4899' },
-                    { icon: FileText, title: 'COA Provided', desc: 'Certificate of Analysis included with every order, documenting batch-specific test results.', color: '#06b6d4' },
-                    { icon: Beaker, title: 'Lab Synthesized', desc: 'Manufactured in specialized facilities under strict quality control protocols.', color: '#8b5cf6' },
+                    { icon: Sparkles, title: '99%+ Purity', desc: 'Peptides meet or exceed 99% purity standards for consistent and reliable research results.', color: '#fb923c' },
+                    { icon: FileText, title: 'COA Provided', desc: 'Certificate of Analysis included with every order, documenting batch-specific test results.', color: '#fdba74' },
+                    { icon: Beaker, title: 'Lab Synthesized', desc: 'Manufactured in specialized facilities under strict quality control protocols.', color: '#f97316' },
                   ].map((item, i) => (
                     <div key={i} className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-colors group">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${item.color}20` }}>
@@ -398,7 +398,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-20">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 px-4">
-              <span className="bg-gradient-to-r from-[#f97316] via-[#ec4899] to-[#8b5cf6] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent">
                 Uncompromising
               </span>
               <br className="hidden sm:block" />
@@ -482,7 +482,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-[#f97316] to-[#ec4899] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
                 Research
               </span>
               <span className="text-white"> Catalog</span>
@@ -534,7 +534,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-[#f97316] to-[#ec4899] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
                 Research
               </span>
               <span className="text-white"> Journal</span>

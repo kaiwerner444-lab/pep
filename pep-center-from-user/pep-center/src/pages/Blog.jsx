@@ -75,7 +75,7 @@ export default function Blog() {
 
         {/* Newsletter Section */}
         <AnimatedSection animation="fadeUp" delay={400}>
-          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-[#f97316]/20 to-[#ec4899]/10 border border-[#f97316]/30">
+          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-[#f97316]/20 to-[#fb923c]/10 border border-[#f97316]/30">
             <div className="max-w-2xl mx-auto text-center">
               <Sparkles className="w-10 h-10 text-[#f97316] mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-white mb-3">

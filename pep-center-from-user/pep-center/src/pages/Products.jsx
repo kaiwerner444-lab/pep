@@ -74,7 +74,7 @@ export default function Products() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-[#f97316] to-[#ec4899] bg-clip-text text-transparent">Research</span> Catalog
+            <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">Research</span> Catalog
           </h1>
           <p className="text-white/50 max-w-2xl mx-auto">
             Browse our complete collection of {products.length}+ research peptides and compounds.

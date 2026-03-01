@@ -266,7 +266,7 @@ body {
 
 /* Gradient text animation */
 .gradient-text-animated {
-  background: linear-gradient(90deg, #f97316, #ec4899, #8b5cf6, #06b6d4, #f97316);
+  background: linear-gradient(90deg, #f97316, #fb923c, #fdba74, #fb923c, #f97316);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -328,16 +328,16 @@ html {
   box-shadow: 0 0 5px #f97316, 0 0 10px #f97316, 0 0 20px #f97316, 0 0 40px #f97316;
 }
 
-.neon-pink {
-  box-shadow: 0 0 5px #ec4899, 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 40px #ec4899;
+.neon-light {
+  box-shadow: 0 0 5px #fb923c, 0 0 10px #fb923c, 0 0 20px #fb923c, 0 0 40px #fb923c;
 }
 
-.neon-cyan {
-  box-shadow: 0 0 5px #06b6d4, 0 0 10px #06b6d4, 0 0 20px #06b6d4, 0 0 40px #06b6d4;
+.neon-lighter {
+  box-shadow: 0 0 5px #fdba74, 0 0 10px #fdba74, 0 0 20px #fdba74, 0 0 40px #fdba74;
 }
 
-.neon-purple {
-  box-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, 0 0 20px #8b5cf6, 0 0 40px #8b5cf6;
+.neon-dark {
+  box-shadow: 0 0 5px #ea580c, 0 0 10px #ea580c, 0 0 20px #ea580c, 0 0 40px #ea580c;
 }
 
 /* Stagger animation delays */
