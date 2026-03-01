@@ -241,7 +241,7 @@ export default function Home() {
             </div>
 
             {/* Right - Static Vial */}
-            <div className="relative flex items-center justify-center h-[500px] sm:h-[600px] lg:h-[800px]">
+            <div className="relative flex items-center justify-center h-[550px] sm:h-[600px] lg:h-[800px]">
               {/* Static decorative rings */}
               {[...Array(3)].map((_, i) => (
                 <div
@@ -260,38 +260,31 @@ export default function Home() {
                 <img 
                   src="/vial-hero.jpg" 
                   alt="Premium Vial"
-                  className="w-[280px] sm:w-[340px] lg:w-[450px] h-auto rounded-2xl transition-all duration-500 hover:scale-105"
+                  className="w-[340px] sm:w-[380px] lg:w-[450px] h-auto rounded-2xl transition-all duration-500 hover:scale-105"
                   style={{
                     filter: 'drop-shadow(0 30px 60px rgba(249,115,22,0.4))',
                   }}
                 />
                 {/* Static badges around vial */}
-                <div className="absolute left-2 sm:-left-16 top-1/4 glass px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-[#f97316]/30 hover:scale-110 transition-transform cursor-pointer">
-                  <p className="text-[10px] sm:text-xs text-[#f97316] uppercase tracking-wider">Purity</p>
-                  <p className="text-xl sm:text-3xl font-bold text-[#f97316]">99.9%</p>
+                <div className="absolute -left-2 sm:-left-16 top-1/4 glass px-4 sm:px-5 py-3 sm:py-3 rounded-xl sm:rounded-2xl border border-[#f97316]/30 hover:scale-110 transition-transform cursor-pointer">
+                  <p className="text-xs sm:text-xs text-[#f97316] uppercase tracking-wider">Purity</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-[#f97316]">99.9%</p>
                 </div>
 
-                <div className="absolute right-2 sm:-right-16 top-[15%] glass px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-[#06b6d4]/30 hover:scale-110 transition-transform cursor-pointer">
-                  <p className="text-[10px] sm:text-xs text-[#06b6d4] uppercase tracking-wider">Verified</p>
-                  <p className="text-lg sm:text-2xl font-bold text-white">HPLC</p>
+                <div className="absolute -right-2 sm:-right-16 top-[15%] glass px-4 sm:px-5 py-3 sm:py-3 rounded-xl sm:rounded-2xl border border-[#f97316]/20 hover:scale-110 transition-transform cursor-pointer">
+                  <p className="text-xs sm:text-xs text-[#fb923c] uppercase tracking-wider">Verified</p>
+                  <p className="text-xl sm:text-2xl font-bold text-white">HPLC</p>
                 </div>
 
-                <div className="absolute right-4 sm:-right-12 bottom-1/4 glass px-3 sm:px-4 py-2 rounded-xl sm:rounded-2xl border border-[#22c55e]/30 flex items-center gap-2 hover:scale-110 transition-transform cursor-pointer">
-                  <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-400" style={{ boxShadow: '0 0 10px #22c55e' }} />
-                  <span className="text-xs sm:text-sm font-medium text-green-400">In Stock</span>
+                <div className="absolute right-2 sm:-right-12 bottom-1/4 glass px-4 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl border border-green-500/30 flex items-center gap-2 hover:scale-110 transition-transform cursor-pointer">
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-400" style={{ boxShadow: '0 0 10px #22c55e' }} />
+                  <span className="text-sm sm:text-sm font-medium text-green-400">In Stock</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator - subtle, no bounce */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
-          <span className="text-xs text-white/40 uppercase tracking-widest">Scroll</span>
-          <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-1">
-            <div className="w-1.5 h-3 bg-gradient-to-b from-[#f97316] to-[#fb923c] rounded-full" />
-          </div>
-        </div>
       </section>
 
       {/* Trust Badges Bar */}
