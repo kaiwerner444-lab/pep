@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import StripeProvider from '../components/StripeProvider';
+import StripePaymentForm from '../components/StripePaymentForm';
 import { 
   ChevronLeft, 
   CreditCard, 
@@ -15,7 +17,9 @@ import {
   MapPin,
   Mail,
   User,
-  Phone
+  Phone,
+  Droplets,
+  Plus
 } from 'lucide-react';
 import { AnimatedSection } from '../hooks/useAnimations.jsx';
 
@@ -57,12 +61,16 @@ const shippingOptions = [
 ];
 
 export default function Checkout() {
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, totalPrice, clearCart, addItem } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  
+  // Stripe states
+  const [clientSecret, setClientSecret] = useState('');
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
   
   const [formData, setFormData] = useState({
     email: '',
@@ -74,7 +82,7 @@ export default function Checkout() {
     state: '',
     zip: '',
     country: 'US',
-    paymentMethod: 'crypto',
+    paymentMethod: 'stripe',
     shippingMethod: 'standard',
     notes: '',
   });
@@ -191,6 +199,92 @@ export default function Checkout() {
 
   const shipping = shippingOptions.find(s => s.id === formData.shippingMethod)?.price || 15;
   const total = totalPrice + shipping;
+
+  // Create payment intent when reaching step 3 with Stripe
+  useEffect(() => {
+    if (step === 3 && formData.paymentMethod === 'stripe' && !clientSecret && items.length > 0) {
+      createPaymentIntent();
+    }
+  }, [step, formData.paymentMethod, items.length]);
+
+  const createPaymentIntent = async () => {
+    setIsLoadingPayment(true);
+    try {
+      const response = await fetch('/.netlify/functions/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: Math.round(total * 100),
+          currency: 'usd',
+          metadata: {
+            order_items: items.map(i => i.name).join(', '),
+            customer_email: formData.email || 'pending',
+          }
+        }),
+      });
+      
+      const data = await response.json();
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+      }
+    } catch (error) {
+      console.error('Payment setup error:', error);
+    }
+    setIsLoadingPayment(false);
+  };
+
+  const handleStripeSuccess = (paymentIntent) => {
+    const newOrderNumber = 'PEP-' + Date.now().toString(36).toUpperCase();
+    
+    const order = {
+      orderNumber: newOrderNumber,
+      date: new Date().toISOString(),
+      customer: {
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+      },
+      shipping: {
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
+        country: formData.country,
+        method: formData.shippingMethod,
+      },
+      payment: {
+        method: 'stripe',
+        stripePaymentIntentId: paymentIntent.id,
+        status: 'paid',
+      },
+      items: items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity || 1,
+      })),
+      totals: {
+        subtotal: totalPrice,
+        shipping: shipping,
+        total: total,
+      },
+      status: 'processing',
+      notes: formData.notes,
+    };
+    
+    const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    existingOrders.push(order);
+    localStorage.setItem('orders', JSON.stringify(existingOrders));
+    
+    clearCart();
+    navigate('/order-success', { state: { order } });
+  };
+
+  // BAC Water Upsell Logic
+  const hasBACWater = items.some(item => item.name?.toLowerCase().includes('bac water') || item.id?.includes('bac'));
+  const hasPeptides = items.some(item => !item.name?.toLowerCase().includes('bac water') && !item.category?.toLowerCase().includes('supply'));
+  const showBACUpsell = hasPeptides && !hasBACWater;
 
   if (orderComplete) {
     return (
@@ -480,55 +574,141 @@ export default function Checkout() {
                     Payment Method
                   </h2>
                   
+                  {/* Payment Method Selection */}
                   <div className="space-y-3 mb-6">
-                    {paymentMethods.map((method) => (
-                      <label
-                        key={method.id}
-                        className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
-                          formData.paymentMethod === method.id
-                            ? 'border-[#f97316] bg-[#f97316]/10'
-                            : 'border-white/10 hover:border-white/20'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="payment"
-                          value={method.id}
-                          checked={formData.paymentMethod === method.id}
-                          onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
-                          className="w-4 h-4 accent-[#f97316]"
-                        />
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center"
-                          style={{ backgroundColor: `${method.color}20` }}
-                        >
-                          <method.icon className="w-6 h-6" style={{ color: method.color }} />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-white font-medium">{method.name}</p>
-                          <p className="text-white/50 text-sm">{method.desc}</p>
-                        </div>
-                      </label>
-                    ))}
+                    {/* Stripe / Credit Card */}
+                    <label
+                      className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                        formData.paymentMethod === 'stripe'
+                          ? 'border-[#f97316] bg-[#f97316]/10'
+                          : 'border-white/10 hover:border-white/20'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="stripe"
+                        checked={formData.paymentMethod === 'stripe'}
+                        onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
+                        className="w-4 h-4 accent-[#f97316]"
+                      />
+                      <div className="w-12 h-12 rounded-xl bg-[#ec4899]/20 flex items-center justify-center">
+                        <CreditCard className="w-6 h-6 text-[#ec4899]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">Credit/Debit Card</p>
+                        <p className="text-white/50 text-sm">Visa, Mastercard, Amex, Apple Pay, Google Pay</p>
+                      </div>
+                    </label>
+
+                    {/* Crypto */}
+                    <label
+                      className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                        formData.paymentMethod === 'crypto'
+                          ? 'border-[#f97316] bg-[#f97316]/10'
+                          : 'border-white/10 hover:border-white/20'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="crypto"
+                        checked={formData.paymentMethod === 'crypto'}
+                        onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
+                        className="w-4 h-4 accent-[#f97316]"
+                      />
+                      <div className="w-12 h-12 rounded-xl bg-[#f97316]/20 flex items-center justify-center">
+                        <Bitcoin className="w-6 h-6 text-[#f97316]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">Cryptocurrency</p>
+                        <p className="text-white/50 text-sm">BTC, ETH, USDT, USDC</p>
+                      </div>
+                    </label>
+
+                    {/* Zelle */}
+                    <label
+                      className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                        formData.paymentMethod === 'zelle'
+                          ? 'border-[#f97316] bg-[#f97316]/10'
+                          : 'border-white/10 hover:border-white/20'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="payment"
+                        value="zelle"
+                        checked={formData.paymentMethod === 'zelle'}
+                        onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
+                        className="w-4 h-4 accent-[#f97316]"
+                      />
+                      <div className="w-12 h-12 rounded-xl bg-[#06b6d4]/20 flex items-center justify-center">
+                        <Smartphone className="w-6 h-6 text-[#06b6d4]" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium">Zelle</p>
+                        <p className="text-white/50 text-sm">Fast bank transfer</p>
+                      </div>
+                    </label>
                   </div>
 
-                  {/* Payment Instructions */}
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
-                    <div className="flex items-start gap-3">
-                      <AlertCircle className="w-5 h-5 text-[#f97316] flex-shrink-0 mt-0.5" />
-                      <div>
-                        <h4 className="text-white font-medium mb-1">Payment Instructions</h4>
-                        <p className="text-white/60 text-sm">
-                          After placing your order, you will receive payment instructions via email. 
-                          Orders are processed once payment is confirmed. Cryptocurrency payments 
-                          typically confirm within 1 hour.
-                        </p>
+                  {/* Stripe Payment Form */}
+                  {formData.paymentMethod === 'stripe' && (
+                    <>
+                      {isLoadingPayment ? (
+                        <div className="flex items-center justify-center py-8">
+                          <div className="w-8 h-8 border-2 border-[#f97316] border-t-transparent rounded-full animate-spin" />
+                        </div>
+                      ) : clientSecret ? (
+                        <StripeProvider>
+                          <StripePaymentForm
+                            clientSecret={clientSecret}
+                            amount={Math.round(total * 100)}
+                            onSuccess={handleStripeSuccess}
+                          />
+                        </StripeProvider>
+                      ) : (
+                        <div className="text-red-400 text-center py-4">
+                          Error setting up payment. Please try again.
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {/* Crypto Payment Instructions */}
+                  {formData.paymentMethod === 'crypto' && (
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
+                      <div className="flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 text-[#f97316] flex-shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="text-white font-medium mb-1">Crypto Payment Instructions</h4>
+                          <p className="text-white/60 text-sm">
+                            After placing your order, you will receive wallet addresses and payment instructions via email. 
+                            Orders are processed once payment is confirmed (typically within 1 hour for most cryptocurrencies).
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+
+                  {/* Zelle Payment Instructions */}
+                  {formData.paymentMethod === 'zelle' && (
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
+                      <div className="flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 text-[#f97316] flex-shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="text-white font-medium mb-1">Zelle Payment Instructions</h4>
+                          <p className="text-white/60 text-sm">
+                            After placing your order, you will receive Zelle payment instructions via email. 
+                            Please complete the transfer within 24 hours to avoid order cancellation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Order Notes */}
-                  <div>
+                  <div className="mt-6">
                     <label className="block text-sm text-white/60 mb-2">Order Notes (Optional)</label>
                     <textarea
                       value={formData.notes}
@@ -558,7 +738,7 @@ export default function Checkout() {
                   >
                     Continue
                   </button>
-                ) : (
+                ) : formData.paymentMethod !== 'stripe' ? (
                   <button
                     onClick={handleSubmit}
                     disabled={isSubmitting}
@@ -598,6 +778,40 @@ export default function Checkout() {
                   </div>
                 ))}
               </div>
+
+              {/* BAC Water Upsell */}
+              {showBACUpsell && (
+                <div className="mb-4 p-4 rounded-xl bg-gradient-to-r from-[#06b6d4]/10 to-blue-500/5 border border-[#06b6d4]/30">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-[#06b6d4]/20 flex items-center justify-center flex-shrink-0">
+                      <Droplets className="w-5 h-5 text-[#06b6d4]" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-white font-medium text-sm mb-1">Need BAC Water?</h4>
+                      <p className="text-white/50 text-xs mb-3">
+                        Your peptides need bacteriostatic water for reconstitution
+                      </p>
+                      <button
+                        onClick={() => {
+                          addItem({
+                            id: 'bac-water-10ml-' + Date.now(),
+                            name: 'BAC Water',
+                            subtitle: '10ml Vial',
+                            price: 12,
+                            quantity: 1,
+                            image: '/product_vial.jpg',
+                            category: 'Lab Supplies'
+                          });
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-[#06b6d4] text-white rounded-lg text-sm font-medium hover:bg-[#0891b2] transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Add for $12
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="border-t border-white/10 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">

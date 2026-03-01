@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
-import { Plus, Check, ShoppingBag, TrendingDown } from 'lucide-react';
+import { Plus, Check, ShoppingBag, TrendingDown, Eye, GitCompare } from 'lucide-react';
+import QuickViewModal from './QuickViewModal';
 
 // Volume pricing tiers
 const volumeTiers = [
@@ -26,12 +27,13 @@ function calculateVolumePrice(basePrice, quantity) {
   };
 }
 
-export default function ProductCard({ product, index = 0 }) {
+export default function ProductCard({ product, index = 0, onQuickView, onCompare, isComparing = false }) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [showQuickView, setShowQuickView] = useState(false);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -91,9 +93,46 @@ export default function ProductCard({ product, index = 0 }) {
               transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
             }}
           />
-        </div>
+
+          {/* Quick Action Buttons - Always visible on mobile, hover on desktop */}
+          <div className={`absolute bottom-4 left-4 right-4 flex gap-2 transition-all duration-300 opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 group-hover:sm:opacity-100 group-hover:sm:translate-y-0`}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowQuickView(true);
+              }}
+              className="flex-1 py-2.5 bg-white/90 backdrop-blur-sm text-[#0a0e17] rounded-xl font-medium text-sm flex items-center justify-center gap-2 hover:bg-white transition-colors"
+            >
+              <Eye className="w-4 h-4" />
+              Quick View
+            </button>
+            {onCompare && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onCompare(product);
+                }}
+                className={`px-3 rounded-xl font-medium transition-colors ${
+                  isComparing 
+                    ? 'bg-[#f97316] text-white' 
+                    : 'bg-white/90 backdrop-blur-sm text-[#0a0e17] hover:bg-white'
+                }`}
+                title={isComparing ? 'Remove from compare' : 'Add to compare'}
+              >
+                <GitCompare className="w-4 h-4" />
+              </button>
+            )}
+          </div>        </div>
       </Link>
-      
+
+      {/* Quick View Modal */}
+      <QuickViewModal 
+        product={product} 
+        isOpen={showQuickView} 
+        onClose={() => setShowQuickView(false)} 
+      />      
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <Link to={`/products/${product.id}`}>

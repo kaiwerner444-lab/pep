@@ -9,12 +9,14 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Bundles from './pages/Bundles';
 import Contact from './pages/Contact';
+import ProductCompare from './pages/ProductCompare';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Shipping from './pages/Shipping';
 import Refund from './pages/Refund';
+import OrderSuccess from './pages/OrderSuccess';
 
 export default function App() {
   return (
@@ -30,6 +32,7 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/compare" element={<ProductCompare />} />
               <Route path="/bundles" element={<Bundles />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/orders" element={<Orders />} />
@@ -37,6 +40,7 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/refund" element={<Refund />} />
+              <Route path="/order-success" element={<OrderSuccess />} />
             </Routes>
           </main>
           <Footer />
