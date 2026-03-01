@@ -738,7 +738,7 @@ export default function Checkout() {
                   >
                     Continue
                   </button>
-                ) : formData.paymentMethod !== 'stripe' ? (
+                ) : formData.paymentMethod !== 'stripe' && (
                   <button
                     onClick={handleSubmit}
                     disabled={isSubmitting}
