@@ -50,6 +50,78 @@ const bundles = [
   },
 ];
 
+// Bundle Section Component
+function BundleSection({ product }) {
+  const relatedBundles = bundles.filter(bundle => 
+    bundle.productIds.includes(product?.id)
+  );
+  
+  if (relatedBundles.length === 0) return null;
+  
+  return (
+    <div className="mt-12 sm:mt-16">
+      <div className="flex items-center gap-3 mb-8">
+        <Package className="w-6 h-6 text-[#f97316]" />
+        <h2 className="text-2xl font-bold text-white">
+          Available in <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">Bundles</span>
+        </h2>
+      </div>
+      
+      <div className="grid md:grid-cols-2 gap-6">
+        {relatedBundles.map((bundle) => (
+          <div 
+            key={bundle.id}
+            className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-all"
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1">{bundle.name}</h3>
+                <p className="text-white/50 text-sm">{bundle.description}</p>
+              </div>
+              <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full">
+                Save {bundle.discount}%
+              </span>
+            </div>
+            
+            <div className="space-y-2 mb-4">
+              <p className="text-xs text-white/40 uppercase tracking-wider">Includes:</p>
+              {bundle.items.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-sm">
+                  <span className="w-5 h-5 rounded-full bg-[#f97316]/20 flex items-center justify-center text-xs text-[#f97316] font-bold">
+                    {item.qty}x
+                  </span>
+                  <span className="text-white/70">{item.name}</span>
+                  {item.id === product?.id && (
+                    <span className="text-[10px] px-2 py-0.5 bg-[#f97316]/20 text-[#f97316] rounded-full">This product</span>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            <div className="flex items-end justify-between pt-4 border-t border-white/10">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-white/40 line-through text-sm">${bundle.originalPrice}</span>
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold text-[#f97316]">${bundle.price}</span>
+                  <span className="text-white/40 text-sm">/bundle</span>
+                </div>
+              </div>
+              <Link 
+                to="/bundles"
+                className="px-6 py-2.5 bg-[#f97316] text-white rounded-xl font-medium hover:bg-[#ea580c] transition-colors flex items-center gap-2"
+              >
+                View Bundle <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ProductDetail() {
   const { slug } = useParams();
   const product = getProductBySlug(slug);
