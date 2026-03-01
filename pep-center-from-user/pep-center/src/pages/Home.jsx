@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { products, categories } from '../data/products';
 import { blogPosts } from '../data/blogPosts';
 import ProductCard from '../components/ProductCard';
-import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles, Check } from 'lucide-react';
+import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles, Check, Truck, Clock, Star, Users, Award, Lock } from 'lucide-react';
 import { 
   useMouseParallax, 
   useCountUp,
@@ -290,6 +290,30 @@ export default function Home() {
           <span className="text-xs text-white/40 uppercase tracking-widest">Scroll</span>
           <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-1">
             <div className="w-1.5 h-3 bg-gradient-to-b from-[#f97316] to-[#fb923c] rounded-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Badges Bar */}
+      <section className="py-8 border-y border-white/5 bg-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
+            {[
+              { icon: Shield, label: 'Secure SSL Checkout', sublabel: '256-bit Encryption' },
+              { icon: Check, label: 'HPLC Verified', sublabel: 'Every Batch Tested' },
+              { icon: Truck, label: 'Discrete Shipping', sublabel: 'Plain Packaging' },
+              { icon: Clock, label: '24-48h Processing', sublabel: 'Fast Turnaround' },
+            ].map((badge, i) => (
+              <div key={i} className="flex items-center gap-3 justify-center">
+                <div className="w-10 h-10 rounded-lg bg-[#f97316]/10 flex items-center justify-center flex-shrink-0">
+                  <badge.icon className="w-5 h-5 text-[#f97316]" />
+                </div>
+                <div className="text-left">
+                  <p className="text-white text-sm font-medium">{badge.label}</p>
+                  <p className="text-white/40 text-xs">{badge.sublabel}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -634,6 +658,147 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <AnimatedSection animation="fadeUp" className="text-center mb-16">
+            <p className="text-[#f97316] font-medium mb-2">Testimonials</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Trusted by Researchers
+            </h2>
+            <p className="text-white/50 max-w-2xl mx-auto">
+              Join thousands of satisfied researchers who trust PEP.CENTER for their laboratory needs.
+            </p>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Dr. Michael Chen',
+                role: 'Biochemistry Researcher',
+                content: 'The purity and consistency of their peptides is exceptional. HPLC results always match their certificates of analysis. Highly recommended for any serious research.',
+                rating: 5,
+                verified: true,
+              },
+              {
+                name: 'Sarah Johnson, PhD',
+                role: 'Cellular Biology Lab',
+                content: 'Fast shipping, discrete packaging, and excellent customer support. Been ordering for 2 years without a single issue. Quality you can depend on.',
+                rating: 5,
+                verified: true,
+              },
+              {
+                name: 'Dr. James Rodriguez',
+                role: 'Regenerative Medicine Research',
+                content: 'Their BPC-157 and TB-500 have been instrumental in our tissue repair studies. The batch consistency is remarkable. A reliable partner for our lab.',
+                rating: 5,
+                verified: true,
+              },
+            ].map((testimonial, i) => (
+              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
+                <div className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-all">
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
+                    ))}
+                  </div>
+                  
+                  {/* Content */}
+                  <p className="text-white/70 mb-6 leading-relaxed">"{testimonial.content}"</p>
+                  
+                  {/* Author */}
+                  <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+                    <div className="w-10 h-10 rounded-full bg-[#f97316]/20 flex items-center justify-center">
+                      <span className="text-[#f97316] font-bold">{testimonial.name[0]}</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">{testimonial.name}</p>
+                      <p className="text-white/40 text-xs">{testimonial.role}</p>
+                    </div>
+                    {testimonial.verified && (
+                      <div className="flex items-center gap-1 text-[10px] text-green-400">
+                        <Check className="w-3 h-3" />
+                        <span>Verified</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          {/* Stats */}
+          <AnimatedSection animation="fadeUp" delay={300} className="mt-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { value: '15,000+', label: 'Orders Delivered' },
+                { value: '4.9/5', label: 'Average Rating' },
+                { value: '98%', label: 'Repeat Customers' },
+                { value: '50+', label: 'Countries Served' },
+              ].map((stat, i) => (
+                <div key={i} className="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                  <p className="text-3xl font-bold text-[#f97316] mb-1">{stat.value}</p>
+                  <p className="text-white/50 text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Why Choose Us / Guarantees Section */}
+      <section className="py-24 relative bg-gradient-to-b from-white/[0.02] to-transparent">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <AnimatedSection animation="fadeUp" className="text-center mb-16">
+            <p className="text-[#f97316] font-medium mb-2">Our Promise</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Why Researchers Trust Us
+            </h2>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { 
+                icon: Award, 
+                title: 'Quality Guarantee', 
+                desc: 'Every product undergoes rigorous HPLC testing. If it doesnt meet our 99% purity standard, we dont ship it.',
+                highlight: '99%+ Purity'
+              },
+              { 
+                icon: Lock, 
+                title: 'Discrete & Secure', 
+                desc: 'Plain, unmarked packaging with no indication of contents. Your privacy is our priority.',
+                highlight: 'Private Shipping'
+              },
+              { 
+                icon: Users, 
+                title: 'Expert Support', 
+                desc: 'Our team includes PhD-level scientists available to answer your technical questions.',
+                highlight: '24/7 Support'
+              },
+              { 
+                icon: Shield, 
+                title: 'Satisfaction Guaranteed', 
+                desc: 'Not satisfied? Contact us within 30 days. Well make it right with a replacement or refund.',
+                highlight: '30-Day Guarantee'
+              },
+            ].map((item, i) => (
+              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
+                <div className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 hover:bg-white/[0.05] transition-all group">
+                  <div className="w-14 h-14 rounded-xl bg-[#f97316]/10 border border-[#f97316]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <item.icon className="w-7 h-7 text-[#f97316]" />
+                  </div>
+                  <p className="text-[#f97316] text-xs font-medium mb-2 uppercase tracking-wider">{item.highlight}</p>
+                  <h3 className="text-white font-semibold text-lg mb-2">{item.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Products Section */}
       <section id="products" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -683,6 +848,64 @@ export default function Home() {
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </AnimatedSection>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 relative">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <AnimatedSection animation="fadeUp" className="text-center mb-16">
+            <p className="text-[#f97316] font-medium mb-2">FAQ</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-white/50">
+              Everything you need to know about our products and services.
+            </p>
+          </AnimatedSection>
+
+          <div className="space-y-4">
+            {[
+              {
+                q: 'How do I know your peptides are pure?',
+                a: 'Every batch undergoes High-Performance Liquid Chromatography (HPLC) analysis. We provide a Certificate of Analysis (COA) with every order showing purity levels, typically 99% or higher.',
+              },
+              {
+                q: 'What payment methods do you accept?',
+                a: 'We accept credit/debit cards via Stripe, cryptocurrency (BTC, ETH, USDT), and Zelle. All payments are processed securely.',
+              },
+              {
+                q: 'How is shipping handled?',
+                a: 'We ship in plain, unmarked packaging with no indication of contents. Standard shipping takes 5-7 business days, with express options available. All orders include tracking.',
+              },
+              {
+                q: 'What is your return policy?',
+                a: 'Due to the nature of research peptides, we cannot accept returns on opened products. However, if you receive a damaged or incorrect item, contact us within 30 days for a replacement or refund.',
+              },
+              {
+                q: 'How should I store the peptides?',
+                a: 'Lyophilized peptides should be stored at -20°C (-4°F) for long-term stability. Once reconstituted, store at 2-8°C (36-46°F) and use within the timeframe specified in your research protocol.',
+              },
+              {
+                q: 'Are these products for human use?',
+                a: 'No. All products are sold strictly for laboratory research purposes only. They are not intended for human or animal consumption, diagnosis, treatment, or prevention of any disease.',
+              },
+            ].map((faq, i) => (
+              <AnimatedSection key={i} animation="fadeUp" delay={i * 50}>
+                <details className="group rounded-xl bg-white/[0.03] border border-white/10 open:border-[#f97316]/30 transition-all">
+                  <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                    <h3 className="text-white font-medium pr-4">{faq.q}</h3>
+                    <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-open:bg-[#f97316]/20 transition-colors flex-shrink-0">
+                      <span className="text-white/60 group-open:text-[#f97316] text-xl transition-transform group-open:rotate-45">+</span>
+                    </span>
+                  </summary>
+                  <div className="px-6 pb-6 text-white/60 leading-relaxed">
+                    {faq.a}
+                  </div>
+                </details>
+              </AnimatedSection>
+            ))}
+          </div>
         </div>
       </section>
 

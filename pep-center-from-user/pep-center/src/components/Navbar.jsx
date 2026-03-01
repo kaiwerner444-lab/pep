@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import CartSidebar from './CartSidebar';
+import { Lock, Shield } from 'lucide-react';
 
 export default function Navbar() {
   const { totalItems, setIsOpen } = useCart();
@@ -9,18 +10,35 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 glass-panel-strong border-b border-white/10">
+      {/* Trust Bar */}
+      <div className="fixed top-0 left-0 right-0 z-[51] bg-[#0a0e17]/90 backdrop-blur-sm border-b border-white/5 py-1.5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-6 text-[10px] sm:text-xs text-white/40">
+            <span className="flex items-center gap-1">
+              <Shield className="w-3 h-3 text-[#f97316]" />
+              HPLC Verified Products
+            </span>
+            <span className="hidden sm:flex items-center gap-1">
+              <Lock className="w-3 h-3 text-[#f97316]" />
+              Secure SSL Checkout
+            </span>
+            <span className="hidden md:inline">Discrete Shipping Worldwide</span>
+          </div>
+        </div>
+      </div>
+
+      <nav className="fixed top-7 left-0 right-0 z-50 bg-[#0a0e17]/80 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-scientific-orange/20 border border-scientific-orange/30 flex items-center justify-center">
-                <svg className="w-4 h-4 text-scientific-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-8 h-8 rounded-lg bg-[#f97316]/20 border border-[#f97316]/30 flex items-center justify-center">
+                <svg className="w-4 h-4 text-[#f97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6.453 15h11.094" />
                 </svg>
               </div>
               <span className="text-lg font-bold tracking-tight">
-                <span className="text-gradient">PEP</span>
+                <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">PEP</span>
                 <span className="text-white/60">.CENTER</span>
               </span>
             </Link>
