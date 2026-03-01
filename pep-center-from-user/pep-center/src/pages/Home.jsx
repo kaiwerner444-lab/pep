@@ -740,6 +740,115 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Bundles Section */}
+      <section id="bundles" className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <AnimatedSection animation="fadeUp" className="text-center mb-16">
+            <p className="text-[#f97316] font-medium mb-2">Research Bundles</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Curated Peptide <span className="text-gradient">Collections</span>
+            </h2>
+            <p className="text-white/50 max-w-2xl mx-auto">
+              Save with our expertly curated bundles designed for specific research applications. Each bundle combines complementary peptides at a discounted price.
+            </p>
+          </AnimatedSection>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Healing Research Bundle',
+                description: 'BPC-157 and TB-500 for tissue repair and recovery studies',
+                price: 120,
+                originalPrice: 140,
+                discount: 15,
+                items: [
+                  { name: 'BPC-157 5mg', qty: 2 },
+                  { name: 'TB-500 5mg', qty: 2 },
+                ],
+                popular: true,
+              },
+              {
+                name: 'Metabolic Research Bundle',
+                description: 'GLP-1 sequences for metabolic pathway studies',
+                price: 360,
+                originalPrice: 452,
+                discount: 20,
+                items: [
+                  { name: 'GLP-1 SM 10mg', qty: 1 },
+                  { name: 'GLP-2 TZ 10mg', qty: 1 },
+                  { name: 'GLP-3 RT 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Laboratory Starter Bundle',
+                description: 'Essential peptides for new research labs',
+                price: 170,
+                originalPrice: 194,
+                discount: 12,
+                items: [
+                  { name: 'BPC-157 5mg', qty: 2 },
+                  { name: 'TB-500 5mg', qty: 2 },
+                  { name: 'Glutathione 600mg', qty: 1 },
+                  { name: 'PT-141 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+            ].map((bundle, i) => (
+              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
+                <div className={`h-full rounded-2xl p-6 border ${bundle.popular ? 'border-[#f97316] bg-[#f97316]/5' : 'border-white/10 bg-white/[0.03]'}`}>
+                  {bundle.popular && (
+                    <span className="inline-block px-3 py-1 bg-[#f97316] text-white text-xs font-bold rounded-full mb-4">
+                      Most Popular
+                    </span>
+                  )}
+                  
+                  <h3 className="text-xl font-bold text-white mb-2">{bundle.name}</h3>
+                  <p className="text-white/50 text-sm mb-4">{bundle.description}</p>
+                  
+                  <div className="space-y-2 mb-4">
+                    {bundle.items.map((item, j) => (
+                      <div key={j} className="flex items-center gap-2 text-sm">
+                        <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-xs text-[#f97316] font-bold">
+                          {item.qty}x
+                        </span>
+                        <span className="text-white/70">{item.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="border-t border-white/10 pt-4 mt-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-white/40 line-through text-sm">${bundle.originalPrice}</span>
+                      <span className="text-[#f97316] text-sm font-medium">-{bundle.discount}%</span>
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-4">
+                      <span className="text-3xl font-bold text-white">${bundle.price}</span>
+                      <span className="text-white/40 text-sm">/bundle</span>
+                    </div>
+                    <Link 
+                      to="/bundles"
+                      className="block w-full py-3 bg-[#f97316] text-white text-center rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
+                    >
+                      View Bundle
+                    </Link>
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+          
+          <AnimatedSection animation="fadeUp" delay={300} className="text-center mt-12">
+            <Link 
+              to="/bundles"
+              className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors"
+            >
+              View All Bundles <ArrowRight className="w-4 h-4" />
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Why Choose Us / Guarantees Section */}
       <section className="py-24 relative bg-gradient-to-b from-white/[0.02] to-transparent">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
