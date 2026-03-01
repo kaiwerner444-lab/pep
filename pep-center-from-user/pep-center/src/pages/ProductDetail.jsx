@@ -3,8 +3,52 @@ import { useEffect, useState } from 'react';
 import { getProductBySlug, products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
-// import { BACWaterAddon } from './Bundles';
-import { ChevronRight, ShoppingCart, Beaker, Shield, FileCheck, Snowflake, Zap, ArrowLeft, Check, Droplets } from 'lucide-react';
+import { ChevronRight, ShoppingCart, Beaker, Shield, FileCheck, Snowflake, Zap, ArrowLeft, Check, Droplets, Package, ArrowRight } from 'lucide-react';
+
+// Bundle definitions
+const bundles = [
+  {
+    id: 'healing-bundle',
+    name: 'Healing Research Bundle',
+    description: 'Complete tissue repair research set with BPC-157 and TB-500',
+    price: 120,
+    originalPrice: 140,
+    discount: 15,
+    productIds: ['bpc-157-5mg', 'bpc-157-10mg', 'tb-500-5mg', 'tb-500-10mg'],
+    items: [
+      { id: 'bpc-157-5mg', name: 'BPC-157 5mg', qty: 2 },
+      { id: 'tb-500-5mg', name: 'TB-500 5mg', qty: 2 },
+    ],
+  },
+  {
+    id: 'metabolic-bundle',
+    name: 'Metabolic Research Bundle',
+    description: 'GLP-1 sequences for comprehensive metabolic studies',
+    price: 360,
+    originalPrice: 452,
+    discount: 20,
+    productIds: ['semaglutide-5mg', 'semaglutide-10mg', 'tirzepatide-5mg', 'tirzepatide-10mg'],
+    items: [
+      { id: 'semaglutide-5mg', name: 'Semaglutide 5mg', qty: 1 },
+      { id: 'tirzepatide-5mg', name: 'Tirzepatide 5mg', qty: 1 },
+    ],
+  },
+  {
+    id: 'starter-bundle',
+    name: 'Laboratory Starter Bundle',
+    description: 'Essential peptides for new research laboratories',
+    price: 170,
+    originalPrice: 194,
+    discount: 12,
+    productIds: ['bpc-157-5mg', 'bpc-157-10mg', 'tb-500-5mg', 'tb-500-10mg', 'ghk-cu-50mg', 'pt-141-10mg'],
+    items: [
+      { id: 'bpc-157-5mg', name: 'BPC-157 5mg', qty: 2 },
+      { id: 'tb-500-5mg', name: 'TB-500 5mg', qty: 2 },
+      { id: 'ghk-cu-50mg', name: 'GHK-Cu 50mg', qty: 1 },
+      { id: 'pt-141-10mg', name: 'PT-141 10mg', qty: 1 },
+    ],
+  },
+];
 
 export default function ProductDetail() {
   const { slug } = useParams();
