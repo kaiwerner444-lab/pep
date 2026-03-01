@@ -477,6 +477,163 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Products - Alternating Layout */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-24">
+          
+          {/* BPC-157 - Image on Right */}
+          <AnimatedSection animation="fadeUp">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left - Content */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-white/40">
+                  <span className="text-[#f97316]">Purity: ≥99%</span>
+                  <span>•</span>
+                  <span>HPLC Verified</span>
+                </div>
+                
+                <h2 className="text-5xl font-bold text-white">BPC-157</h2>
+                <p className="text-xl text-[#f97316]">5 mg / 10 mg vials</p>
+                
+                <p className="text-white/60 leading-relaxed">
+                  Our BPC-157 is synthesized under strict laboratory conditions and verified through HPLC analysis to ensure maximum purity and potency for your research needs.
+                </p>
+                
+                {/* Specs */}
+                <div className="flex flex-wrap gap-4">
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Purity</p>
+                    <p className="text-white font-semibold">≥99%</p>
+                  </div>
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Form</p>
+                    <p className="text-white font-semibold">Lyophilized</p>
+                  </div>
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Storage</p>
+                    <p className="text-white font-semibold">-20°C</p>
+                  </div>
+                </div>
+                
+                {/* Price & Actions */}
+                <div className="flex items-center gap-4 pt-4">
+                  <span className="text-4xl font-bold text-[#f97316]">$35.00</span>
+                  <span className="text-white/40">per vial</span>
+                </div>
+                
+                <div className="flex flex-wrap gap-3">
+                  <Link 
+                    to="/products/bpc-157-5mg"
+                    className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
+                  >
+                    Add to Cart
+                  </Link>
+                  <Link 
+                    to="/products/bpc-157-5mg"
+                    className="px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center gap-2"
+                  >
+                    View Details <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+              
+              {/* Right - Image */}
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-br from-[#f97316]/20 to-transparent rounded-3xl blur-2xl" />
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center">
+                  <img 
+                    src="/bpc-157-vial.jpg" 
+                    alt="BPC-157 Vial"
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
+                {/* Badge */}
+                <div className="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <p className="text-[10px] text-white/60 uppercase tracking-wider">Research Grade</p>
+                  <p className="text-white font-bold">BPC-157</p>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+          
+          {/* TB-500 - Image on Left */}
+          <AnimatedSection animation="fadeUp">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left - Image */}
+              <div className="relative order-2 lg:order-1">
+                <div className="absolute -inset-4 bg-gradient-to-br from-[#fb923c]/20 to-transparent rounded-3xl blur-2xl" />
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center">
+                  <img 
+                    src="/product_vial.jpg" 
+                    alt="TB-500 Vial"
+                    className="w-full h-full object-contain p-8"
+                  />
+                </div>
+                {/* Badge */}
+                <div className="absolute bottom-6 left-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+                  <p className="text-[10px] text-white/60 uppercase tracking-wider">Research Grade</p>
+                  <p className="text-white font-bold">TB-500</p>
+                </div>
+              </div>
+              
+              {/* Right - Content */}
+              <div className="space-y-6 order-1 lg:order-2">
+                <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-white/40">
+                  <span className="text-[#f97316]">Purity: ≥99%</span>
+                  <span>•</span>
+                  <span>Mass Spec Confirmed</span>
+                </div>
+                
+                <h2 className="text-5xl font-bold text-white">TB-500</h2>
+                <p className="text-xl text-[#f97316]">5 mg / 10 mg vials</p>
+                
+                <p className="text-white/60 leading-relaxed">
+                  Our TB-500 is synthesized under strict laboratory conditions and verified through HPLC analysis to ensure maximum purity and potency for your research needs.
+                </p>
+                
+                {/* Specs */}
+                <div className="flex flex-wrap gap-4">
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Purity</p>
+                    <p className="text-white font-semibold">≥99%</p>
+                  </div>
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Form</p>
+                    <p className="text-white font-semibold">Lyophilized</p>
+                  </div>
+                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+                    <p className="text-xs text-white/40 uppercase">Storage</p>
+                    <p className="text-white font-semibold">-20°C</p>
+                  </div>
+                </div>
+                
+                {/* Price & Actions */}
+                <div className="flex items-center gap-4 pt-4">
+                  <span className="text-4xl font-bold text-[#f97316]">$35.00</span>
+                  <span className="text-white/40">per vial</span>
+                </div>
+                
+                <div className="flex flex-wrap gap-3">
+                  <Link 
+                    to="/products/tb-500-5mg"
+                    className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
+                  >
+                    Add to Cart
+                  </Link>
+                  <Link 
+                    to="/products/tb-500-5mg"
+                    className="px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center gap-2"
+                  >
+                    View Details <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+          
+        </div>
+      </section>
+
       {/* Products Section */}
       <section id="products" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
