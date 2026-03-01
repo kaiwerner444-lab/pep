@@ -540,11 +540,11 @@ export default function Home() {
               {/* Right - Image */}
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-[#f97316]/20 to-transparent rounded-3xl blur-2xl" />
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center p-12">
                   <img 
-                    src="/bpc-157-vial.jpg" 
+                    src="/product_vial.jpg" 
                     alt="BPC-157 Vial"
-                    className="w-full h-full object-contain p-8"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                 </div>
                 {/* Badge */}
@@ -562,11 +562,11 @@ export default function Home() {
               {/* Left - Image */}
               <div className="relative order-2 lg:order-1">
                 <div className="absolute -inset-4 bg-gradient-to-br from-[#fb923c]/20 to-transparent rounded-3xl blur-2xl" />
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 flex items-center justify-center p-12">
                   <img 
                     src="/product_vial.jpg" 
                     alt="TB-500 Vial"
-                    className="w-full h-full object-contain p-8"
+                    className="w-full h-full object-contain drop-shadow-2xl"
                   />
                 </div>
                 {/* Badge */}
