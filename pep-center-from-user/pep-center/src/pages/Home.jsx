@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { products, categories } from '../data/products';
 import { blogPosts } from '../data/blogPosts';
 import ProductCard from '../components/ProductCard';
-import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles } from 'lucide-react';
+import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles, Check } from 'lucide-react';
 import { 
   useMouseParallax, 
   useCountUp,
@@ -291,6 +291,105 @@ export default function Home() {
           <div className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-1">
             <div className="w-1.5 h-3 bg-gradient-to-b from-[#f97316] to-[#ec4899] rounded-full" />
           </div>
+        </div>
+      </section>
+
+      {/* Laboratory Quality Standards Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left - Image */}
+            <AnimatedSection animation="fadeRight">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-[#f97316]/20 to-[#06b6d4]/20 rounded-3xl blur-2xl" />
+                <img 
+                  src="/lab-quality.jpg" 
+                  alt="Laboratory Quality Control"
+                  className="relative w-full rounded-2xl shadow-2xl"
+                />
+                {/* Floating Badge */}
+                <div className="absolute -bottom-6 -right-6 bg-[#0a0e17] border border-[#f97316]/30 rounded-2xl p-4 shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-[#f97316]/20 flex items-center justify-center">
+                      <Shield className="w-6 h-6 text-[#f97316]" />
+                    </div>
+                    <div>
+                      <p className="text-white font-bold text-lg">99.8%</p>
+                      <p className="text-white/50 text-sm">Average Purity</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* Right - Content */}
+            <AnimatedSection animation="fadeLeft" delay={200}>
+              <div className="space-y-6">
+                <div>
+                  <p className="text-[#f97316] font-medium mb-2">Quality Standards</p>
+                  <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                    Uncompromising <span className="text-gradient">Quality</span>
+                  </h2>
+                  <p className="text-white/60 text-lg leading-relaxed">
+                    Every peptide we produce undergoes rigorous testing and quality control to ensure the highest standards for your research.
+                  </p>
+                </div>
+
+                {/* Quality Features Grid */}
+                <div className="grid sm:grid-cols-2 gap-4 pt-4">
+                  {[
+                    { icon: Shield, title: 'HPLC Verified', desc: 'Every batch undergoes High-Performance Liquid Chromatography analysis to confirm purity and identity.', color: '#f97316' },
+                    { icon: Sparkles, title: '99%+ Purity', desc: 'Peptides meet or exceed 99% purity standards for consistent and reliable research results.', color: '#ec4899' },
+                    { icon: FileText, title: 'COA Provided', desc: 'Certificate of Analysis included with every order, documenting batch-specific test results.', color: '#06b6d4' },
+                    { icon: Beaker, title: 'Lab Synthesized', desc: 'Manufactured in specialized facilities under strict quality control protocols.', color: '#8b5cf6' },
+                  ].map((item, i) => (
+                    <div key={i} className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-colors group">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${item.color}20` }}>
+                        <item.icon className="w-5 h-5" style={{ color: item.color }} />
+                      </div>
+                      <h3 className="text-white font-semibold mb-1">{item.title}</h3>
+                      <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Additional Features */}
+                <div className="pt-4 space-y-3">
+                  {[
+                    { title: 'Batch Consistency', desc: 'Rigorous quality control ensures consistent peptide composition across all batches.' },
+                    { title: 'Research Grade', desc: 'Specifically formulated and tested for laboratory research applications.' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3.5 h-3.5 text-green-400" />
+                      </div>
+                      <div>
+                        <h4 className="text-white font-medium">{item.title}</h4>
+                        <p className="text-white/50 text-sm">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          {/* Stats Bar */}
+          <AnimatedSection animation="fadeUp" delay={400} className="mt-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { value: '99.8%', label: 'Average Purity' },
+                { value: '50K+', label: 'Orders Shipped' },
+                { value: '100%', label: 'HPLC Tested' },
+                { value: '24h', label: 'Avg. Processing' },
+              ].map((stat, i) => (
+                <div key={i} className="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+                  <p className="text-3xl font-bold text-[#f97316] mb-1">{stat.value}</p>
+                  <p className="text-white/50 text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
