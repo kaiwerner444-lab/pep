@@ -818,7 +818,7 @@ export default function Home() {
                 ],
                 popular: false,
               },
-            ].slice(0, 4).map((bundle, i) => (
+            ].slice(0, 3).map((bundle, i) => (
               <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
                 <div className={`h-full rounded-2xl p-6 border ${bundle.popular ? 'border-[#f97316] bg-[#f97316]/5' : 'border-white/10 bg-white/[0.03]'}`}>
                   {bundle.popular && (
