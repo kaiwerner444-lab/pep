@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
-import { Plus, Check, ShoppingBag, TrendingDown, Eye, GitCompare, RefreshCw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Check, ShoppingBag, TrendingDown, Eye, GitCompare, RefreshCw, Info } from 'lucide-react';
 import QuickViewModal from './QuickViewModal';
 
 // Volume pricing tiers
@@ -27,6 +27,19 @@ function calculateVolumePrice(basePrice, quantity) {
   };
 }
 
+// Get subscription tier from localStorage
+function getSubscriptionTier() {
+  if (typeof window === 'undefined') return 0;
+  return parseInt(localStorage.getItem('subscriptionOrders') || '0');
+}
+
+// Calculate subscription price based on tier
+function calculateSubscriptionPrice(basePrice, tier) {
+  if (tier === 0) return Math.round(basePrice * 0.95); // 5% off first order
+  if (tier === 1) return Math.round(basePrice * 0.95); // 5% off second order
+  return Math.round(basePrice * 0.90); // 10% off loyalty tier
+}
+
 export default function ProductCard({ product, index = 0, onQuickView, onCompare, isComparing = false }) {
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
@@ -35,6 +48,13 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
   const [quantity, setQuantity] = useState(1);
   const [showQuickView, setShowQuickView] = useState(false);
   const [isSubscription, setIsSubscription] = useState(false);
+  const [subscriptionTier, setSubscriptionTier] = useState(0);
+  const [showTerms, setShowTerms] = useState(false);
+
+  // Load subscription tier on mount
+  useEffect(() => {
+    setSubscriptionTier(getSubscriptionTier());
+  }, []);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -55,11 +75,19 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
   const nextTier = volumeTiers.find(t => t.min > quantity);
   const savings = (product.price - pricing.unitPrice) * quantity;
   
-  // Subscription price (additional 10% off)
-  const subscriptionPrice = Math.round(pricing.unitPrice * 0.90);
-  const subscriptionSavings = isSubscription ? (pricing.unitPrice - subscriptionPrice) * quantity : 0;
-  const finalPrice = isSubscription ? subscriptionPrice : pricing.unitPrice;
+  // Subscription pricing based on tier
+  const subscriptionUnitPrice = calculateSubscriptionPrice(pricing.unitPrice, subscriptionTier);
+  const subscriptionDiscount = subscriptionTier >= 2 ? 10 : 5;
+  const subscriptionSavings = isSubscription ? (pricing.unitPrice - subscriptionUnitPrice) * quantity : 0;
+  const finalPrice = isSubscription ? subscriptionUnitPrice : pricing.unitPrice;
   const finalTotal = finalPrice * quantity;
+
+  // Get subscription benefits text
+  const getTierBenefits = () => {
+    if (subscriptionTier === 0) return '5% off • Free shipping starts order 2';
+    if (subscriptionTier === 1) return '5% off • FREE shipping';
+    return '10% off • FREE shipping • Loyalty tier';
+  };
 
   return (
     <div 
@@ -82,7 +110,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
             <div className="absolute top-4 right-4 z-10">
               <span className="px-3 py-1.5 rounded-full bg-purple-500/15 border border-purple-500/30 text-xs font-medium text-purple-400 backdrop-blur-sm flex items-center gap-1">
                 <RefreshCw className="w-3 h-3" />
-                Subscribe & Save
+                {subscriptionTier >= 2 ? '10% OFF' : '5% OFF'}
               </span>
             </div>
           )}
@@ -184,12 +212,30 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
                 <RefreshCw className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-medium text-white">Subscribe Monthly</span>
               </div>
-              <p className="text-xs text-purple-400/70">Save 10% + free shipping</p>
+              <p className="text-xs text-purple-400/70">{getTierBenefits()}</p>
             </div>
             {isSubscription && (
-              <span className="text-xs font-bold text-purple-400">-${Math.round(product.price * 0.10)}/mo</span>
+              <span className="text-xs font-bold text-purple-400">-{subscriptionDiscount}%</span>
             )}
           </label>
+          
+          {/* Terms Info */}
+          <button
+            onClick={() => setShowTerms(!showTerms)}
+            className="mt-2 text-xs text-white/40 hover:text-white/60 flex items-center gap-1"
+          >
+            <Info className="w-3 h-3" />
+            Subscription terms
+          </button>
+          
+          {showTerms && (
+            <div className="mt-2 p-2 rounded-lg bg-white/5 text-xs text-white/50">
+              <p className="mb-1">• 5% off first order</p>
+              <p className="mb-1">• Free shipping from order 2</p>
+              <p className="mb-1">• 10% off from order 3+</p>
+              <p className="text-amber-400/70">Canceling before 3 orders forfeits subscription pricing</p>
+            </div>
+          )}
         </div>
 
         {/* Volume Pricing Info */}

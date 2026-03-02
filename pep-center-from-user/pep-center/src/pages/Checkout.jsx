@@ -19,7 +19,7 @@ import {
   Droplets,
   Plus,
   Loader2,
-  RefreshCw,
+  RefreshCw, Info,
 } from 'lucide-react';
 import { AnimatedSection } from '../hooks/useAnimations.jsx';
 
@@ -65,7 +65,7 @@ const shippingOptions = [
 ];
 
 export default function Checkout() {
-  const { items, totalPrice, clearCart, hasSubscription } = useCart();
+  const { items, totalPrice, clearCart, hasSubscription, subscriptionTier, isLoyaltyTier, subscriptionBenefits, incrementSubscriptionTier } = useCart();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
@@ -632,7 +632,7 @@ export default function Checkout() {
                 {hasSubscription && (
                   <div className="flex justify-between text-sm text-purple-400">
                     <span>Subscription Discount</span>
-                    <span>10% off</span>
+                    <span>{isLoyaltyTier ? '10% off' : '5% off'}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-lg font-semibold pt-2 border-t border-white/10">
@@ -643,6 +643,27 @@ export default function Checkout() {
                   <p className="text-xs text-purple-400 text-right">Billed monthly</p>
                 )}
               </div>
+
+
+              {/* Subscription Terms Notice */}
+              {hasSubscription && (
+                <div className={`mt-4 p-4 rounded-xl border ${isLoyaltyTier ? 'bg-amber-500/10 border-amber-500/30' : 'bg-purple-500/10 border-purple-500/30'}`}>
+                  <div className="flex items-start gap-3">
+                    <Info className={`w-5 h-5 flex-shrink-0 mt-0.5 ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`} />
+                    <div>
+                      <h4 className={`font-medium mb-1 ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
+                        {isLoyaltyTier ? 'Loyalty Tier Active!' : `Subscription Order #${subscriptionTier + 1}`}
+                      </h4>
+                      <p className="text-sm text-white/60">{subscriptionBenefits}</p>
+                      {!isLoyaltyTier && (
+                        <p className="text-xs text-amber-400/70 mt-2">
+                          Canceling before 3 orders forfeits subscription pricing tier
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Trust Badges */}
               <div className="mt-6 pt-4 border-t border-white/10 space-y-2">

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { Minus, Plus, Trash2, ShoppingBag, X, Truck, FlaskConical, RefreshCw, Package } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, X, Truck, FlaskConical, RefreshCw, Package, Crown, Info } from 'lucide-react';
 
 export default function CartSidebar() {
   const { 
@@ -12,7 +12,11 @@ export default function CartSidebar() {
     toggleSubscription,
     totalPrice, 
     subscriptionSavings,
-    hasSubscription 
+    hasSubscription,
+    hasFreeShipping,
+    isLoyaltyTier,
+    subscriptionTier,
+    subscriptionBenefits,
   } = useCart();
 
   if (!isOpen) return null;
@@ -33,6 +37,10 @@ export default function CartSidebar() {
   }, []);
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  
+  // Calculate shipping
+  const shippingCost = hasFreeShipping ? 0 : 15;
+  const finalTotal = totalPrice + shippingCost;
 
   return (
     <div className="fixed inset-0 z-[60]">
@@ -63,12 +71,21 @@ export default function CartSidebar() {
           </button>
         </div>
 
-        {/* Subscription Banner */}
+        {/* Subscription Status Banner */}
         {hasSubscription && (
-          <div className="px-5 py-3 bg-purple-500/10 border-b border-purple-500/20">
-            <div className="flex items-center gap-2 text-sm text-purple-400">
-              <RefreshCw className="w-4 h-4" />
-              <span>You have subscription items - monthly delivery</span>
+          <div className={`px-5 py-3 border-b ${isLoyaltyTier ? 'bg-amber-500/10 border-amber-500/20' : 'bg-purple-500/10 border-purple-500/20'}`}>
+            <div className="flex items-center gap-2">
+              {isLoyaltyTier ? (
+                <Crown className="w-5 h-5 text-amber-400" />
+              ) : (
+                <RefreshCw className="w-5 h-5 text-purple-400" />
+              )}
+              <div className="flex-1">
+                <span className={`text-sm font-medium ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
+                  {isLoyaltyTier ? 'Loyalty Tier Unlocked!' : `Subscription Order #${subscriptionTier + 1}`}
+                </span>
+                <p className="text-xs text-white/50">{subscriptionBenefits}</p>
+              </div>
             </div>
           </div>
         )}
@@ -96,16 +113,18 @@ export default function CartSidebar() {
                   key={item.key} 
                   className={`flex gap-4 p-4 rounded-2xl border transition-colors ${
                     item.isSubscription 
-                      ? 'bg-purple-500/[0.05] border-purple-500/30' 
+                      ? isLoyaltyTier ? 'bg-amber-500/[0.05] border-amber-500/30' : 'bg-purple-500/[0.05] border-purple-500/30'
                       : 'bg-white/[0.03] border-white/10 hover:border-white/20'
                   }`}
                 >
                   {/* Product Image */}
                   <div className={`w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    item.isSubscription ? 'bg-purple-500/10 border border-purple-500/20' : 'bg-[#f97316]/10 border border-[#f97316]/20'
+                    item.isSubscription 
+                      ? isLoyaltyTier ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-purple-500/10 border border-purple-500/20'
+                      : 'bg-[#f97316]/10 border border-[#f97316]/20'
                   }`}>
                     {item.isSubscription ? (
-                      <RefreshCw className="w-8 h-8 text-purple-400/60" />
+                      isLoyaltyTier ? <Crown className="w-8 h-8 text-amber-400/60" /> : <RefreshCw className="w-8 h-8 text-purple-400/60" />
                     ) : (
                       <FlaskConical className="w-8 h-8 text-[#f97316]/60" />
                     )}
@@ -117,8 +136,12 @@ export default function CartSidebar() {
                       <div>
                         <h4 className="text-sm font-semibold text-white truncate">{item.name}</h4>
                         {item.isSubscription && (
-                          <span className="text-xs text-purple-400 flex items-center gap-1 mt-0.5">
-                            <RefreshCw className="w-3 h-3" /> Monthly Subscription
+                          <span className={`text-xs flex items-center gap-1 mt-0.5 ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
+                            <RefreshCw className="w-3 h-3" /> 
+                            Monthly Subscription
+                            {isLoyaltyTier && <span className="text-amber-400">(10% off)</span>}
+                            {!isLoyaltyTier && subscriptionTier === 1 && <span className="text-purple-400">(5% off + Free ship)</span>}
+                            {!isLoyaltyTier && subscriptionTier === 0 && <span className="text-purple-400">(5% off)</span>}
                           </span>
                         )}
                       </div>
@@ -137,7 +160,9 @@ export default function CartSidebar() {
                         onClick={() => toggleSubscription(item.id, item.isSubscription)}
                         className={`text-xs px-2 py-1 rounded-lg border transition-colors ${
                           item.isSubscription
-                            ? 'bg-purple-500/20 border-purple-500/40 text-purple-400'
+                            ? isLoyaltyTier 
+                              ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
+                              : 'bg-purple-500/20 border-purple-500/40 text-purple-400'
                             : 'bg-white/5 border-white/10 text-white/50 hover:text-white/70'
                         }`}
                       >
@@ -163,7 +188,7 @@ export default function CartSidebar() {
                         </button>
                       </div>
                       <div className="text-right">
-                        <span className={`text-lg font-bold ${item.isSubscription ? 'text-purple-400' : 'text-[#f97316]'}`}>
+                        <span className={`text-lg font-bold ${item.isSubscription ? isLoyaltyTier ? 'text-amber-400' : 'text-purple-400' : 'text-[#f97316]'}`}>
                           ${(item.isSubscription ? item.subscriptionPrice : item.price) * item.quantity}
                         </span>
                         {item.isSubscription && (
@@ -183,36 +208,51 @@ export default function CartSidebar() {
         {/* Footer */}
         {items.length > 0 && (
           <div className="p-5 border-t border-white/10 bg-[#0d1117]">
-            {/* Free Shipping Progress */}
-            {totalPrice < 100 && !hasSubscription && (
-              <div className="mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
-                <div className="flex items-center gap-2 text-xs text-white/50 mb-2">
-                  <Truck className="w-4 h-4" />
-                  <span>Add ${(100 - totalPrice).toFixed(0)} more for free shipping</span>
-                </div>
-                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-[#f97316] rounded-full transition-all"
-                    style={{ width: `${Math.min((totalPrice / 100) * 100, 100)}%` }}
-                  />
-                </div>
-              </div>
-            )}
-            
-            {totalPrice >= 100 && !hasSubscription && (
-              <div className="mb-4 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
-                <div className="flex items-center gap-2 text-sm text-green-400">
-                  <Truck className="w-4 h-4" />
-                  <span>You qualify for free shipping!</span>
+            {/* Subscription Terms Notice */}
+            {hasSubscription && !isLoyaltyTier && (
+              <div className="mb-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <div className="flex items-start gap-2">
+                  <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                  <div className="text-xs text-amber-400/80">
+                    <p className="font-medium mb-1">Subscription Terms</p>
+                    <p>Canceling before 3 orders forfeits subscription pricing. Complete 3 orders to unlock 10% off permanently.</p>
+                  </div>
                 </div>
               </div>
             )}
 
-            {hasSubscription && (
-              <div className="mb-4 p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
-                <div className="flex items-center gap-2 text-sm text-purple-400">
+            {/* Free Shipping Progress */}
+            {hasSubscription && subscriptionTier === 0 && (
+              <div className="mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-2 text-xs text-white/50 mb-2">
+                  <Truck className="w-4 h-4" />
+                  <span>Free shipping unlocks on your 2nd subscription order</span>
+                </div>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-purple-500 rounded-full w-1/3" />
+                </div>
+                <p className="text-xs text-white/30 mt-1">1 of 3 orders to loyalty tier</p>
+              </div>
+            )}
+            
+            {hasSubscription && subscriptionTier === 1 && (
+              <div className="mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-2 text-xs text-white/50 mb-2">
+                  <Crown className="w-4 h-4 text-amber-400" />
+                  <span>1 more order to unlock 10% off loyalty tier!</span>
+                </div>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-amber-500 rounded-full w-2/3" />
+                </div>
+                <p className="text-xs text-white/30 mt-1">2 of 3 orders to loyalty tier</p>
+              </div>
+            )}
+
+            {hasFreeShipping && (
+              <div className="mb-4 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+                <div className="flex items-center gap-2 text-sm text-green-400">
                   <Package className="w-4 h-4" />
-                  <span>Free shipping on all subscriptions!</span>
+                  <span>Free shipping on your subscription!</span>
                 </div>
               </div>
             )}
@@ -220,20 +260,34 @@ export default function CartSidebar() {
             {/* Savings */}
             {subscriptionSavings > 0 && (
               <div className="flex items-center justify-between mb-2">
-                <span className="text-purple-400 text-sm">Subscription Savings</span>
-                <span className="text-purple-400 font-medium">-${subscriptionSavings.toFixed(2)}/mo</span>
+                <span className={isLoyaltyTier ? 'text-amber-400 text-sm' : 'text-purple-400 text-sm'}>
+                  Subscription Savings
+                </span>
+                <span className={`font-medium ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
+                  -${subscriptionSavings.toFixed(2)}/mo
+                </span>
               </div>
             )}
+
+            {/* Shipping */}
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-white/60 text-sm">Shipping</span>
+              <span className="text-white text-sm">
+                {hasFreeShipping ? 'FREE' : '$15.00'}
+              </span>
+            </div>
 
             {/* Total */}
             <div className="flex items-center justify-between mb-4 pt-3 border-t border-white/10">
               <div>
                 <span className="text-white/60 block">Subtotal</span>
                 {hasSubscription && (
-                  <span className="text-xs text-purple-400">Monthly recurring</span>
+                  <span className={`text-xs ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
+                    {isLoyaltyTier ? 'Loyalty tier pricing' : `Order #${subscriptionTier + 1} pricing`}
+                  </span>
                 )}
               </div>
-              <span className="text-2xl font-bold text-white">${totalPrice.toFixed(2)}</span>
+              <span className="text-2xl font-bold text-white">${finalTotal.toFixed(2)}</span>
             </div>
 
             {/* Checkout Button */}
@@ -242,7 +296,9 @@ export default function CartSidebar() {
               onClick={() => setIsOpen(false)}
               className={`block w-full text-center py-4 rounded-xl font-semibold transition-colors ${
                 hasSubscription
-                  ? 'bg-purple-500 text-white hover:bg-purple-600'
+                  ? isLoyaltyTier
+                    ? 'bg-amber-500 text-white hover:bg-amber-600'
+                    : 'bg-purple-500 text-white hover:bg-purple-600'
                   : 'bg-[#f97316] text-white hover:bg-[#ea580c]'
               }`}
             >
