@@ -47,6 +47,7 @@ export default function Footer() {
               <Link to="/privacy" className="text-sm text-white/40 hover:text-white/70 transition-colors">Privacy Policy</Link>
               <Link to="/shipping" className="text-sm text-white/40 hover:text-white/70 transition-colors">Shipping Policy</Link>
               <Link to="/refund" className="text-sm text-white/40 hover:text-white/70 transition-colors">Refund Policy</Link>
+              <Link to="/fda-disclaimer" className="text-sm text-white/40 hover:text-white/70 transition-colors">FDA Disclaimer</Link>
             </div>
           </div>
         </div>

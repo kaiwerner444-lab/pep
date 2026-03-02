@@ -18,7 +18,7 @@ import Privacy from './pages/Privacy';
 import Shipping from './pages/Shipping';
 import Refund from './pages/Refund';
 import OrderSuccess from './pages/OrderSuccess';
-
+import FDADisclaimer from './pages/FDADisclaimer';
 export default function App() {
   return (
     <BrowserRouter>
@@ -43,6 +43,7 @@ export default function App() {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/refund" element={<Refund />} />
               <Route path="/order-success" element={<OrderSuccess />} />
+              <Route path="/fda-disclaimer" element={<FDADisclaimer />} />
             </Routes>
           </main>
           <Footer />
