@@ -544,6 +544,33 @@ export default function Checkout() {
               </AnimatedSection>
             )}
 
+
+            {/* FDA Acknowledgment - Final Step Only */}
+            {step === 3 && (
+              <AnimatedSection animation="fadeUp" className="mt-8 p-6 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.fdaAcknowledged}
+                    onChange={(e) => setFormData({...formData, fdaAcknowledged: e.target.checked})}
+                    className="w-5 h-5 mt-0.5 rounded border-white/20 bg-white/5 text-amber-500 focus:ring-amber-500/50"
+                  />
+                  <div className="text-sm text-white/70">
+                    <span className="text-amber-400 font-medium">Required: </span>
+                    I acknowledge that these products are for 
+                    <strong className="text-white"> research use only</strong> and 
+                    <strong className="text-white"> NOT for human consumption</strong>. 
+                    I have read and agree to the 
+                    <Link to="/fda-disclaimer" target="_blank" className="text-[#f97316] hover:underline">
+                      FDA Disclaimer and Research Use Policy
+                    </Link>.
+                    I certify that I have the proper equipment, facilities, and personnel 
+                    for handling these research chemicals.
+                  </div>
+                </label>
+              </AnimatedSection>
+            )}
+
             {/* Navigation Buttons */}
             <div className="flex gap-3 mt-8">
               {step > 1 && (
@@ -564,7 +591,7 @@ export default function Checkout() {
               ) : (
                 <button
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !formData.fdaAcknowledged}
                   className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 ${
                     hasSubscription 
                       ? 'bg-purple-500 hover:bg-purple-600 text-white' 
