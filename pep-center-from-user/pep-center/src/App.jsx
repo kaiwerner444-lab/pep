@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import ProductCompare from './pages/ProductCompare';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
+import AdminOrders from './pages/AdminOrders';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Shipping from './pages/Shipping';
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/bundles" element={<Bundles />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/admin/orders" element={<AdminOrders />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/shipping" element={<Shipping />} />

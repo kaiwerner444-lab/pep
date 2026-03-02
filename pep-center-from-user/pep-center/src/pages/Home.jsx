@@ -88,8 +88,6 @@ function ScrambleText({ text, className = '' }) {
   return (
     <span 
       className={className}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       {displayText}
     </span>
@@ -119,12 +117,6 @@ function TiltCard({ children, className = '' }) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    setTransform({
-      rotateX: ((y - centerY) / centerY) * -10,
-      rotateY: ((x - centerX) / centerX) * 10,
-    });
   };
 
   return (
@@ -142,9 +134,9 @@ function TiltCard({ children, className = '' }) {
         setIsHovered(false);
         setTransform({ rotateX: 0, rotateY: 0 });
       }}
-                <span className="text-white block">RESEARCH</span>
-                <span className="text-[#f97316] block">GRADE</span>{' '}
-                <span className="text-[#fb923c] block">PEPTIDES</span>
+    >
+      {children}
+    </div>
   );
 }
 
@@ -189,7 +181,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-[70vh] sm:min-h-screen flex items-center pt-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Content */}
@@ -312,7 +304,7 @@ export default function Home() {
       </section>
 
       {/* Laboratory Quality Standards Section */}
-      <section className="py-12 sm:py-24 relative overflow-hidden">
+      <section className="py-6 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left - Image */}
@@ -410,92 +402,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quality Section */}
-      <section id="quality" className="py-32 relative">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 px-4">
-              <span className="bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent">
-                Uncompromising
-              </span>
-              <br className="hidden sm:block" />
-              <span className="text-white"> Quality Standards</span>
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-16">
-            {features.map((feature, i) => (
-              <AnimatedSection 
-                key={i}
-                animation="scaleIn" 
-                delay={i * 150}
-                className={`${i === 0 || i === 3 ? 'lg:col-span-7' : 'lg:col-span-5'}`}
-              >
-                <TiltCard>
-                  <div 
-                    className="relative h-full rounded-2xl sm:rounded-3xl overflow-hidden p-5 sm:p-8 lg:p-10 cursor-pointer group"
-                    style={{
-                      background: `linear-gradient(135deg, ${feature.color}10 0%, transparent 50%)`,
-                      border: `1px solid ${feature.color}30`,
-                    }}
-                  >
-                    <div 
-                      className="absolute top-0 right-0 w-32 h-32 sm:w-64 sm:h-64 rounded-full blur-[40px] sm:blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity"
-                      style={{ background: feature.color }}
-                    />
-                    
-                    <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-4 sm:mb-8">
-                        <div 
-                          className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                          style={{ 
-                            background: `${feature.color}20`,
-                            border: `1px solid ${feature.color}40`,
-                          }}
-                        >
-                          <feature.icon className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: feature.color }} />
-                        </div>
-                        <span 
-                          className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium"
-                          style={{ 
-                            background: `${feature.color}15`,
-                            border: `1px solid ${feature.color}30`,
-                            color: feature.color,
-                          }}
-                        >
-                          Step 0{i + 1}
-                        </span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#f97316] transition-colors">
-                        {feature.title}
-                      </h3>
-                      <p className="text-white/50 text-sm sm:text-lg leading-relaxed">
-                        {feature.desc}
-                      </p>
-                    </div>
-                  </div>
-                </TiltCard>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {/* Stats */}
-          <AnimatedSection animation="fadeUp" delay={600}>
-            <div className="grid grid-cols-3 gap-2 sm:gap-4">
-              {stats.map((stat, i) => (
-                <TiltCard key={i}>
-                  <div className="text-center p-4 sm:p-8 rounded-xl sm:rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-all">
-                    <AnimatedCounter {...stat} />
-                  </div>
-                </TiltCard>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
       {/* Featured Products - Alternating Layout */}
-      <section className="py-12 sm:py-24 relative overflow-hidden">
+      <section className="py-6 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-24">
           
           {/* BPC-157 - Image on Right */}
@@ -652,7 +560,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 sm:py-24 relative overflow-hidden">
+      <section className="py-6 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">Testimonials</p>
@@ -741,7 +649,7 @@ export default function Home() {
       </section>
 
       {/* Bundles Section */}
-      <section id="bundles" className="py-12 sm:py-24 relative overflow-hidden">
+      <section id="bundles" className="py-6 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <AnimatedSection animation="fadeUp" className="text-center mb-16">
             <p className="text-[#f97316] font-medium mb-2">RESEARCH Bundles</p>
@@ -754,13 +662,13 @@ export default function Home() {
           </AnimatedSection>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
+{[
               {
-                name: 'Healing RESEARCH Bundle',
-                description: 'BPC-157 and TB-500 for tissue repair and recovery studies',
+                name: 'Bundle A — BPC/TB Reference Set',
+                description: 'For laboratory research use only. Not for human consumption.',
                 price: 120,
                 originalPrice: 140,
-                discount: 15,
+                discount: 14,
                 items: [
                   { name: 'BPC-157 5mg', qty: 2 },
                   { name: 'TB-500 5mg', qty: 2 },
@@ -768,21 +676,21 @@ export default function Home() {
                 popular: true,
               },
               {
-                name: 'Metabolic RESEARCH Bundle',
-                description: 'GLP-1 sequences for metabolic pathway studies',
+                name: 'Bundle B — GLP-1 Receptor Agonist Set',
+                description: 'For laboratory research use only. Not for human consumption.',
                 price: 360,
                 originalPrice: 452,
                 discount: 20,
                 items: [
-                  { name: 'GLP-1 SM 10mg', qty: 1 },
-                  { name: 'GLP-2 TZ 10mg', qty: 1 },
-                  { name: 'GLP-3 RT 10mg', qty: 1 },
+                  { name: 'Semaglutide 10mg', qty: 1 },
+                  { name: 'Tirzepatide 10mg', qty: 1 },
+                  { name: 'Retatrutide 10mg', qty: 1 },
                 ],
                 popular: false,
               },
               {
-                name: 'Laboratory Starter Bundle',
-                description: 'Essential peptides for new research labs',
+                name: 'Bundle C — Starter Reference Set',
+                description: 'For laboratory research use only. Not for human consumption.',
                 price: 170,
                 originalPrice: 194,
                 discount: 12,
@@ -794,7 +702,123 @@ export default function Home() {
                 ],
                 popular: false,
               },
-            ].map((bundle, i) => (
+              {
+                name: 'Bundle D — Copper Peptide & Matrix Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 250,
+                originalPrice: 315,
+                discount: 21,
+                items: [
+                  { name: 'GHK-Cu 100mg', qty: 1 },
+                  { name: 'GLOW Blend', qty: 1 },
+                  { name: 'NAD+ 500mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle E — Telomere & Mitochondrial Peptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 189,
+                originalPrice: 235,
+                discount: 20,
+                items: [
+                  { name: 'Epitalon 10mg', qty: 1 },
+                  { name: 'MOTS-c 10mg', qty: 1 },
+                  { name: 'NAD+ 500mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle F — Neuropeptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 110,
+                originalPrice: 135,
+                discount: 19,
+                items: [
+                  { name: 'Semax 10mg', qty: 1 },
+                  { name: 'Selank 10mg', qty: 1 },
+                  { name: 'Noopept 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle G — GH Fragment & Metabolic Peptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 149,
+                originalPrice: 180,
+                discount: 17,
+                items: [
+                  { name: 'AOD-9604 5mg', qty: 1 },
+                  { name: 'HGH Fragment 176-191 5mg', qty: 1 },
+                  { name: 'MOTS-c 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle H — Antimicrobial Peptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 169,
+                originalPrice: 205,
+                discount: 18,
+                items: [
+                  { name: 'LL-37 5mg', qty: 1 },
+                  { name: 'KPV 10mg', qty: 1 },
+                  { name: 'Thymosin Beta-4 5mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle I — BPC/TB Extended Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 175,
+                originalPrice: 215,
+                discount: 19,
+                items: [
+                  { name: 'BPC-157 10mg', qty: 1 },
+                  { name: 'TB-500 10mg', qty: 1 },
+                  { name: 'BPC-157/TB-500 Blend 5mg/5mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle J — Melanocortin Peptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 79,
+                originalPrice: 95,
+                discount: 17,
+                items: [
+                  { name: 'Melanotan II 10mg', qty: 1 },
+                  { name: 'PT-141 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle K — DSIP/BPC/Selank Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 119,
+                originalPrice: 145,
+                discount: 18,
+                items: [
+                  { name: 'DSIP 5mg', qty: 1 },
+                  { name: 'BPC-157 5mg', qty: 1 },
+                  { name: 'Selank 10mg', qty: 1 },
+                ],
+                popular: false,
+              },
+              {
+                name: 'Bundle L — Growth Factor Peptide Set',
+                description: 'For laboratory research use only. Not for human consumption.',
+                price: 259,
+                originalPrice: 315,
+                discount: 18,
+                items: [
+                  { name: 'IGF-1 LR3 1mg', qty: 1 },
+                  { name: 'Follistatin 344 1mg', qty: 1 },
+                  { name: 'PEG-MGF 2mg', qty: 1 },
+                ],
+                popular: false,
+              },
+            ].slice(0, 4).map((bundle, i) => (
               <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
                 <div className={`h-full rounded-2xl p-6 border ${bundle.popular ? 'border-[#f97316] bg-[#f97316]/5' : 'border-white/10 bg-white/[0.03]'}`}>
                   {bundle.popular && (
