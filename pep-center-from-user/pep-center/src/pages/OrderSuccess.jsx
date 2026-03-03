@@ -1,34 +1,45 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { CheckCircle, Package, Mail, Clock, Download } from 'lucide-react';
+import { CheckCircle, Package, Mail, Clock, Star } from 'lucide-react';
 import { AnimatedSection } from '../hooks/useAnimations.jsx';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function OrderSuccess() {
   const [searchParams] = useSearchParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [tierUpgraded, setTierUpgraded] = useState(false);
+  const { clearCart, incrementSubscriptionTier, subscriptionTier } = useCart();
+  const { user } = useAuth();
 
   const orderNumber = searchParams.get('order');
   const sessionId = searchParams.get('session_id');
+  const isSubscription = searchParams.get('subscription') === 'true';
+  const canceled = searchParams.get('canceled');
 
   useEffect(() => {
-    // If coming from Stripe, order is in URL
-    // Otherwise check localStorage for recent order
-    if (orderNumber) {
-      // Could fetch from Supabase here if needed
-      setOrder({ orderNumber });
-      setLoading(false);
-    } else {
-      // Check localStorage for last order
-      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-      const lastOrder = orders[orders.length - 1];
-      if (lastOrder) {
-        setOrder(lastOrder);
+    async function handleSuccess() {
+      // Only process if payment was successful
+      if (sessionId && !canceled) {
+        clearCart();
+        
+        // If this was a subscription order, increment tier
+        if (isSubscription) {
+          const newTier = await incrementSubscriptionTier();
+          setTierUpgraded(newTier > subscriptionTier);
+        }
       }
+      
+      if (orderNumber) {
+        setOrder({ orderNumber });
+      }
+      
       setLoading(false);
     }
-  }, [orderNumber]);
+    
+    handleSuccess();
+  }, [orderNumber, sessionId, canceled, isSubscription, clearCart, incrementSubscriptionTier, subscriptionTier]);
 
   if (loading) {
     return (
@@ -36,6 +47,43 @@ export default function OrderSuccess() {
         <div className="text-center">
           <div className="w-12 h-12 border-2 border-[#f97316] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-white/60">Loading order details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If payment was canceled
+  if (canceled) {
+    return (
+      <div className="min-h-screen pt-24 pb-12 px-6">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="w-24 h-24 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-6">
+            <Clock className="w-12 h-12 text-amber-400" />
+          </div>
+          
+          <h1 className="text-3xl font-bold text-white mb-4">
+            Payment Canceled
+          </h1>
+          
+          <p className="text-white/60 mb-2">
+            Your payment was not completed. Your cart has been saved and you can try again.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            <Link 
+              to="/checkout" 
+              className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-medium hover:bg-[#ea580c] transition-colors"
+            >
+              Return to Checkout
+            </Link>
+            
+            <Link 
+              to="/products" 
+              className="px-8 py-3 bg-white/5 text-white rounded-xl font-medium hover:bg-white/10 transition-colors"
+            >
+              Continue Shopping
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -64,14 +112,11 @@ export default function OrderSuccess() {
           </div>
           
           <h1 className="text-3xl font-bold text-white mb-4">
-            {sessionId ? 'Payment Successful!' : 'Order Confirmed!'}
+            Payment Successful!
           </h1>
           
           <p className="text-white/60 mb-2">
-            {sessionId 
-              ? 'Thank you for your payment. Your order is being processed.'
-              : 'Thank you for your order. Payment instructions have been sent to your email.'
-            }
+            Thank you for your payment. Your order is being processed.
           </p>
           
           {orderNumber && (
@@ -80,6 +125,24 @@ export default function OrderSuccess() {
             </p>
           )}
         </AnimatedSection>
+
+        {/* Subscription Tier Upgrade Notice */}
+        {isSubscription && tierUpgraded && (
+          <AnimatedSection animation="fadeUp" delay={50}>
+            <div className="mb-6 p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+              <div className="flex items-center gap-3">
+                <Star className="w-6 h-6 text-purple-400" />
+                <div>
+                  <p className="text-purple-400 font-semibold">Subscription Tier Upgraded!</p>
+                  <p className="text-white/60 text-sm">
+                    You're now at Order #{subscriptionTier + 1} pricing. 
+                    {subscriptionTier + 1 >= 2 ? ' Free shipping unlocked!' : ' Free shipping starts at Order #2.'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        )}
 
         <AnimatedSection animation="fadeUp" delay={100}>
           <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 mb-6">
@@ -100,25 +163,9 @@ export default function OrderSuccess() {
                 </div>
               </div>
 
-              {!sessionId && (
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm text-[#f97316] font-bold">2</span>
-                  </div>
-                  <div>
-                    <p className="text-white font-medium">Complete Payment</p>
-                    <p className="text-white/60 text-sm">
-                      Follow the payment instructions sent to your email within 24 hours
-                    </p>
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-sm text-[#f97316] font-bold">
-                    {sessionId ? '2' : '3'}
-                  </span>
+                  <span className="text-sm text-[#f97316] font-bold">2</span>
                 </div>
                 <div>
                   <p className="text-white font-medium">Processing</p>
@@ -130,9 +177,7 @@ export default function OrderSuccess() {
 
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-sm text-[#f97316] font-bold">
-                    {sessionId ? '3' : '4'}
-                  </span>
+                  <span className="text-sm text-[#f97316] font-bold">3</span>
                 </div>
                 <div>
                   <p className="text-white font-medium">Delivery</p>
@@ -154,13 +199,14 @@ export default function OrderSuccess() {
               Continue Shopping
             </Link>
             
-            <a 
-              href="mailto:support@pep.center"
-              className="px-8 py-3 bg-white/5 text-white rounded-xl font-medium text-center hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
-            >
-              <Mail className="w-4 h-4" />
-              Contact Support
-            </a>
+            {user && (
+              <Link 
+                to="/account" 
+                className="px-8 py-3 bg-white/5 text-white rounded-xl font-medium text-center hover:bg-white/10 transition-colors"
+              >
+                View My Account
+              </Link>
+            )}
           </div>
         </AnimatedSection>
 

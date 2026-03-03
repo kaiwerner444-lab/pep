@@ -1,9 +1,22 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
-// Get subscription tier from localStorage
-function getSubscriptionTier() {
+// Get cart from localStorage
+function getSavedCart() {
+  if (typeof window === 'undefined') return [];
+  try {
+    const saved = localStorage.getItem('cartItems');
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+}
+
+// Get subscription tier from localStorage (guest users)
+function getLocalSubscriptionTier() {
   if (typeof window === 'undefined') return 0;
   const completedOrders = parseInt(localStorage.getItem('subscriptionOrders') || '0');
   return completedOrders;
@@ -18,26 +31,34 @@ function getSubscriptionDiscount(tier) {
 
 // Get subscription benefits text
 function getSubscriptionBenefits(tier) {
-  if (tier === 0) return '5% off (Free shipping starting order 2)';
+  if (tier === 0) return '5% off (Free shipping starts order 2)';
   if (tier === 1) return '5% off + Free shipping';
   return '10% off + Free shipping (Loyalty tier)';
 }
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(getSavedCart);
   const [isOpen, setIsOpen] = useState(false);
-  const [subscriptionTier, setSubscriptionTier] = useState(0);
+  const [localTier, setLocalTier] = useState(0);
+  const { user, profile, subscriptionTier: authTier } = useAuth();
   
-  // Load subscription tier on mount
+  // Use auth tier if logged in, otherwise use localStorage
+  const effectiveTier = user ? (authTier ?? 0) : localTier;
+  
+  // Load local tier on mount (for guests)
   useEffect(() => {
-    setSubscriptionTier(getSubscriptionTier());
+    setLocalTier(getLocalSubscriptionTier());
   }, []);
 
-  const subscriptionDiscount = getSubscriptionDiscount(subscriptionTier);
+  // Save cart to localStorage whenever items change
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(items));
+  }, [items]);
+
+  const subscriptionDiscount = getSubscriptionDiscount(effectiveTier);
 
   const addItem = useCallback((product, isSubscription = false) => {
-    const tier = getSubscriptionTier();
-    const discount = isSubscription ? getSubscriptionDiscount(tier) : 0;
+    const discount = isSubscription ? getSubscriptionDiscount(effectiveTier) : 0;
     
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id && item.isSubscription === isSubscription);
@@ -56,7 +77,7 @@ export function CartProvider({ children }) {
         subscriptionDiscount: discount,
       }];
     });
-  }, []);
+  }, [effectiveTier]);
 
   const removeItem = useCallback((id, isSubscription) => {
     setItems((prev) => prev.filter((item) => !(item.id === id && item.isSubscription === isSubscription)));
@@ -81,9 +102,8 @@ export function CartProvider({ children }) {
       const item = prev.find(i => i.id === id && i.isSubscription === isSubscription);
       if (!item) return prev;
       
-      const tier = getSubscriptionTier();
       const newIsSubscription = !isSubscription;
-      const discount = newIsSubscription ? getSubscriptionDiscount(tier) : 0;
+      const discount = newIsSubscription ? getSubscriptionDiscount(effectiveTier) : 0;
       
       // Remove from current state
       const filtered = prev.filter(i => !(i.id === id && i.isSubscription === isSubscription));
@@ -98,18 +118,31 @@ export function CartProvider({ children }) {
       
       return [...filtered, newItem];
     });
+  }, [effectiveTier]);
+
+  const clearCart = useCallback(() => {
+    setItems([]);
+    localStorage.removeItem('cartItems');
   }, []);
 
-  const clearCart = useCallback(() => setItems([]), []);
-
-  // Increment subscription order count (call this after successful subscription order)
-  const incrementSubscriptionTier = useCallback(() => {
-    const current = getSubscriptionTier();
-    const next = current + 1;
-    localStorage.setItem('subscriptionOrders', next.toString());
-    setSubscriptionTier(next);
-    return next;
-  }, []);
+  // Increment subscription order count
+  const incrementSubscriptionTier = useCallback(async () => {
+    const nextTier = effectiveTier + 1;
+    
+    if (user) {
+      // Update in database
+      await supabase
+        .from('profiles')
+        .update({ subscription_tier: nextTier })
+        .eq('id', user.id);
+    } else {
+      // Update localStorage
+      localStorage.setItem('subscriptionOrders', nextTier.toString());
+      setLocalTier(nextTier);
+    }
+    
+    return nextTier;
+  }, [user, effectiveTier]);
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = items.reduce((sum, item) => {
@@ -127,10 +160,10 @@ export function CartProvider({ children }) {
   const hasSubscription = items.some(item => item.isSubscription);
   
   // Check if user qualifies for free shipping on subscriptions
-  const hasFreeShipping = subscriptionTier >= 1 && hasSubscription;
+  const hasFreeShipping = effectiveTier >= 1 && hasSubscription;
   
   // Check if user is at loyalty tier (3+ orders)
-  const isLoyaltyTier = subscriptionTier >= 2;
+  const isLoyaltyTier = effectiveTier >= 2;
 
   return (
     <CartContext.Provider
@@ -150,9 +183,9 @@ export function CartProvider({ children }) {
         hasSubscription,
         hasFreeShipping,
         isLoyaltyTier,
-        subscriptionTier,
+        subscriptionTier: effectiveTier,
         subscriptionDiscount,
-        subscriptionBenefits: getSubscriptionBenefits(subscriptionTier),
+        subscriptionBenefits: getSubscriptionBenefits(effectiveTier),
       }}
     >
       {children}

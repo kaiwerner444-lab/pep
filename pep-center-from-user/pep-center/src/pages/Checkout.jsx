@@ -1,25 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { 
   ChevronLeft, 
   CreditCard, 
   Truck, 
   Shield, 
   Check, 
-  Bitcoin,
-  Banknote,
-  Smartphone,
-  AlertCircle,
   Package,
   MapPin,
-  Mail,
-  User,
-  Phone,
-  Droplets,
-  Plus,
+  AlertCircle,
+  RefreshCw, 
+  Info,
   Loader2,
-  RefreshCw, Info,
+  User,
 } from 'lucide-react';
 import { AnimatedSection } from '../hooks/useAnimations.jsx';
 
@@ -32,30 +27,6 @@ const paymentMethods = [
     color: '#f97316',
     badge: 'Instant',
   },
-  { 
-    id: 'crypto', 
-    name: 'Cryptocurrency', 
-    icon: Bitcoin, 
-    desc: 'BTC, ETH, USDT',
-    color: '#f97316',
-    badge: 'Private',
-  },
-  { 
-    id: 'zelle', 
-    name: 'Zelle', 
-    icon: Smartphone, 
-    desc: 'Fast bank transfer',
-    color: '#f97316',
-    badge: 'Fast',
-  },
-  { 
-    id: 'wire', 
-    name: 'Wire Transfer', 
-    icon: Banknote, 
-    desc: 'ACH / Domestic wire',
-    color: '#fdba74',
-    badge: 'Bulk',
-  },
 ];
 
 const shippingOptions = [
@@ -65,7 +36,8 @@ const shippingOptions = [
 ];
 
 export default function Checkout() {
-  const { items, totalPrice, clearCart, hasSubscription, subscriptionTier, isLoyaltyTier, subscriptionBenefits, incrementSubscriptionTier } = useCart();
+  const { items, totalPrice, clearCart, hasSubscription, hasFreeShipping, subscriptionTier, isLoyaltyTier, subscriptionBenefits, incrementSubscriptionTier } = useCart();
+  const { user, profile } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
@@ -75,10 +47,10 @@ export default function Checkout() {
   const [error, setError] = useState('');
   
   const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
+    email: user?.email || '',
+    firstName: profile?.full_name?.split(' ')[0] || '',
+    lastName: profile?.full_name?.split(' ').slice(1).join(' ') || '',
+    phone: profile?.phone || '',
     address: '',
     city: '',
     state: '',
@@ -87,7 +59,21 @@ export default function Checkout() {
     paymentMethod: 'stripe',
     shippingMethod: 'standard',
     notes: '',
+    fdaAcknowledged: false,
   });
+
+  // Update form when user loads
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        email: user.email || prev.email,
+        firstName: profile?.full_name?.split(' ')[0] || prev.firstName,
+        lastName: profile?.full_name?.split(' ').slice(1).join(' ') || prev.lastName,
+        phone: profile?.phone || prev.phone,
+      }));
+    }
+  }, [user, profile]);
 
   // Check for cancelled checkout
   useEffect(() => {
@@ -114,8 +100,7 @@ export default function Checkout() {
   }
 
   const shipping = shippingOptions.find(s => s.id === formData.shippingMethod)?.price || 15;
-  // Free shipping for subscriptions
-  const finalShipping = hasSubscription ? 0 : shipping;
+  const finalShipping = hasFreeShipping ? 0 : shipping;
   const total = totalPrice + finalShipping;
 
   const handleSubmit = async () => {
@@ -150,6 +135,7 @@ export default function Checkout() {
         },
         paymentMethod: formData.paymentMethod,
         isSubscription: hasSubscription,
+        userId: user?.id || null,
         metadata: {
           notes: formData.notes,
           userAgent: navigator.userAgent,
@@ -157,7 +143,6 @@ export default function Checkout() {
       };
 
       if (formData.paymentMethod === 'stripe') {
-        // Create Stripe Checkout session
         const response = await fetch('/.netlify/functions/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -170,12 +155,10 @@ export default function Checkout() {
           throw new Error(data.error || 'Failed to create checkout session');
         }
 
-        // Redirect to Stripe Checkout
         window.location.href = data.url;
         return;
 
       } else {
-        // Create order for non-Stripe payments
         const response = await fetch('/.netlify/functions/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -215,7 +198,6 @@ export default function Checkout() {
     }
   };
 
-  // Order Complete View
   if (orderComplete) {
     return (
       <div className="min-h-screen pt-24 pb-12 px-6">
@@ -223,39 +205,8 @@ export default function Checkout() {
           <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
             <Check className="w-12 h-12 text-green-400" />
           </div>
-          
-          <h1 className="text-3xl font-bold text-white mb-4">
-            Order Confirmed!
-          </h1>
-          
-          <p className="text-white/60 mb-6">
-            Order #{orderNumber} has been received. You will receive payment instructions via email shortly.
-          </p>
-
-          <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 mb-8">
-            <h3 className="text-lg font-semibold text-white mb-4">What happens next?</h3>
-            <div className="space-y-3 text-left">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs text-[#f97316] font-bold">1</span>
-                </div>
-                <p className="text-white/60 text-sm">Check your email for payment instructions</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs text-[#f97316] font-bold">2</span>
-                </div>
-                <p className="text-white/60 text-sm">Complete payment within 24 hours</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#f97316]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs text-[#f97316] font-bold">3</span>
-                </div>
-                <p className="text-white/60 text-sm">Order ships within 24-48 hours of payment</p>
-              </div>
-            </div>
-          </div>
-
+          <h1 className="text-3xl font-bold text-white mb-4">Order Confirmed!</h1>
+          <p className="text-white/60 mb-6">Order #{orderNumber} has been received.</p>
           <Link to="/products" className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-medium">
             Continue Shopping
           </Link>
@@ -267,11 +218,42 @@ export default function Checkout() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Back Link */}
         <Link to="/products" className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-8">
           <ChevronLeft className="w-5 h-5" />
           Continue Shopping
         </Link>
+
+        {/* Guest Login Prompt */}
+        {!user && (
+          <AnimatedSection animation="fadeUp" className="mb-6">
+            <div className="p-4 rounded-xl bg-[#f97316]/10 border border-[#f97316]/30">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <User className="w-5 h-5 text-[#f97316]" />
+                  <div>
+                    <p className="text-white font-medium">Have an account?</p>
+                    <p className="text-white/60 text-sm">Sign in to track orders and keep your subscription tier across devices</p>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Link 
+                    to="/login" 
+                    state={{ from: { pathname: '/checkout' } }}
+                    className="px-4 py-2 bg-[#f97316] text-white rounded-lg text-sm font-medium hover:bg-[#ea580c] transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/register"
+                    className="px-4 py-2 bg-white/5 text-white rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        )}
 
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400">
@@ -304,7 +286,6 @@ export default function Checkout() {
             {step === 1 && (
               <AnimatedSection animation="fadeUp">
                 <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
-                
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm text-white/60 mb-2">Email *</label>
@@ -317,7 +298,6 @@ export default function Checkout() {
                       required
                     />
                   </div>
-                  
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm text-white/60 mb-2">First Name *</label>
@@ -340,7 +320,6 @@ export default function Checkout() {
                       />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-sm text-white/60 mb-2">Phone</label>
                     <input
@@ -359,7 +338,6 @@ export default function Checkout() {
             {step === 2 && (
               <AnimatedSection animation="fadeUp">
                 <h2 className="text-2xl font-bold text-white mb-6">Shipping Address</h2>
-                
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm text-white/60 mb-2">Address *</label>
@@ -368,11 +346,9 @@ export default function Checkout() {
                       value={formData.address}
                       onChange={(e) => setFormData({...formData, address: e.target.value})}
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#f97316]"
-                      placeholder="123 Research Ave"
                       required
                     />
                   </div>
-
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm text-white/60 mb-2">City *</label>
@@ -395,7 +371,6 @@ export default function Checkout() {
                       />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm text-white/60 mb-2">ZIP Code *</label>
@@ -421,7 +396,6 @@ export default function Checkout() {
                       </select>
                     </div>
                   </div>
-
                   <div className="mt-6">
                     <label className="block text-sm text-white/60 mb-3">Shipping Method</label>
                     <div className="space-y-3">
@@ -446,7 +420,7 @@ export default function Checkout() {
                             <div className="flex items-center justify-between">
                               <span className="text-white font-medium">{option.name}</span>
                               <span className="text-[#f97316] font-semibold">
-                                {hasSubscription ? 'FREE' : `$${option.price}`}
+                                {hasFreeShipping ? 'FREE' : `$${option.price}`}
                               </span>
                             </div>
                             <span className="text-white/50 text-sm">{option.time}</span>
@@ -463,16 +437,6 @@ export default function Checkout() {
             {step === 3 && (
               <AnimatedSection animation="fadeUp">
                 <h2 className="text-2xl font-bold text-white mb-6">Payment Method</h2>
-                
-                {hasSubscription && (
-                  <div className="mb-6 p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
-                    <div className="flex items-center gap-2 text-purple-400">
-                      <RefreshCw className="w-5 h-5" />
-                      <span>You have subscription items - Credit Card required for recurring billing</span>
-                    </div>
-                  </div>
-                )}
-
                 <div className="space-y-3 mb-6">
                   {paymentMethods.map((method) => (
                     <label
@@ -481,7 +445,7 @@ export default function Checkout() {
                         formData.paymentMethod === method.id
                           ? 'border-[#f97316] bg-[#f97316]/5'
                           : 'border-white/10 hover:border-white/20'
-                      } ${hasSubscription && method.id !== 'stripe' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      }`}
                     >
                       <input
                         type="radio"
@@ -489,63 +453,35 @@ export default function Checkout() {
                         value={method.id}
                         checked={formData.paymentMethod === method.id}
                         onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
-                        disabled={hasSubscription && method.id !== 'stripe'}
                         className="w-5 h-5 accent-[#f97316]"
                       />
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center`}
-                        style={{ backgroundColor: `${method.color}20` }}
-                      >
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${method.color}20` }}>
                         <method.icon className="w-6 h-6" style={{ color: method.color }} />
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <span className="text-white font-medium">{method.name}</span>
-                          <span className="px-2 py-0.5 rounded-full bg-white/10 text-white/50 text-xs">
-                            {method.badge}
-                          </span>
                         </div>
                         <span className="text-white/50 text-sm">{method.desc}</span>
                       </div>
                     </label>
                   ))}
                 </div>
-
-                {/* Payment Instructions */}
-                {formData.paymentMethod !== 'stripe' && (
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
-                    <div className="flex items-start gap-3">
-                      <AlertCircle className="w-5 h-5 text-[#f97316] flex-shrink-0 mt-0.5" />
-                      <div>
-                        <h4 className="text-white font-medium mb-1">
-                          {formData.paymentMethod === 'crypto' && 'Cryptocurrency Payment'}
-                          {formData.paymentMethod === 'zelle' && 'Zelle Payment'}
-                          {formData.paymentMethod === 'wire' && 'Wire Transfer'}
-                        </h4>
-                        <p className="text-white/60 text-sm">
-                          After placing your order, you will receive detailed payment instructions via email. 
-                          Orders are processed once payment is confirmed.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Order Notes */}
+                
                 <div className="mt-6">
                   <label className="block text-sm text-white/60 mb-2">Order Notes (Optional)</label>
                   <textarea
                     value={formData.notes}
                     onChange={(e) => setFormData({...formData, notes: e.target.value})}
                     rows={3}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#f97316] transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-[#f97316] resize-none"
                     placeholder="Any special instructions..."
                   />
                 </div>
               </AnimatedSection>
             )}
 
-
-            {/* FDA Acknowledgment - Final Step Only */}
+            {/* FDA Acknowledgment */}
             {step === 3 && (
               <AnimatedSection animation="fadeUp" className="mt-8 p-6 rounded-xl bg-amber-500/10 border border-amber-500/30">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -553,61 +489,36 @@ export default function Checkout() {
                     type="checkbox"
                     checked={formData.fdaAcknowledged}
                     onChange={(e) => setFormData({...formData, fdaAcknowledged: e.target.checked})}
-                    className="w-5 h-5 mt-0.5 rounded border-white/20 bg-white/5 text-amber-500 focus:ring-amber-500/50"
+                    className="w-5 h-5 mt-0.5 rounded border-white/20 bg-white/5 text-amber-500"
                   />
                   <div className="text-sm text-white/70">
                     <span className="text-amber-400 font-medium">Required: </span>
                     I acknowledge that these products are for 
                     <strong className="text-white"> research use only</strong> and 
-                    <strong className="text-white"> NOT for human consumption</strong>. 
-                    I have read and agree to the 
-                    <Link to="/fda-disclaimer" target="_blank" className="text-[#f97316] hover:underline">
-                      FDA Disclaimer and Research Use Policy
-                    </Link>.
-                    I certify that I have the proper equipment, facilities, and personnel 
-                    for handling these research chemicals.
+                    <strong className="text-white"> NOT for human consumption</strong>.
                   </div>
                 </label>
               </AnimatedSection>
             )}
 
-            {/* Navigation Buttons */}
+            {/* Navigation */}
             <div className="flex gap-3 mt-8">
               {step > 1 && (
-                <button
-                  onClick={handleBack}
-                  className="px-6 py-3 bg-white/5 text-white rounded-xl hover:bg-white/10 transition-colors"
-                >
+                <button onClick={handleBack} className="px-6 py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
                   Back
                 </button>
               )}
               {step < 3 ? (
-                <button
-                  onClick={handleNext}
-                  className="flex-1 px-6 py-3 bg-[#f97316] text-white rounded-xl hover:bg-[#ea580c] transition-colors font-semibold"
-                >
+                <button onClick={handleNext} className="flex-1 px-6 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c]">
                   Continue
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting || !formData.fdaAcknowledged}
-                  className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 ${
-                    hasSubscription 
-                      ? 'bg-purple-500 hover:bg-purple-600 text-white' 
-                      : 'bg-[#f97316] hover:bg-[#ea580c] text-white'
-                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className="flex-1 px-6 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c] disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Processing...
-                    </>
-                  ) : hasSubscription ? (
-                    'Subscribe & Pay'
-                  ) : (
-                    'Place Order'
-                  )}
+                  {isSubmitting ? <><Loader2 className="w-5 h-5 animate-spin" />Processing...</> : 'Place Order'}
                 </button>
               )}
             </div>
@@ -617,26 +528,15 @@ export default function Checkout() {
           <div className="lg:col-span-1">
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sticky top-24">
               <h3 className="text-lg font-semibold text-white mb-4">Order Summary</h3>
-              
-              {/* Items */}
               <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
                 {items.map((item, idx) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                      item.isSubscription ? 'bg-purple-500/10' : 'bg-white/5'
-                    }`}>
-                      {item.isSubscription ? (
-                        <RefreshCw className="w-6 h-6 text-purple-400" />
-                      ) : (
-                        <Package className="w-6 h-6 text-white/30" />
-                      )}
+                    <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center">
+                      <Package className="w-6 h-6 text-white/30" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white text-sm truncate">{item.name}</p>
-                      <p className="text-white/50 text-xs">
-                        Qty: {item.quantity}
-                        {item.isSubscription && <span className="text-purple-400 ml-1">(Monthly)</span>}
-                      </p>
+                      <p className="text-white/50 text-xs">Qty: {item.quantity}</p>
                     </div>
                     <span className="text-white/70 text-sm">
                       ${((item.isSubscription ? item.subscriptionPrice : item.price) * item.quantity).toFixed(2)}
@@ -644,7 +544,6 @@ export default function Checkout() {
                   </div>
                 ))}
               </div>
-
               <div className="border-t border-white/10 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-white/60">Subtotal</span>
@@ -652,47 +551,26 @@ export default function Checkout() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-white/60">Shipping</span>
-                  <span className="text-white">
-                    {hasSubscription ? 'FREE' : `$${finalShipping.toFixed(2)}`}
-                  </span>
+                  <span className="text-white">{hasFreeShipping ? 'FREE' : `$${finalShipping.toFixed(2)}`}</span>
                 </div>
-                {hasSubscription && (
-                  <div className="flex justify-between text-sm text-purple-400">
-                    <span>Subscription Discount</span>
-                    <span>{isLoyaltyTier ? '10% off' : '5% off'}</span>
-                  </div>
-                )}
                 <div className="flex justify-between text-lg font-semibold pt-2 border-t border-white/10">
                   <span className="text-white">Total</span>
                   <span className="text-[#f97316]">${total.toFixed(2)}</span>
                 </div>
-                {hasSubscription && (
-                  <p className="text-xs text-purple-400 text-right">Billed monthly</p>
-                )}
               </div>
-
-
-              {/* Subscription Terms Notice */}
+              
               {hasSubscription && (
-                <div className={`mt-4 p-4 rounded-xl border ${isLoyaltyTier ? 'bg-amber-500/10 border-amber-500/30' : 'bg-purple-500/10 border-purple-500/30'}`}>
+                <div className="mt-4 p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
                   <div className="flex items-start gap-3">
-                    <Info className={`w-5 h-5 flex-shrink-0 mt-0.5 ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`} />
+                    <Info className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className={`font-medium mb-1 ${isLoyaltyTier ? 'text-amber-400' : 'text-purple-400'}`}>
-                        {isLoyaltyTier ? 'Loyalty Tier Active!' : `Subscription Order #${subscriptionTier + 1}`}
-                      </h4>
+                      <h4 className="font-medium text-purple-400">Subscription Order #{subscriptionTier + 1}</h4>
                       <p className="text-sm text-white/60">{subscriptionBenefits}</p>
-                      {!isLoyaltyTier && (
-                        <p className="text-xs text-amber-400/70 mt-2">
-                          Canceling before 3 orders forfeits subscription pricing tier
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
               )}
-
-              {/* Trust Badges */}
+              
               <div className="mt-6 pt-4 border-t border-white/10 space-y-2">
                 <div className="flex items-center gap-2 text-xs text-white/40">
                   <Shield className="w-4 h-4" />

@@ -1,100 +1,191 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { Menu, X, ShoppingCart, User, ChevronDown, LogOut } from 'lucide-react';
 import CartSidebar from './CartSidebar';
-import { Lock, Shield } from 'lucide-react';
+
+const navLinks = [
+  { name: 'Products', href: '/products' },
+  { name: 'Bundles', href: '/bundles' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
+];
 
 export default function Navbar() {
-  const { totalItems, setIsOpen } = useCart();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
-  const isActive = (path) => location.pathname === path;
+  const { items, setIsOpen: setCartOpen } = useCart();
+  const { user, profile, signOut } = useAuth();
+
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  async function handleSignOut() {
+    await signOut();
+    setIsUserMenuOpen(false);
+  }
 
   return (
     <>
-      {/* Trust Bar - Hidden on mobile, visible on sm+ */}
-      <div className="hidden sm:block fixed top-0 left-0 right-0 z-[51] bg-[#0a0e17]/90 backdrop-blur-sm border-b border-white/5 py-1.5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-6 text-[10px] sm:text-xs text-white/40">
-            <span className="flex items-center gap-1">
-              <Shield className="w-3 h-3 text-[#f97316]" />
-              HPLC Verified Products
-            </span>
-            <span className="flex items-center gap-1">
-              <Lock className="w-3 h-3 text-[#f97316]" />
-              Secure SSL Checkout
-            </span>
-            <span className="hidden md:inline">Discrete Shipping Worldwide</span>
-          </div>
-        </div>
-      </div>
-
-      <nav className="fixed top-0 sm:top-7 left-0 right-0 z-50 bg-[#0a0e17]/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-navy-primary/95 backdrop-blur-md shadow-lg'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-[#f97316]/20 border border-[#f97316]/30 flex items-center justify-center">
                 <svg className="w-4 h-4 text-[#f97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.453 15h11.094" />
                 </svg>
               </div>
-              <span className="text-lg font-bold tracking-tight">
-                <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">PEP</span>
+              <span className="text-xl font-bold">
+                <span className="text-[#f97316]">PEP</span>
                 <span className="text-white/60">.CENTER</span>
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-6">
-              <Link to="/" className={`text-sm transition-colors ${isActive('/') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Home</Link>
-              <Link to="/products" className={`text-sm transition-colors ${isActive('/products') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Products</Link>
-              <Link to="/bundles" className={`text-sm transition-colors ${isActive('/bundles') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Bundles</Link>
-              <Link to="/blog" className={`text-sm transition-colors ${isActive('/blog') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Blog</Link>
-              <Link to="/contact" className={`text-sm transition-colors ${isActive('/contact') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Contact</Link>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-[#f97316] ${
+                    location.pathname === link.href
+                      ? 'text-[#f97316]'
+                      : 'text-white/70'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Actions */}
+            <div className="flex items-center gap-4">
+              {/* Cart */}
               <button
-                onClick={() => setIsOpen(true)}
-                className="relative flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                onClick={() => setCartOpen(true)}
+                className="relative p-2 text-white/70 hover:text-white transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                  <circle cx="9" cy="21" r="1" />
-                  <circle cx="20" cy="21" r="1" />
-                </svg>
-                <span className="text-sm">Cart</span>
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-scientific-orange text-[10px] font-bold flex items-center justify-center">
-                    {totalItems}
+                <ShoppingCart className="w-5 h-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#f97316] rounded-full text-xs flex items-center justify-center text-white">
+                    {itemCount}
                   </span>
                 )}
               </button>
 
+              {/* User Menu */}
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center gap-2 p-2 text-white/70 hover:text-white transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-[#f97316]/20 flex items-center justify-center">
+                      <User className="w-4 h-4 text-[#f97316]" />
+                    </div>
+                    <span className="hidden sm:block text-sm">
+                      {profile?.full_name?.split(' ')[0] || 'Account'}
+                    </span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-[#1a2744] rounded-xl border border-white/10 shadow-xl py-2 z-50">
+                      <Link
+                        to="/account"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-white/5"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <User className="w-4 h-4" />
+                        My Account
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-white/70 hover:text-red-400 hover:bg-white/5 text-left"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#f97316] text-white rounded-lg text-sm font-medium hover:bg-[#ea580c] transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  Sign In
+                </Link>
+              )}
+
+              {/* Mobile Menu Button */}
               <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden p-2 rounded-lg bg-white/5 border border-white/10"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 text-white"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d={mobileOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-                </svg>
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
               </button>
             </div>
           </div>
         </div>
 
-        {mobileOpen && (
-          <div className="md:hidden border-t border-white/10 bg-navy-secondary/95 backdrop-blur-xl">
-            <div className="px-4 py-4 flex flex-col gap-3">
-              <Link to="/" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Home</Link>
-              <Link to="/products" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/products') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Products</Link>
-              <Link to="/bundles" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/bundles') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Bundles</Link>
-              <Link to="/blog" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/blog') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Blog</Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className={`text-sm py-2 ${isActive('/contact') ? 'text-[#f97316] font-medium' : 'text-white/70 hover:text-white'}`}>Contact</Link>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-[#1a2744] border-t border-white/10">
+            <div className="px-6 py-4 space-y-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`block text-base font-medium ${
+                    location.pathname === link.href
+                      ? 'text-[#f97316]'
+                      : 'text-white/70'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              {!user && (
+                <Link
+                  to="/login"
+                  className="block w-full py-3 bg-[#f97316] text-white rounded-xl text-center font-medium"
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
         )}
       </nav>
+
       <CartSidebar />
     </>
   );

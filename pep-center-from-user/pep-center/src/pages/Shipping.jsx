@@ -1,55 +1,97 @@
 import { Link } from 'react-router-dom';
+import { Truck, Package, Globe } from 'lucide-react';
+import { AnimatedSection } from '../hooks/useAnimations.jsx';
 
 export default function Shipping() {
   return (
-    <div className="pt-24 pb-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="text-sm text-scientific-orange hover:underline mb-8 inline-block">&larr; Back to Home</Link>
-        <h1 className="text-3xl font-bold mb-8">Shipping Policy</h1>
+    <div className="min-h-screen pt-24 pb-12 px-6">
+      <div className="max-w-4xl mx-auto">
+        <AnimatedSection animation="fadeUp" className="text-center mb-12">
+          <div className="w-20 h-20 rounded-full bg-[#f97316]/10 border border-[#f97316]/30 flex items-center justify-center mx-auto mb-6">
+            <Truck className="w-10 h-10 text-[#f97316]" />
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-4">
+            Shipping <span className="text-[#f97316]">Policy</span>
+          </h1>
+          <p className="text-white/60">Effective Date: March 1, 2026</p>
+        </AnimatedSection>
 
-        <div className="prose prose-invert prose-sm max-w-none space-y-6 text-white/70">
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Processing Time</h2>
-            <p>Orders are typically processed within 1-2 business days. Orders placed on weekends or holidays will be processed on the next business day.</p>
-          </section>
+        <AnimatedSection animation="fadeUp" delay={100}>
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 md:p-12 space-y-8">
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.1 Shipping Eligibility</h2>
+              <p className="text-white/70 leading-relaxed">
+                Pep.Center ships research peptides and materials exclusively to verified customers for legitimate research purposes. We reserve the right to request verification of research credentials or institutional affiliation before processing shipments. Orders may be refused or cancelled if we are unable to verify the intended research use.
+              </p>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Shipping Options</h2>
-            <p>Choose from multiple shipping options including overnight express delivery.</p>
-            <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>Standard Shipping: 5-10 business days (Free on orders over $100)</li>
-              <li>Express Shipping: 2-3 business days</li>
-              <li>Overnight Express: Next business day</li>
-            </ul>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.2 Shipping Destinations</h2>
+              <p className="text-white/70 leading-relaxed">
+                We currently ship within the United States. International shipping availability may vary based on the specific product and the regulations of the destination country. It is the responsibility of the customer to ensure that the importation of research peptides complies with all applicable laws and regulations in the destination jurisdiction.
+              </p>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">International Shipping</h2>
-            <p>We ship to over 100 countries worldwide. International orders may be subject to customs fees, import duties, and taxes which are the responsibility of the recipient.</p>
-            <p>Some jurisdictions may have restrictions on the import of research compounds. It is the customer's responsibility to ensure compliance with local regulations.</p>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.3 Processing and Delivery Times</h2>
+              <p className="text-white/70 leading-relaxed">
+                Orders are typically processed within 1 to 3 business days. Delivery times vary depending on the shipping method selected at checkout and the delivery destination. Estimated delivery times are provided for reference purposes only and are not guaranteed.
+              </p>
+              
+              <div className="mt-4 grid md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <h3 className="font-semibold text-white mb-2">Standard Shipping</h3>
+                  <p className="text-white/60 text-sm">5-7 business days</p>
+                  <p className="text-[#f97316] font-bold mt-2">$15.00</p>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <h3 className="font-semibold text-white mb-2">Express Shipping</h3>
+                  <p className="text-white/60 text-sm">2-3 business days</p>
+                  <p className="text-[#f97316] font-bold mt-2">$35.00</p>
+                </div>
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                  <h3 className="font-semibold text-white mb-2">Overnight Shipping</h3>
+                  <p className="text-white/60 text-sm">Next business day</p>
+                  <p className="text-[#f97316] font-bold mt-2">$65.00</p>
+                </div>
+              </div>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Packaging</h2>
-            <p>All orders are shipped in secure, discreet packaging to protect your privacy. Research compounds are packaged to maintain stability during transit.</p>
-            <p>We ensure your peptides arrive in perfect condition with our specialized cold-chain shipping and temperature-controlled packaging.</p>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.4 Packaging and Handling</h2>
+              <p className="text-white/70 leading-relaxed">
+                All products are packaged in accordance with applicable safety and regulatory standards for the shipment of research chemicals. Products requiring temperature controlled shipping will be packaged appropriately to maintain stability during transit.
+              </p>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Tracking</h2>
-            <p>Tracking information will be provided via email once your order ships. Please allow 24-48 hours for tracking information to update.</p>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.5 Risk of Loss</h2>
+              <p className="text-white/70 leading-relaxed">
+                Title and risk of loss for all products pass to you upon delivery to the shipping carrier. Pep.Center is not responsible for delays, damage, or loss caused by the shipping carrier after the product has been tendered for shipment.
+              </p>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Lost or Damaged Packages</h2>
-            <p>If your package is lost or damaged during shipping, contact us within 7 days of the expected delivery date. We will work with the carrier to resolve the issue.</p>
-          </section>
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-4">4.6 Shipping Restrictions</h2>
+              <p className="text-white/70 leading-relaxed">
+                Certain products may be subject to shipping restrictions based on federal, state, or local regulations. Pep.Center reserves the right to refuse shipment of any product to any location where such shipment would violate applicable law. We do not ship to P.O. Boxes for certain products that require signature confirmation.
+              </p>
+            </section>
 
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Contact</h2>
-            <p>For shipping inquiries, contact <a href="mailto:research@pep.center" className="text-scientific-orange hover:underline">research@pep.center</a>.</p>
-          </section>
-        </div>
+            <section className="p-6 rounded-xl bg-purple-500/10 border border-purple-500/30">
+              <h3 className="text-lg font-bold text-purple-400 mb-2">Free Shipping on Subscriptions</h3>
+              <p className="text-white/70">
+                Starting with your second subscription order, enjoy FREE shipping on all subscription items. Your first subscription order includes 5% off, and from order 2 onward, you get 5% off + FREE shipping. Loyalty tier members (3+ orders) receive 10% off + FREE shipping.
+              </p>
+            </section>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection animation="fadeUp" delay={200} className="text-center mt-12">
+          <Link to="/" className="inline-flex items-center gap-2 px-8 py-3 bg-[#f97316] text-white rounded-xl font-medium hover:bg-[#ea580c] transition-colors">
+            Return to Store
+          </Link>
+        </AnimatedSection>
       </div>
     </div>
   );

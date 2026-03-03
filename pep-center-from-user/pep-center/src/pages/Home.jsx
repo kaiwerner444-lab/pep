@@ -217,7 +217,7 @@ export default function Home() {
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </TiltCard>
-                  <a href="#quality" className="btn-secondary px-8 py-4 text-white/80 inline-flex items-center gap-2 hover:text-white transition-colors hover:scale-105">
+                  <a href="#faq" className="btn-secondary px-8 py-4 text-white/80 inline-flex items-center gap-2 hover:text-white transition-colors hover:scale-105">
                     Learn More
                   </a>
                 </div>

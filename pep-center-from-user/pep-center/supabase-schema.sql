@@ -88,3 +88,61 @@ CREATE TRIGGER update_orders_updated_at
     BEFORE UPDATE ON orders
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
+
+-- Create profiles table for user data
+CREATE TABLE IF NOT EXISTS profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    email TEXT NOT NULL,
+    full_name TEXT,
+    phone TEXT,
+    subscription_tier INTEGER DEFAULT 0,
+    billing_address JSONB,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS on profiles
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- Users can read their own profile
+CREATE POLICY "Users can view own profile" ON profiles
+    FOR SELECT TO authenticated
+    USING (auth.uid() = id);
+
+-- Users can update their own profile
+CREATE POLICY "Users can update own profile" ON profiles
+    FOR UPDATE TO authenticated
+    USING (auth.uid() = id);
+
+-- Service role can manage all profiles
+CREATE POLICY "Service can manage profiles" ON profiles
+    FOR ALL TO service_role
+    USING (true)
+    WITH CHECK (true);
+
+-- Create function to handle new user signup
+CREATE OR REPLACE FUNCTION handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO profiles (id, email, subscription_tier)
+    VALUES (NEW.id, NEW.email, 0);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to create profile on signup
+CREATE OR REPLACE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW
+    EXECUTE FUNCTION handle_new_user();
+
+-- Add user_id to orders table for tracking
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id);
+
+-- Create index on user_id
+CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
+
+-- Update orders policy to allow users to view their own orders
+CREATE POLICY "Users can view own orders" ON orders
+    FOR SELECT TO authenticated
+    USING (user_id = auth.uid() OR customer_email = auth.jwt()->>'email');
