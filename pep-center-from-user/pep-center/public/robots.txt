@@ -1,0 +1,16 @@
+# PEP.CENTER - SEO Configuration
+# Allow all crawlers, link to sitemap
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /account
+Disallow: /checkout
+Disallow: /orders
+Disallow: /order-success
+
+# Crawl delay to reduce server load
+Crawl-delay: 1
+
+# Link to sitemap
+Sitemap: https://pep.center/sitemap.xml

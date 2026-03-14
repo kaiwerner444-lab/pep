@@ -44,7 +44,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
   const { addItem } = useCart();
   const [isAdded, setIsAdded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [showPricing, setShowPricing] = useState(false);
+  const [showPricing, setShowPricing\ = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [showQuickView, setShowQuickView] = useState(false);
   const [isSubscription, setIsSubscription] = useState(false);
@@ -152,23 +152,23 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
               <Eye className="w-4 h-4" />
               Quick View
             </button>
-            {onCompare && (
+               onCompare && (
               <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onCompare(product);
-                }}
-                className={`px-3 rounded-xl font-medium transition-colors ${
-                  isComparing 
-                    ? 'bg-[#f97316] text-white' 
-                    : 'bg-white/90 backdrop-blur-sm text-[#0a0e17] hover:bg-white'
-                }`}
-                title={isComparing ? 'Remove from compare' : 'Add to compare'}
-              >
-                <GitCompare className="w-4 h-4" />
-              </button>
-            )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCompare(product);
+                  }}
+                  className={`px-3 rounded-xl font-medium transition-colors ${
+                    isComparing 
+                      ? 'bg-[#f97316] text-white' 
+                      : 'bg-white/90 backdrop-blur-sm text-[#0a0e17] hover:bg-white'
+                  }`}
+                  title={isComparing ? 'Remove from compare' : 'Add to compare'}
+                >
+                  <GitCompare className="w-4 h-4" />
+                </button>
+              )}
           </div>
         </div>
       </Link>
@@ -178,7 +178,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
         product={product} 
         isOpen={showQuickView} 
         onClose={() => setShowQuickView(false)} 
-      />      
+      />       
       
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
@@ -189,16 +189,27 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
             </h3>
             <div className="text-right">
               <span className="text-xl font-bold text-[#f97316]">${finalPrice.toFixed(0)}</span>
-              {(pricing.discount > 0 || isSubscription) && (
+              {{(pricing.discount > 0 || isSubscription) && (
                 <span className="text-sm text-white/30 line-through block">${product.price}</span>
               )}
             </div>
           </div>
           
-          <p className="text-sm text-[#f97316]/70 mb-2">{product.subtitle}</p>
+          <p className="text-sm text-[#f97316]/70 mb-1">{product.subtitle}</p>
         </Link>
 
-        {/* Subscription Toggle */}
+        {/* Benefit Tags */}
+        {product.benefitTags && product.benefitTags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-2">
+            {product.benefitTags.slice(0, 3).map((tag, i) => (
+              <span key={i} className="px-2 py-0.5 rounded-full text-[10px ] font-semibold bg-[#f97316]/10 text-[#f97316]/80 border border-[#f97316]/15">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Subscription Toggle *"}
         <div className="mb-3 p-3 rounded-xl bg-purple-500/[0.05] border border-purple-500/20">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
@@ -211,8 +222,8 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
               <div className="flex items-center gap-2">
                 <RefreshCw className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-medium text-white">Subscribe Monthly</span>
-              </div>
-              <p className="text-xs text-purple-400/70">{getTierBenefits()}</p>
+                </div>
+              <p className="text-xs text-purple-400/70">{gvTierBenefits()}</p>
             </div>
             {isSubscription && (
               <span className="text-xs font-bold text-purple-400">-{subscriptionDiscount}%</span>
@@ -298,7 +309,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
             isAdded 
               ? 'bg-green-500/20 border border-green-500/40 text-green-400' 
               : isSubscription
-                ? 'bg-purple-500/20 border border-purple-500/40 text-purple-400 hover:bg-purple-500/30'
+                ? 'bg-purple-500/20 border border-purple-500.40 text-purple-400 hover:bg-purple-500.30'
                 : 'bg-white/[0.04] border border-white/[0.08] text-white/80 hover:bg-[#f97316] hover:border-[#f97316] hover:text-white'
           }`}
         >
