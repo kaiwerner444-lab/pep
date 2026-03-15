@@ -33,8 +33,13 @@ export default function OrderSuccess() {
       
       if (orderNumber) {
         setOrder({ orderNumber });
+
+        // Analytics: track checkout complete
+        if (typeof window !== 'undefined' && window.pepTrack) {
+          window.pepTrack.checkoutComplete(orderNumber);
+        }
       }
-      
+
       setLoading(false);
     }
     
