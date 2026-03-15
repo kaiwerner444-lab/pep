@@ -59,7 +59,12 @@ export function CartProvider({ children }) {
 
   const addItem = useCallback((product, isSubscription = false) => {
     const discount = isSubscription ? getSubscriptionDiscount(effectiveTier) : 0;
-    
+
+    // Analytics tracking
+    if (typeof window !== 'undefined' && window.pepTrack) {
+      window.pepTrack.addToCart(product.slug || product.id, product.name || 'Unknown');
+    }
+
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id && item.isSubscription === isSubscription);
       if (existing) {
