@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getProductBySlug, products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 import { ChevronRight, ShoppingCart, Check, Shield, Beaker, Package, ArrowRight } from 'lucide-react';
 
 // Bundle definitions - must match Bundles.jsx
@@ -131,6 +132,7 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-20">
+        <SEO title="Product Not Found" description="The product you're looking for doesn't exist." noindex={true} path={`/products/${slug}`} />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Product Not Found</h1>
           <Link to="/products" className="text-[#f97316]">Back to Products</Link>
@@ -160,6 +162,14 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen pt-24 pb-12">
+      <SEO
+        title={product.name}
+        description={product.description || product.longDescription}
+        image={product.image ? `https://pep.center${product.image}` : 'https://pep.center/product_vial.jpg'}
+        type="product"
+        productData={product}
+        path={`/products/${slug}`}
+      />
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-white/40 mb-8">
@@ -197,7 +207,33 @@ export default function ProductDetail() {
               )}
             </div>
 
-            <p className="text-white/70 leading-relaxed">{product.description}</p>
+            <p className="text-white/70 leading-relaxed">{product.longDescription || product.description}</p>
+
+            {/* Benefit Tags */}
+            {product.benefitTags && product.benefitTags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {product.benefitTags.map((tag, i) => (
+                  <span key={i} className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#f97316]/10 text-[#f97316] border border-[#f97316]/20">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Research Applications */}
+            {product.researchApplications && product.researchApplications.length > 0 && (
+              <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-3">Research Applications</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {product.researchApplications.map((app, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                      <span className="text-white/60 text-sm">{app}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Specs */}
             <div className="grid grid-cols-2 gap-3">
