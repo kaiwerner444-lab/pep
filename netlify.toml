@@ -1,5 +1,5 @@
 [build]
-  command = "cd pep-center-from-user/pep-center && npm install && npm run build"
+  command = "cd pep-center-from-user/pep-center && npm install --legacy-peer-deps && npm run build"
   publish = "pep-center-from-user/pep-center/dist"
 
 [build.environment]
