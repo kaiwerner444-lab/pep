@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { products, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 import { GitCompare, X } from 'lucide-react';
 
 export default function Products() {
@@ -13,6 +14,17 @@ export default function Products() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
+  // Analytics: debounced search tracking
+  useEffect(() => {
+    if (!searchQuery || searchQuery.length < 2) return;
+    const timer = setTimeout(() => {
+      if (typeof window !== 'undefined' && window.pepTrack) {
+        window.pepTrack.search(searchQuery);
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Load compare list from localStorage
   useEffect(() => {
@@ -70,6 +82,13 @@ export default function Products() {
 
   return (
     <div className={`pt-24 pb-20 ${compareList.length > 0 ? 'pb-28 sm:pb-24' : ''}`}>
+      <SEO
+        title="Research Catalog"
+        description="Browse our complete collection of 50+ research peptides and compounds. HPLC-verified ≥99% purity, third-party tested, fast worldwide shipping."
+        image="https://pep.center/pep-center-logo.png"
+        type="website"
+        path="/products"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
