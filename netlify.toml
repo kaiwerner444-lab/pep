@@ -1,6 +1,6 @@
 [build]
-  command = "cd peptides-store && npm run build"
-  publish = "peptides-store/dist"
+  command = "cd pep-center-from-user/pep-center && npm install && npm run build"
+  publish = "pep-center-from-user/pep-center/dist"
 
 [build.environment]
   NODE_VERSION = "20"
