@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 import { 
   ChevronLeft, 
   CreditCard, 
@@ -86,6 +87,7 @@ export default function Checkout() {
   if (items.length === 0 && !orderComplete) {
     return (
       <div className="min-h-screen pt-24 pb-12 px-6">
+        <SEO title="Checkout" description="Complete your order" noindex={true} path="/checkout" />
         <div className="max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-6">
             <Package className="w-10 h-10 text-white/30" />
@@ -106,6 +108,11 @@ export default function Checkout() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setError('');
+
+    // Analytics: track checkout start
+    if (typeof window !== 'undefined' && window.pepTrack) {
+      window.pepTrack.checkoutStart();
+    }
 
     try {
       const orderData = {
@@ -217,6 +224,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-6">
+      <SEO title="Checkout" description="Complete your purchase with secure payment. HPLC-verified peptides and research compounds." noindex={true} path="/checkout" />
       <div className="max-w-6xl mx-auto">
         <Link to="/products" className="inline-flex items-center gap-2 text-white/60 hover:text-white mb-8">
           <ChevronLeft className="w-5 h-5" />
@@ -570,7 +578,6 @@ export default function Checkout() {
                   </div>
                 </div>
               )}
-              
               <div className="mt-6 pt-4 border-t border-white/10 space-y-2">
                 <div className="flex items-center gap-2 text-xs text-white/40">
                   <Shield className="w-4 h-4" />
