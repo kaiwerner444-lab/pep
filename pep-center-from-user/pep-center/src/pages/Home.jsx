@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { products, categories } from '../data/products';
 import { blogPosts } from '../data/blogPosts';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles, Check, Truck, Clock, Star, Users, Award, Lock } from 'lucide-react';
-import { 
-  useMouseParallax, 
+import {
+  useMouseParallax,
   useCountUp,
   AnimatedSection
 } from '../hooks/useAnimations.jsx';
@@ -21,6 +22,64 @@ const stats = [
   { value: 60, suffix: '+', label: 'RESEARCH Compounds' },
   { value: 99, suffix: '%', label: 'Purity Standards' },
   { value: 100, suffix: '+', label: 'Countries Shipped' },
+];
+
+// Benefit-based research categories (competitor-inspired)
+const researchGoals = [
+  {
+    title: 'Metabolic Research',
+    subtitle: 'Weight management & metabolic pathways',
+    description: 'GLP-1 receptor agonists and metabolic peptides for studying energy regulation, glucose metabolism, and body composition.',
+    icon: Zap,
+    color: '#22c55e',
+    slugs: ['semaglutide-5mg', 'semaglutide-10mg', 'tirzepatide-5mg', 'tirzepatide-10mg', 'aod-9604-5mg', 'mots-c-10mg'],
+    keywords: ['Weight Management', 'GLP-1', 'Metabolism', 'Fat Loss'],
+  },
+  {
+    title: 'Recovery & Repair',
+    subtitle: 'Tissue regeneration & healing',
+    description: 'Peptides studied for their role in tissue repair, wound healing, cellular migration, and regenerative processes.',
+    icon: Shield,
+    color: '#f97316',
+    slugs: ['bpc-157-5mg', 'bpc-157-10mg', 'tb-500-5mg', 'tb-500-10mg', 'bpc-tb-blend', 'thymosin-beta-4-5mg'],
+    keywords: ['Tissue Repair', 'Wound Healing', 'Recovery', 'Regeneration'],
+  },
+  {
+    title: 'Cognitive Enhancement',
+    subtitle: 'Neuroprotection & brain health',
+    description: 'Neuropeptides and nootropic compounds for studying cognitive function, neurogenesis, and neuroprotective mechanisms.',
+    icon: Sparkles,
+    color: '#a855f7',
+    slugs: ['semax-10mg', 'selank-10mg', 'dihexa-10mg', 'noopept-10mg', 'p21-10mg', 'cerebrolysin-10ml'],
+    keywords: ['Focus', 'Memory', 'Neuroprotection', 'Brain Health'],
+  },
+  {
+    title: 'Anti-Aging & Longevity',
+    subtitle: 'Cellular health & telomere research',
+    description: 'Compounds targeting aging mechanisms including telomere maintenance, NAD+ pathways, mitochondrial function, and cellular repair.',
+    icon: Star,
+    color: '#0ea5e9',
+    slugs: ['epitalon-10mg', 'epitalon-50mg', 'nad-plus-500mg', 'ghk-cu-50mg', 'ghk-cu-100mg', 'mots-c-10mg'],
+    keywords: ['Longevity', 'Anti-Aging', 'Telomeres', 'Skin Health'],
+  },
+  {
+    title: 'Sleep & Stress',
+    subtitle: 'Neuroendocrine regulation',
+    description: 'Peptides studied for sleep regulation, stress response modulation, and anxiolytic properties in research settings.',
+    icon: Clock,
+    color: '#eab308',
+    slugs: ['dsip-5mg', 'selank-10mg', 'oxytocin-5mg'],
+    keywords: ['Sleep', 'Relaxation', 'Stress Relief', 'Calm'],
+  },
+  {
+    title: 'Muscle & Performance',
+    subtitle: 'Growth factors & physical research',
+    description: 'Growth factors, myostatin inhibitors, and performance-related peptides for studying muscle development and physical capacity.',
+    icon: Award,
+    color: '#ec4899',
+    slugs: ['igf-1-lr3-1mg', 'follistatin-344-1mg', 'peg-mgf-2mg', 'mgf-2mg', 'ace-031-1mg', 'hgh-fragment-5mg'],
+    keywords: ['Muscle Growth', 'Strength', 'Recovery', 'Performance'],
+  },
 ];
 
 // Static particle - no animation
@@ -166,6 +225,13 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden">
+      <SEO
+        title="PEP.CENTER"
+        description="Premium research peptides and compounds for scientific investigation. HPLC-verified purity, third-party tested, 50+ research compounds with fast worldwide shipping."
+        image="https://pep.center/pep-center-logo.png"
+        type="website"
+        path="/"
+      />
       {/* Static Particles - subtle background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {particles.slice(0, 15).map((_, i) => (
@@ -189,23 +255,23 @@ export default function Home() {
               <AnimatedSection animation="fadeUp" delay={0}>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-[#f97316]/50 transition-all cursor-pointer group animate-pulse-glow">
                   <Sparkles className="w-4 h-4 text-[#f97316]" />
-                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">Premium RESEARCH Compounds</span>
+                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">99%+ Purity | HPLC Verified | COA Included</span>
                 </div>
               </AnimatedSection>
 
               <AnimatedSection animation="fadeUp" delay={100}>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                  <span className="text-white">RESEARCH</span>
+                  <span className="text-white">UNLOCK YOUR</span>
                   <span className="block bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent animate-gradient">
-                    <ScrambleText text="GRADE PEPTIDES" />
+                    <ScrambleText text="RESEARCH POTENTIAL" />
                   </span>
                 </h1>
               </AnimatedSection>
 
               <AnimatedSection animation="fadeUp" delay={200}>
                 <p className="text-lg text-white/50 max-w-lg leading-relaxed hover:text-white/70 transition-colors">
-                  Laboratory-verified compounds with HPLC certification. 
-                  Trusted by researchers worldwide for purity and consistency.
+                  Premium peptides for metabolic research, cognitive studies, recovery science, and longevity investigation.
+                  Every compound is third-party tested, HPLC verified, and ships with a Certificate of Analysis.
                 </p>
               </AnimatedSection>
 
@@ -298,6 +364,55 @@ export default function Home() {
                   <p className="text-white/40 text-xs">{badge.sublabel}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Research by Goal Section - Benefit-Based Navigation */}
+      <section className="py-12 sm:py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <AnimatedSection animation="fadeUp">
+            <div className="text-center mb-12">
+              <p className="text-[#f97316] font-medium mb-2">Explore by Research Goal</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+                What Are You <span className="text-gradient">Researching?</span>
+              </h2>
+              <p className="text-white/50 max-w-2xl mx-auto text-lg">
+                Find the right compounds for your specific research area. Each category is curated based on published scientific literature and ongoing studies.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {researchGoals.map((goal, i) => (
+              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
+                <Link
+                  to={`/products?goal=${encodeURIComponent(goal.title)}`}
+                  className="block p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all group cursor-pointer h-full"
+                >
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${goal.color}20` }}>
+                      <goal.icon className="w-6 h-6" style={{ color: goal.color }} />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold text-lg group-hover:text-[#f97316] transition-colors">{goal.title}</h3>
+                      <p className="text-white/40 text-sm">{goal.subtitle}</p>
+                    </div>
+                  </div>
+                  <p className="text-white/50 text-sm leading-relaxed mb-4">{goal.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {goal.keywords.map((kw, j) => (
+                      <span key={j} className="px-3 py-1 rounded-full text-xs font-medium border" style={{ borderColor: `${goal.color}30`, color: goal.color, backgroundColor: `${goal.color}10` }}>
+                        {kw}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex items-center gap-2 text-sm font-medium" style={{ color: goal.color }}>
+                    View {goal.slugs.length} compounds <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              </AnimatedSection>
             ))}
           </div>
         </div>
