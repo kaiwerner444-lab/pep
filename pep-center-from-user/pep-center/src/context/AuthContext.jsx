@@ -9,6 +9,12 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Skip auth if supabase is not configured
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -32,6 +38,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function fetchProfile(userId) {
+    if (!supabase) return;
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -44,6 +51,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signUp(email, password, fullName) {
+    if (!supabase) throw new Error('Auth not configured');
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -67,6 +75,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signIn(email, password) {
+    if (!supabase) throw new Error('Auth not configured');
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -77,12 +86,14 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
+    if (!supabase) throw new Error('Auth not configured');
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
     setProfile(null);
   }
 
   async function resetPassword(email) {
+    if (!supabase) throw new Error('Auth not configured');
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
@@ -90,7 +101,7 @@ export function AuthProvider({ children }) {
   }
 
   async function updateProfile(updates) {
-    if (!user) return;
+    if (!user || !supabase) return;
     
     const { error } = await supabase
       .from('profiles')
