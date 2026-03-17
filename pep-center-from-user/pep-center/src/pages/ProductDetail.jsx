@@ -183,11 +183,11 @@ export default function ProductDetail() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Left - Image */}
           <div className="relative">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08]">
-              <img 
-                src={product.image || '/product_vial.jpg'} 
+            <div className="aspect-square overflow-hidden">
+              <img
+                src={product.image || '/product_vial.jpg'}
                 alt={product.name}
-                className="w-full h-full object-contain p-12"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
