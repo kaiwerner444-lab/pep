@@ -3,7 +3,10 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Gracefully handle missing env vars so the site renders for SEO/browsing
+export const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
 
 // Order types for reference
 export const ORDER_STATUS = {
@@ -24,6 +27,7 @@ export const PAYMENT_METHODS = {
 
 // Save order to Supabase
 export async function createOrder(orderData) {
+  if (!supabase) throw new Error('Supabase not configured');
   const { data, error } = await supabase
     .from('orders')
     .insert([orderData])
@@ -36,6 +40,7 @@ export async function createOrder(orderData) {
 
 // Get order by ID
 export async function getOrder(orderId) {
+  if (!supabase) throw new Error('Supabase not configured');
   const { data, error } = await supabase
     .from('orders')
     .select('*')
@@ -48,6 +53,7 @@ export async function getOrder(orderId) {
 
 // Update order status
 export async function updateOrderStatus(orderId, status) {
+  if (!supabase) throw new Error('Supabase not configured');
   const { data, error } = await supabase
     .from('orders')
     .update({ status, updated_at: new Date().toISOString() })
