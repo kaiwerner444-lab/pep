@@ -101,7 +101,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
           {/* Purity Badge */}
           <div className="absolute top-4 left-4 z-10">
             <span className="px-3 py-1.5 rounded-full bg-[#f97316]/15 border border-[#f97316]/30 text-xs font-medium text-[#f97316] backdrop-blur-sm">
-              {product.purity}
+              {product.specs?.purity || product.purity || '≥99%'}
             </span>
           </div>
 

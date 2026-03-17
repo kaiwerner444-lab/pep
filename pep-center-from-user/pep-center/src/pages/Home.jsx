@@ -1,1190 +1,371 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { products, categories } from '../data/products';
-import { blogPosts } from '../data/blogPosts';
+import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import SEO from '../components/SEO';
-import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Sparkles, Check, Truck, Clock, Star, Users, Award, Lock } from 'lucide-react';
+import { Shield, FileText, Beaker, Zap, ChevronRight, ArrowRight, Check } from 'lucide-react';
 import {
   useMouseParallax,
-  useCountUp,
   AnimatedSection
 } from '../hooks/useAnimations.jsx';
 
-const features = [
-  { icon: Shield, title: 'HPLC Verified', desc: 'High-Performance Liquid Chromatography analysis confirms purity.', color: '#f97316' },
-  { icon: FileText, title: 'Certificate of Analysis', desc: 'Comprehensive documentation with every order.', color: '#fb923c' },
-  { icon: Beaker, title: 'Third-Party Tested', desc: 'Independent laboratory verification.', color: '#fdba74' },
-  { icon: Zap, title: '24/7 Support', desc: 'Always available help for your research needs.', color: '#fed7aa' },
-];
-
-const stats = [
-  { value: 60, suffix: '+', label: 'RESEARCH Compounds' },
-  { value: 99, suffix: '%', label: 'Purity Standards' },
-  { value: 100, suffix: '+', label: 'Countries Shipped' },
-];
-
-// Benefit-based research categories (competitor-inspired)
+// Premium research goals — quality over quantity
 const researchGoals = [
   {
     title: 'Metabolic Research',
     subtitle: 'Weight management & metabolic pathways',
-    description: 'GLP-1 receptor agonists and metabolic peptides for studying energy regulation, glucose metabolism, and body composition.',
     icon: Zap,
-    color: '#22c55e',
-    slugs: ['semaglutide-5mg', 'semaglutide-10mg', 'tirzepatide-5mg', 'tirzepatide-10mg', 'aod-9604-5mg', 'mots-c-10mg'],
-    keywords: ['Weight Management', 'GLP-1', 'Metabolism', 'Fat Loss'],
+    baseProducts: ['semaglutide', 'tirzepatide', 'aod-9604', 'mots-c'],
   },
   {
-    title: 'Recovery & Repair',
-    subtitle: 'Tissue regeneration & healing',
-    description: 'Peptides studied for their role in tissue repair, wound healing, cellular migration, and regenerative processes.',
+    title: 'Tissue Repair',
+    subtitle: 'Wound healing & regeneration',
     icon: Shield,
-    color: '#f97316',
-    slugs: ['bpc-157-5mg', 'bpc-157-10mg', 'tb-500-5mg', 'tb-500-10mg', 'bpc-tb-blend', 'thymosin-beta-4-5mg'],
-    keywords: ['Tissue Repair', 'Wound Healing', 'Recovery', 'Regeneration'],
+    baseProducts: ['bpc-157', 'tb-500', 'ghk-cu'],
   },
   {
-    title: 'Cognitive Enhancement',
-    subtitle: 'Neuroprotection & brain health',
-    description: 'Neuropeptides and nootropic compounds for studying cognitive function, neurogenesis, and neuroprotective mechanisms.',
-    icon: Sparkles,
-    color: '#a855f7',
-    slugs: ['semax-10mg', 'selank-10mg', 'dihexa-10mg', 'noopept-10mg', 'p21-10mg', 'cerebrolysin-10ml'],
-    keywords: ['Focus', 'Memory', 'Neuroprotection', 'Brain Health'],
+    title: 'Collagen Support',
+    subtitle: 'Structural & aesthetic research',
+    icon: Beaker,
+    baseProducts: ['ghk-cu', 'nasal-tb-500'],
   },
   {
-    title: 'Anti-Aging & Longevity',
-    subtitle: 'Cellular health & telomere research',
-    description: 'Compounds targeting aging mechanisms including telomere maintenance, NAD+ pathways, mitochondrial function, and cellular repair.',
-    icon: Star,
-    color: '#0ea5e9',
-    slugs: ['epitalon-10mg', 'epitalon-50mg', 'nad-plus-500mg', 'ghk-cu-50mg', 'ghk-cu-100mg', 'mots-c-10mg'],
-    keywords: ['Longevity', 'Anti-Aging', 'Telomeres', 'Skin Health'],
-  },
-  {
-    title: 'Sleep & Stress',
-    subtitle: 'Neuroendocrine regulation',
-    description: 'Peptides studied for sleep regulation, stress response modulation, and anxiolytic properties in research settings.',
-    icon: Clock,
-    color: '#eab308',
-    slugs: ['dsip-5mg', 'selank-10mg', 'oxytocin-5mg'],
-    keywords: ['Sleep', 'Relaxation', 'Stress Relief', 'Calm'],
-  },
-  {
-    title: 'Muscle & Performance',
-    subtitle: 'Growth factors & physical research',
-    description: 'Growth factors, myostatin inhibitors, and performance-related peptides for studying muscle development and physical capacity.',
-    icon: Award,
-    color: '#ec4899',
-    slugs: ['igf-1-lr3-1mg', 'follistatin-344-1mg', 'peg-mgf-2mg', 'mgf-2mg', 'ace-031-1mg', 'hgh-fragment-5mg'],
-    keywords: ['Muscle Growth', 'Strength', 'Recovery', 'Performance'],
+    title: 'Recovery Optimization',
+    subtitle: 'Performance & cellular adaptation',
+    icon: ArrowRight,
+    baseProducts: ['bpc-157', 'tb-500', 'peg-mgf'],
   },
 ];
 
-// Static particle - no animation
-function StaticParticle({ index }) {
-  const position = useState({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    opacity: Math.random() * 0.3 + 0.1,
-  })[0];
-
-  const colors = ['#f97316', '#fb923c', '#fdba74', '#fed7aa'];
-  const color = colors[index % colors.length];
-
-  return (
-    <div
-      className="absolute rounded-full pointer-events-none"
-      style={{
-        left: `${position.x}%`,
-        top: `${position.y}%`,
-        width: position.size,
-        height: position.size,
-        backgroundColor: color,
-        opacity: position.opacity,
-      }}
-    />
-  );
-}
-
-// Text scramble effect
-function ScrambleText({ text, className = '' }) {
-  const [displayText, setDisplayText] = useState(text);
-  const [isHovering, setIsHovering] = useState(false);
-  const chars = '!<>-_\\/[]{}—=+*^?#________';
-
-  useEffect(() => {
-    if (!isHovering) {
-      setDisplayText(text);
-      return;
-    }
-
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplayText(
-        text
-          .split('')
-          .map((char, index) => {
-            if (char === ' ') return ' ';
-            if (index < iteration / 2) return text[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join('')
-      );
-
-      iteration += 1;
-      if (iteration >= text.length * 2) {
-        clearInterval(interval);
-        setDisplayText(text);
-      }
-    }, 30);
-
-    return () => clearInterval(interval);
-  }, [isHovering, text]);
-
-  return (
-    <span 
-      className={className}
-    >
-      {displayText}
-    </span>
-  );
-}
-
-// Animated counter
-function AnimatedCounter({ value, suffix, label }) {
-  const { ref, count } = useCountUp(value, 2000);
-  return (
-    <div ref={ref} className="text-center group cursor-pointer">
-      <div className="text-xl sm:text-4xl font-bold bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent mb-1 group-hover:scale-110 transition-transform">
-        {count}{suffix}
-      </div>
-      <div className="text-[10px] sm:text-sm text-white/40 group-hover:text-white/60 transition-colors">{label}</div>
-    </div>
-  );
-}
-
-// 3D Tilt Card
-function TiltCard({ children, className = '' }) {
-  const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-  };
-
-  return (
-    <div
-      className={`${className} transition-all duration-200 ease-out`}
-      style={{
-        transform: isHovered 
-          ? `perspective(1000px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale3d(1.02, 1.02, 1.02)`
-          : 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)',
-        transformStyle: 'preserve-3d',
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setTransform({ rotateX: 0, rotateY: 0 });
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-// Morphing blob background - static, no animation
-function MorphingBlob({ color, className = '' }) {
-  return (
-    <div 
-      className={`absolute rounded-full blur-[100px] opacity-20 ${className}`}
-      style={{ background: color }}
-    />
-  );
-}
+// Trust bar items
+const trustItems = [
+  { text: 'HPLC Verified', icon: Shield },
+  { text: 'Third-Party Tested', icon: Beaker },
+  { text: 'COA Included', icon: FileText },
+  { text: 'Same-Day Shipping', icon: Zap },
+];
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [particles, setParticles] = useState([]);
-  const mousePos = useMouseParallax(30);
+  const [expandedFaq, setExpandedFaq] = useState(0);
+  const heroRef = useRef(null);
+  const parallaxRef = useRef(null);
 
-  // Initialize particles - fewer for subtle effect
+  // Add Google Fonts import at component level
   useEffect(() => {
-    setParticles(Array.from({ length: 15 }, (_, i) => i));
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }, []);
 
-  const filteredProducts = activeCategory === 'All'
-    ? products
-    : products.filter((p) => p.category === activeCategory);
+  const featuredProducts = products.slice(0, 6);
+
+  const faqItems = [
+    {
+      question: 'What purity standards do you maintain?',
+      answer: 'All our products undergo rigorous HPLC analysis with ≥99% purity verification. Each order includes a Certificate of Analysis from independent third-party testing.'
+    },
+    {
+      question: 'How should I store these peptides?',
+      answer: 'Store lyophilized peptides at ≤25°C in a sealed container, away from heat, light, and moisture. After reconstitution, maintain proper storage per the Certificate of Analysis included with your order.'
+    },
+    {
+      question: 'Do you ship internationally?',
+      answer: 'We currently ship within the United States. All orders qualify for same-day shipping from our U.S. facility.'
+    },
+    {
+      question: 'What is your return policy?',
+      answer: 'We stand behind our products. If you have any concerns about quality or purity, contact our support team at info@pep.center.'
+    },
+    {
+      question: 'Are these products for human consumption?',
+      answer: 'All products are sold for research purposes only. They are not intended for human consumption and must be used in accordance with applicable laws and regulations.'
+    },
+  ];
 
   return (
-    <div className="relative overflow-hidden">
+    <>
       <SEO
-        title="PEP.CENTER"
-        description="Premium research peptides and compounds for scientific investigation. HPLC-verified purity, third-party tested, 50+ research compounds with fast worldwide shipping."
-        image="https://pep.center/pep-center-logo.png"
-        type="website"
-        path="/"
+        title="Research-Grade Peptides | Pep.Center"
+        description="Premium HPLC-verified peptides for research. ≥99% purity, third-party tested, same-day shipping."
       />
-      {/* Static Particles - subtle background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {particles.slice(0, 15).map((_, i) => (
-          <StaticParticle key={i} index={i} />
-        ))}
-      </div>
 
-      {/* Animated Background Blobs */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <MorphingBlob color="#f97316" className="w-[600px] h-[600px] top-1/4 -left-40" />
-        <MorphingBlob color="#fb923c" className="w-[500px] h-[500px] bottom-1/4 -right-40" />
-        <MorphingBlob color="#fdba74" className="w-[400px] h-[400px] top-1/2 left-1/2" />
-      </div>
+      <style>{`
+        :root {
+          --font-serif: 'Instrument Serif', serif;
+          --font-sans: 'DM Sans', sans-serif;
+        }
+        body {
+          font-family: var(--font-sans);
+        }
+      `}</style>
 
-      {/* Hero Section */}
-      <section className="relative min-h-[70vh] sm:min-h-screen flex items-center pt-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
-            <div className="space-y-8">
-              <AnimatedSection animation="fadeUp" delay={0}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-[#f97316]/50 transition-all cursor-pointer group animate-pulse-glow">
-                  <Sparkles className="w-4 h-4 text-[#f97316]" />
-                  <span className="text-sm text-white/60 group-hover:text-white transition-colors">99%+ Purity | HPLC Verified | COA Included</span>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeUp" delay={100}>
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
-                  <span className="text-white">UNLOCK YOUR</span>
-                  <span className="block bg-gradient-to-r from-[#f97316] via-[#fb923c] to-[#fed7aa] bg-clip-text text-transparent animate-gradient">
-                    <ScrambleText text="RESEARCH POTENTIAL" />
-                  </span>
-                </h1>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeUp" delay={200}>
-                <p className="text-lg text-white/50 max-w-lg leading-relaxed hover:text-white/70 transition-colors">
-                  Premium peptides for metabolic research, cognitive studies, recovery science, and longevity investigation.
-                  Every compound is third-party tested, HPLC verified, and ships with a Certificate of Analysis.
-                </p>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeUp" delay={300}>
-                <div className="flex flex-wrap gap-4">
-                  <TiltCard>
-                    <Link to="/products" className="btn-premium px-8 py-4 text-white inline-flex items-center gap-2">
-                      Browse Catalog
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </TiltCard>
-                  <a href="#faq" className="btn-secondary px-8 py-4 text-white/80 inline-flex items-center gap-2 hover:text-white transition-colors hover:scale-105">
-                    Learn More
-                  </a>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeUp" delay={400}>
-                <div className="flex items-center gap-8 pt-4">
-                  {stats.map((stat, i) => (
-                    <AnimatedCounter key={i} {...stat} />
-                  ))}
-                </div>
-              </AnimatedSection>
-            </div>
-
-            {/* Right - Static Vial */}
-            <div className="relative flex items-center justify-center h-[550px] sm:h-[600px] lg:h-[800px]">
-              {/* Static decorative rings */}
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute rounded-full border hidden sm:block"
-                  style={{
-                    width: `${300 + i * 60}px`,
-                    height: `${300 + i * 60}px`,
-                    borderColor: `rgba(${249 - i * 30}, ${115 + i * 30}, ${22 + i * 40}, ${0.1 - i * 0.02})`,
-                  }}
-                />
-              ))}
-
-              {/* Vial - static, no floating */}
-              <div className="relative">
-                <img 
-                  src="/vial-hero.jpg" 
-                  alt="Premium Vial"
-                  className="w-[340px] sm:w-[380px] lg:w-[450px] h-auto rounded-2xl"
-                  style={{
-                    filter: 'drop-shadow(0 30px 60px rgba(249,115,22,0.4))',
-                  }}
-                />
-                {/* Static badges around vial */}
-                <div className="absolute -left-2 sm:-left-16 top-1/4 glass px-4 sm:px-5 py-3 sm:py-3 rounded-xl sm:rounded-2xl border border-[#f97316]/30 hover:scale-110 transition-transform cursor-pointer">
-                  <p className="text-xs sm:text-xs text-[#f97316] uppercase tracking-wider">Purity</p>
-                  <p className="text-2xl sm:text-3xl font-bold text-[#f97316]">99.9%</p>
-                </div>
-
-                <div className="absolute -right-2 sm:-right-16 top-[15%] glass px-4 sm:px-5 py-3 sm:py-3 rounded-xl sm:rounded-2xl border border-[#f97316]/20 hover:scale-110 transition-transform cursor-pointer">
-                  <p className="text-xs sm:text-xs text-[#fb923c] uppercase tracking-wider">Verified</p>
-                  <p className="text-xl sm:text-2xl font-bold text-white">HPLC</p>
-                </div>
-
-                <div className="absolute right-2 sm:-right-12 bottom-1/4 glass px-4 sm:px-4 py-2.5 rounded-xl sm:rounded-2xl border border-green-500/30 flex items-center gap-2 hover:scale-110 transition-transform cursor-pointer">
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-400" style={{ boxShadow: '0 0 10px #22c55e' }} />
-                  <span className="text-sm sm:text-sm font-medium text-green-400">In Stock</span>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* ===== HERO SECTION ===== */}
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 pb-16 overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, rgba(15,17,29,1) 0%, rgba(20,23,38,1) 50%, rgba(15,17,29,1) 100%)',
+        }}
+      >
+        {/* Subtle mesh background */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/20 blur-3xl rounded-full mix-blend-multiply" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-orange-500/10 blur-3xl rounded-full mix-blend-multiply" />
         </div>
 
-      </section>
+        <div className="relative z-10 max-w-4xl w-full text-center">
+          {/* Main headline */}
+          <h1
+            className="text-5xl sm:text-6xl lg:text-7xl font-light leading-tight mb-2"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
+            Research-Grade Peptides
+          </h1>
+          <h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-light italic mb-6"
+            style={{ fontFamily: 'var(--font-serif)', color: '#f97316' }}
+          >
+            For Modern Science
+          </h2>
 
-      {/* Trust Badges Bar */}
-      <section className="py-8 border-y border-white/5 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
-            {[
-              { icon: Shield, label: 'Secure SSL Checkout', sublabel: '256-bit Encryption' },
-              { icon: Check, label: 'HPLC Verified', sublabel: 'Every Batch Tested' },
-              { icon: Truck, label: 'Discrete Shipping', sublabel: 'Plain Packaging' },
-              { icon: Clock, label: '24-48h Processing', sublabel: 'Fast Turnaround' },
-            ].map((badge, i) => (
-              <div key={i} className="flex items-center gap-3 justify-center">
-                <div className="w-10 h-10 rounded-lg bg-[#f97316]/10 flex items-center justify-center flex-shrink-0">
-                  <badge.icon className="w-5 h-5 text-[#f97316]" />
-                </div>
-                <div className="text-left">
-                  <p className="text-white text-sm font-medium">{badge.label}</p>
-                  <p className="text-white/40 text-xs">{badge.sublabel}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Research by Goal Section - Benefit-Based Navigation */}
-      <section className="py-12 sm:py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp">
-            <div className="text-center mb-12">
-              <p className="text-[#f97316] font-medium mb-2">Explore by Research Goal</p>
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-                What Are You <span className="text-gradient">Researching?</span>
-              </h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-lg">
-                Find the right compounds for your specific research area. Each category is curated based on published scientific literature and ongoing studies.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {researchGoals.map((goal, i) => (
-              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
-                <Link
-                  to={`/products?goal=${encodeURIComponent(goal.title)}`}
-                  className="block p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all group cursor-pointer h-full"
-                >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${goal.color}20` }}>
-                      <goal.icon className="w-6 h-6" style={{ color: goal.color }} />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg group-hover:text-[#f97316] transition-colors">{goal.title}</h3>
-                      <p className="text-white/40 text-sm">{goal.subtitle}</p>
-                    </div>
-                  </div>
-                  <p className="text-white/50 text-sm leading-relaxed mb-4">{goal.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {goal.keywords.map((kw, j) => (
-                      <span key={j} className="px-3 py-1 rounded-full text-xs font-medium border" style={{ borderColor: `${goal.color}30`, color: goal.color, backgroundColor: `${goal.color}10` }}>
-                        {kw}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-4 flex items-center gap-2 text-sm font-medium" style={{ color: goal.color }}>
-                    View {goal.slugs.length} compounds <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Laboratory Quality Standards Section */}
-      <section className="py-6 sm:py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left - Image */}
-            <AnimatedSection animation="fadeRight">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-[#f97316]/20 to-[#06b6d4]/20 rounded-3xl blur-2xl" />
-                <img 
-                  src="/lab-quality.jpg" 
-                  alt="Laboratory Quality Control"
-                  className="relative w-full rounded-2xl shadow-2xl"
-                />
-                {/* Floating Badge */}
-                <div className="absolute -bottom-6 -right-6 bg-[#0a0e17] border border-[#f97316]/30 rounded-2xl p-4 shadow-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#f97316]/20 flex items-center justify-center">
-                      <Shield className="w-6 h-6 text-[#f97316]" />
-                    </div>
-                    <div>
-                      <p className="text-white font-bold text-lg">99.8%</p>
-                      <p className="text-white/50 text-sm">Average Purity</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Right - Content */}
-            <AnimatedSection animation="fadeLeft" delay={200}>
-              <div className="space-y-6">
-                <div>
-                  <p className="text-[#f97316] font-medium mb-2">Quality Standards</p>
-                  <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-                    Uncompromising <span className="text-gradient">Quality</span>
-                  </h2>
-                  <p className="text-white/60 text-lg leading-relaxed">
-                    Every peptide we produce undergoes rigorous testing and quality control to ensure the highest standards for your research.
-                  </p>
-                </div>
-
-                {/* Quality Features Grid */}
-                <div className="grid sm:grid-cols-2 gap-4 pt-4">
-                  {[
-                    { icon: Shield, title: 'HPLC Verified', desc: 'Every batch undergoes High-Performance Liquid Chromatography analysis to confirm purity and identity.', color: '#f97316' },
-                    { icon: Sparkles, title: '99%+ Purity', desc: 'PEPTIDES meet or exceed 99% purity standards for consistent and reliable research results.', color: '#fb923c' },
-                    { icon: FileText, title: 'COA Provided', desc: 'Certificate of Analysis included with every order, documenting batch-specific test results.', color: '#fdba74' },
-                    { icon: Beaker, title: 'Lab Synthesized', desc: 'Manufactured in specialized facilities under strict quality control protocols.', color: '#f97316' },
-                  ].map((item, i) => (
-                    <div key={i} className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-colors group">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${item.color}20` }}>
-                        <item.icon className="w-5 h-5" style={{ color: item.color }} />
-                      </div>
-                      <h3 className="text-white font-semibold mb-1">{item.title}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Additional Features */}
-                <div className="pt-4 space-y-3">
-                  {[
-                    { title: 'Batch Consistency', desc: 'Rigorous quality control ensures consistent peptide composition across all batches.' },
-                    { title: 'RESEARCH GRADE', desc: 'Specifically formulated and tested for laboratory research applications.' },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-green-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-medium">{item.title}</h4>
-                        <p className="text-white/50 text-sm">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </AnimatedSection>
+          {/* Divider */}
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-orange-500" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-orange-500" />
           </div>
 
-          {/* Stats Bar */}
-          <AnimatedSection animation="fadeUp" delay={400} className="mt-16">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { value: '99.8%', label: 'Average Purity' },
-                { value: '50K+', label: 'Orders Shipped' },
-                { value: '100%', label: 'HPLC Tested' },
-                { value: '24h', label: 'Avg. Processing' },
-              ].map((stat, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/10">
-                  <p className="text-3xl font-bold text-[#f97316] mb-1">{stat.value}</p>
-                  <p className="text-white/50 text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+          {/* Subtext */}
+          <p className="text-lg text-gray-300 mb-10 tracking-wide">
+            ≥99% HPLC-verified purity · Certificate of Analysis included · Same-day shipping
+          </p>
 
-      {/* Featured Products - Alternating Layout */}
-      <section className="py-6 sm:py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-24">
-          
-          {/* BPC-157 - Image on Right */}
-          <AnimatedSection animation="fadeUp">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left - Content */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-white/40">
-                  <span className="text-[#f97316]">Purity: ≥99%</span>
-                  <span>•</span>
-                  <span>HPLC Verified</span>
-                </div>
-                
-                <h2 className="text-5xl font-bold text-white">BPC-157</h2>
-                <p className="text-xl text-[#f97316]">5 mg / 10 mg vials</p>
-                
-                <p className="text-white/60 leading-relaxed">
-                  Our BPC-157 is synthesized under strict laboratory conditions and verified through HPLC analysis to ensure maximum purity and potency for your research needs.
-                </p>
-                
-                {/* Specs */}
-                <div className="flex flex-wrap gap-4">
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Purity</p>
-                    <p className="text-white font-semibold">≥99%</p>
-                  </div>
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Form</p>
-                    <p className="text-white font-semibold">Lyophilized</p>
-                  </div>
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Storage</p>
-                    <p className="text-white font-semibold">-20°C</p>
-                  </div>
-                </div>
-                
-                {/* Price & Actions */}
-                <div className="flex items-center gap-4 pt-4">
-                  <span className="text-4xl font-bold text-[#f97316]">$35.00</span>
-                  <span className="text-white/40">per vial</span>
-                </div>
-                
-                <div className="flex flex-wrap gap-3">
-                  <Link 
-                    to="/products/bpc-157-5mg"
-                    className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
-                  >
-                    Add to Cart
-                  </Link>
-                  <Link 
-                    to="/products/bpc-157-5mg"
-                    className="px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center gap-2"
-                  >
-                    View Details <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-              
-              {/* Right - Image */}
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-[#f97316]/20 to-transparent rounded-3xl blur-2xl" />
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10">
-                  <img 
-                    src="/product_vial.jpg" 
-                    alt="BPC-157 Vial"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Badge */}
-                <div className="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
-                  <p className="text-[10px] text-white/60 uppercase tracking-wider">RESEARCH GRADE</p>
-                  <p className="text-white font-bold">BPC-157</p>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-          
-          {/* TB-500 - Image on Left */}
-          <AnimatedSection animation="fadeUp">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left - Image */}
-              <div className="relative order-2 lg:order-1">
-                <div className="absolute -inset-4 bg-gradient-to-br from-[#fb923c]/20 to-transparent rounded-3xl blur-2xl" />
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10">
-                  <img 
-                    src="/product_vial.jpg" 
-                    alt="TB-500 Vial"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Badge */}
-                <div className="absolute bottom-6 left-6 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
-                  <p className="text-[10px] text-white/60 uppercase tracking-wider">RESEARCH GRADE</p>
-                  <p className="text-white font-bold">TB-500</p>
-                </div>
-              </div>
-              
-              {/* Right - Content */}
-              <div className="space-y-6 order-1 lg:order-2">
-                <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-white/40">
-                  <span className="text-[#f97316]">Purity: ≥99%</span>
-                  <span>•</span>
-                  <span>Mass Spec Confirmed</span>
-                </div>
-                
-                <h2 className="text-5xl font-bold text-white">TB-500</h2>
-                <p className="text-xl text-[#f97316]">5 mg / 10 mg vials</p>
-                
-                <p className="text-white/60 leading-relaxed">
-                  Our TB-500 is synthesized under strict laboratory conditions and verified through HPLC analysis to ensure maximum purity and potency for your research needs.
-                </p>
-                
-                {/* Specs */}
-                <div className="flex flex-wrap gap-4">
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Purity</p>
-                    <p className="text-white font-semibold">≥99%</p>
-                  </div>
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Form</p>
-                    <p className="text-white font-semibold">Lyophilized</p>
-                  </div>
-                  <div className="px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                    <p className="text-xs text-white/40 uppercase">Storage</p>
-                    <p className="text-white font-semibold">-20°C</p>
-                  </div>
-                </div>
-                
-                {/* Price & Actions */}
-                <div className="flex items-center gap-4 pt-4">
-                  <span className="text-4xl font-bold text-[#f97316]">$35.00</span>
-                  <span className="text-white/40">per vial</span>
-                </div>
-                
-                <div className="flex flex-wrap gap-3">
-                  <Link 
-                    to="/products/tb-500-5mg"
-                    className="px-8 py-3 bg-[#f97316] text-white rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
-                  >
-                    Add to Cart
-                  </Link>
-                  <Link 
-                    to="/products/tb-500-5mg"
-                    className="px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors flex items-center gap-2"
-                  >
-                    View Details <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-          
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-6 sm:py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <p className="text-[#f97316] font-medium mb-2">Testimonials</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Trusted by RESEARCHers
-            </h2>
-            <p className="text-white/50 max-w-2xl mx-auto">
-              Join thousands of satisfied researchers who trust PEP.CENTER for their laboratory needs.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                name: 'Dr. Michael Chen',
-                role: 'Biochemistry RESEARCHer',
-                content: 'The purity and consistency of their peptides is exceptional. HPLC results always match their certificates of analysis. Highly recommended for any serious research.',
-                rating: 5,
-                verified: true,
-              },
-              {
-                name: 'Sarah Johnson, PhD',
-                role: 'Cellular Biology Lab',
-                content: 'Fast shipping, discrete packaging, and excellent customer support. Been ordering for 2 years without a single issue. Quality you can depend on.',
-                rating: 5,
-                verified: true,
-              },
-              {
-                name: 'Dr. James Rodriguez',
-                role: 'Regenerative Medicine RESEARCH',
-                content: 'Their BPC-157 and TB-500 have been instrumental in our tissue repair studies. The batch consistency is remarkable. A reliable partner for our lab.',
-                rating: 5,
-                verified: true,
-              },
-            ].map((testimonial, i) => (
-              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
-                <div className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 transition-all">
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <Star key={j} className="w-4 h-4 text-[#f97316] fill-[#f97316]" />
-                    ))}
-                  </div>
-                  
-                  {/* Content */}
-                  <p className="text-white/70 mb-6 leading-relaxed">"{testimonial.content}"</p>
-                  
-                  {/* Author */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-white/10">
-                    <div className="w-10 h-10 rounded-full bg-[#f97316]/20 flex items-center justify-center">
-                      <span className="text-[#f97316] font-bold">{testimonial.name[0]}</span>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white font-medium text-sm">{testimonial.name}</p>
-                      <p className="text-white/40 text-xs">{testimonial.role}</p>
-                    </div>
-                    {testimonial.verified && (
-                      <div className="flex items-center gap-1 text-[10px] text-green-400">
-                        <Check className="w-3 h-3" />
-                        <span>Verified</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {/* Stats */}
-          <AnimatedSection animation="fadeUp" delay={300} className="mt-16">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { value: '15,000+', label: 'Orders Delivered' },
-                { value: '4.9/5', label: 'Average Rating' },
-                { value: '98%', label: 'Repeat Customers' },
-                { value: '50+', label: 'Countries Served' },
-              ].map((stat, i) => (
-                <div key={i} className="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                  <p className="text-3xl font-bold text-[#f97316] mb-1">{stat.value}</p>
-                  <p className="text-white/50 text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Bundles Section */}
-      <section id="bundles" className="py-6 sm:py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <p className="text-[#f97316] font-medium mb-2">RESEARCH Bundles</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Curated Peptide <span className="text-gradient">Collections</span>
-            </h2>
-            <p className="text-white/50 max-w-2xl mx-auto">
-              Save with our expertly curated bundles designed for specific research applications. Each bundle combines complementary peptides at a discounted price.
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-3 gap-6">
-{[
-              {
-                name: 'Bundle A — BPC/TB Reference Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 120,
-                originalPrice: 140,
-                discount: 14,
-                items: [
-                  { name: 'BPC-157 5mg', qty: 2 },
-                  { name: 'TB-500 5mg', qty: 2 },
-                ],
-                popular: true,
-              },
-              {
-                name: 'Bundle B — GLP-1 Receptor Agonist Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 360,
-                originalPrice: 452,
-                discount: 20,
-                items: [
-                  { name: 'Semaglutide 10mg', qty: 1 },
-                  { name: 'Tirzepatide 10mg', qty: 1 },
-                  { name: 'Retatrutide 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle C — Starter Reference Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 170,
-                originalPrice: 194,
-                discount: 12,
-                items: [
-                  { name: 'BPC-157 5mg', qty: 2 },
-                  { name: 'TB-500 5mg', qty: 2 },
-                  { name: 'Glutathione 600mg', qty: 1 },
-                  { name: 'PT-141 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle D — Copper Peptide & Matrix Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 250,
-                originalPrice: 315,
-                discount: 21,
-                items: [
-                  { name: 'GHK-Cu 100mg', qty: 1 },
-                  { name: 'GLOW Blend', qty: 1 },
-                  { name: 'NAD+ 500mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle E — Telomere & Mitochondrial Peptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 189,
-                originalPrice: 235,
-                discount: 20,
-                items: [
-                  { name: 'Epitalon 10mg', qty: 1 },
-                  { name: 'MOTS-c 10mg', qty: 1 },
-                  { name: 'NAD+ 500mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle F — Neuropeptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 110,
-                originalPrice: 135,
-                discount: 19,
-                items: [
-                  { name: 'Semax 10mg', qty: 1 },
-                  { name: 'Selank 10mg', qty: 1 },
-                  { name: 'Noopept 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle G — GH Fragment & Metabolic Peptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 149,
-                originalPrice: 180,
-                discount: 17,
-                items: [
-                  { name: 'AOD-9604 5mg', qty: 1 },
-                  { name: 'HGH Fragment 176-191 5mg', qty: 1 },
-                  { name: 'MOTS-c 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle H — Antimicrobial Peptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 169,
-                originalPrice: 205,
-                discount: 18,
-                items: [
-                  { name: 'LL-37 5mg', qty: 1 },
-                  { name: 'KPV 10mg', qty: 1 },
-                  { name: 'Thymosin Beta-4 5mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle I — BPC/TB Extended Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 175,
-                originalPrice: 215,
-                discount: 19,
-                items: [
-                  { name: 'BPC-157 10mg', qty: 1 },
-                  { name: 'TB-500 10mg', qty: 1 },
-                  { name: 'BPC-157/TB-500 Blend 5mg/5mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle J — Melanocortin Peptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 79,
-                originalPrice: 95,
-                discount: 17,
-                items: [
-                  { name: 'Melanotan II 10mg', qty: 1 },
-                  { name: 'PT-141 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle K — DSIP/BPC/Selank Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 119,
-                originalPrice: 145,
-                discount: 18,
-                items: [
-                  { name: 'DSIP 5mg', qty: 1 },
-                  { name: 'BPC-157 5mg', qty: 1 },
-                  { name: 'Selank 10mg', qty: 1 },
-                ],
-                popular: false,
-              },
-              {
-                name: 'Bundle L — Growth Factor Peptide Set',
-                description: 'For laboratory research use only. Not for human consumption.',
-                price: 259,
-                originalPrice: 315,
-                discount: 18,
-                items: [
-                  { name: 'IGF-1 LR3 1mg', qty: 1 },
-                  { name: 'Follistatin 344 1mg', qty: 1 },
-                  { name: 'PEG-MGF 2mg', qty: 1 },
-                ],
-                popular: false,
-              },
-            ].slice(0, 3).map((bundle, i) => (
-              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
-                <div className={`h-full rounded-2xl p-6 border ${bundle.popular ? 'border-[#f97316] bg-[#f97316]/5' : 'border-white/10 bg-white/[0.03]'}`}>
-                  {bundle.popular && (
-                    <span className="inline-block px-3 py-1 bg-[#f97316] text-white text-xs font-bold rounded-full mb-4">
-                      Most Popular
-                    </span>
-                  )}
-                  
-                  <h3 className="text-xl font-bold text-white mb-2">{bundle.name}</h3>
-                  <p className="text-white/50 text-sm mb-4">{bundle.description}</p>
-                  
-                  <div className="space-y-2 mb-4">
-                    {bundle.items.map((item, j) => (
-                      <div key={j} className="flex items-center gap-2 text-sm">
-                        <span className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-xs text-[#f97316] font-bold">
-                          {item.qty}x
-                        </span>
-                        <span className="text-white/70">{item.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="border-t border-white/10 pt-4 mt-4">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-white/40 line-through text-sm">${bundle.originalPrice}</span>
-                      <span className="text-[#f97316] text-sm font-medium">-{bundle.discount}%</span>
-                    </div>
-                    <div className="flex items-baseline gap-2 mb-4">
-                      <span className="text-3xl font-bold text-white">${bundle.price}</span>
-                      <span className="text-white/40 text-sm">/bundle</span>
-                    </div>
-                    <Link 
-                      to="/bundles"
-                      className="block w-full py-3 bg-[#f97316] text-white text-center rounded-xl font-semibold hover:bg-[#ea580c] transition-colors"
-                    >
-                      View Bundle
-                    </Link>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-          
-          <AnimatedSection animation="fadeUp" delay={300} className="text-center mt-12">
-            <Link 
-              to="/bundles"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 text-white rounded-xl font-medium hover:bg-white/5 transition-colors"
-            >
-              View All Bundles <ArrowRight className="w-4 h-4" />
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Why Choose Us / Guarantees Section */}
-      <section className="py-12 sm:py-24 relative bg-gradient-to-b from-white/[0.02] to-transparent">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <p className="text-[#f97316] font-medium mb-2">Our Promise</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Why RESEARCHers Trust Us
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { 
-                icon: Award, 
-                title: 'Quality Guarantee', 
-                desc: 'Every product undergoes rigorous HPLC testing. If it doesnt meet our 99% purity standard, we dont ship it.',
-                highlight: '99%+ Purity'
-              },
-              { 
-                icon: Lock, 
-                title: 'Discrete & Secure', 
-                desc: 'Plain, unmarked packaging with no indication of contents. Your privacy is our priority.',
-                highlight: 'Private Shipping'
-              },
-              { 
-                icon: Users, 
-                title: 'Expert Support', 
-                desc: 'Our team includes PhD-level scientists available to answer your technical questions.',
-                highlight: '24/7 Support'
-              },
-              { 
-                icon: Shield, 
-                title: 'Satisfaction Guaranteed', 
-                desc: 'Not satisfied? Contact us within 30 days. Well make it right with a replacement or refund.',
-                highlight: '30-Day Guarantee'
-              },
-            ].map((item, i) => (
-              <AnimatedSection key={i} animation="fadeUp" delay={i * 100}>
-                <div className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#f97316]/30 hover:bg-white/[0.05] transition-all group">
-                  <div className="w-14 h-14 rounded-xl bg-[#f97316]/10 border border-[#f97316]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <item.icon className="w-7 h-7 text-[#f97316]" />
-                  </div>
-                  <p className="text-[#f97316] text-xs font-medium mb-2 uppercase tracking-wider">{item.highlight}</p>
-                  <h3 className="text-white font-semibold text-lg mb-2">{item.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section id="products" className="py-16 sm:py-32 relative">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
-                RESEARCH
-              </span>
-              <span className="text-white"> Catalog</span>
-            </h2>
-          </AnimatedSection>
-
-          <AnimatedSection animation="fadeUp" delay={100}>
-            <div className="flex flex-wrap justify-center gap-2 mb-10 px-2">
-              {['All', ...categories].map((cat, i) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                    activeCategory === cat
-                      ? 'bg-[#f97316] text-white shadow-lg shadow-[#f97316]/30 animate-pulse-glow'
-                      : 'bg-white/[0.03] border border-white/[0.08] text-white/60 hover:bg-white/[0.06]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {filteredProducts.slice(0, 8).map((product, index) => (
-              <AnimatedSection key={product.id} animation="scaleIn" delay={index * 75}>
-                <ProductCard product={product} index={index} />
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {/* See All Products Button */}
-          <AnimatedSection animation="fadeUp" delay={600} className="text-center mt-12">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/[0.05] border border-white/10 rounded-full text-white font-medium hover:bg-white/10 hover:border-[#f97316]/50 transition-all duration-300 group"
+              className="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
             >
-              <span>See All Products</span>
-              <span className="text-white/40 group-hover:text-[#f97316]">({products.length})</span>
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Browse Catalog
             </Link>
-          </AnimatedSection>
+            <button className="px-8 py-4 border border-gray-400 text-gray-100 hover:border-orange-500 hover:text-orange-400 font-medium transition-colors">
+              View Bundles
+            </button>
+          </div>
+
+          {/* Hero Stats Bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 text-sm">
+            <div className="text-center">
+              <p className="text-2xl font-light" style={{ fontFamily: 'var(--font-serif)' }}>35+</p>
+              <p className="text-gray-400 uppercase tracking-widest text-xs">Compounds</p>
+            </div>
+            <div className="hidden sm:block w-px h-8 bg-gray-700" />
+            <div className="text-center">
+              <p className="text-2xl font-light" style={{ fontFamily: 'var(--font-serif)' }}>≥99%</p>
+              <p className="text-gray-400 uppercase tracking-widest text-xs">Purity</p>
+            </div>
+            <div className="hidden sm:block w-px h-8 bg-gray-700" />
+            <div className="text-center">
+              <p className="text-2xl font-light" style={{ fontFamily: 'var(--font-serif)' }}>U.S.</p>
+              <p className="text-gray-400 uppercase tracking-widest text-xs">Based</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-12 sm:py-24 relative">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <p className="text-[#f97316] font-medium mb-2">FAQ</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Frequently Asked Questions
+      {/* ===== TRUST BAR ===== */}
+      <section className="w-full bg-gray-950/50 border-y border-gray-800 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+            {trustItems.map((item, idx) => {
+              const IconComponent = item.icon;
+              return (
+                <div key={idx} className="flex items-center gap-3">
+                  <IconComponent className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                  <span className="text-sm text-gray-300">{item.text}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SHOP BY RESEARCH GOAL ===== */}
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2
+              className="text-4xl sm:text-5xl font-light mb-4"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              Shop by Research Goal
             </h2>
-            <p className="text-white/50">
-              Everything you need to know about our products and services.
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Explore our curated selection organized by research focus
             </p>
-          </AnimatedSection>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {researchGoals.map((goal, idx) => {
+              const Icon = goal.icon;
+              return (
+                <AnimatedSection key={idx} delay={idx * 100}>
+                  <div className="group relative">
+                    <div className="bg-gray-900/60 backdrop-blur border border-gray-800 hover:border-orange-500/50 p-6 transition-all duration-300 cursor-pointer h-full flex flex-col">
+                      {/* Left border accent on hover */}
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                      <Icon className="w-8 h-8 text-gray-400 mb-4" />
+                      <h3 className="text-lg font-medium mb-1">{goal.title}</h3>
+                      <p className="text-sm text-gray-400">{goal.subtitle}</p>
+                    </div>
+                  </div>
+                </AnimatedSection>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FEATURED PRODUCTS ===== */}
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-gray-950/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12">
+            <h2
+              className="text-4xl sm:text-5xl font-light"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              Most Popular
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {featuredProducts.map((product, idx) => (
+              <AnimatedSection key={product.id} delay={idx * 150}>
+                <ProductCard product={product} />
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/products"
+              className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-400 font-medium transition-colors"
+            >
+              View All Products
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== QUALITY SECTION ===== */}
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {/* Left: Headline */}
+            <div>
+              <h2
+                className="text-5xl sm:text-6xl font-light leading-tight"
+                style={{ fontFamily: 'var(--font-serif)' }}
+              >
+                Uncompromising Quality
+              </h2>
+              <p className="text-gray-400 mt-6 text-lg">
+                Every compound in our catalog represents our commitment to scientific rigor and premium standards.
+              </p>
+            </div>
+
+            {/* Right: Quality Points Stack */}
+            <div className="space-y-8">
+              {[
+                {
+                  title: 'HPLC Verification',
+                  desc: 'High-Performance Liquid Chromatography analysis confirms ≥99% purity on every batch.'
+                },
+                {
+                  title: 'Independent Testing',
+                  desc: 'Third-party laboratory verification ensures unbiased quality assurance and traceability.'
+                },
+                {
+                  title: 'Complete Documentation',
+                  desc: 'Certificate of Analysis provided with every order — transparent, verifiable, detailed.'
+                },
+                {
+                  title: 'Research-Grade Standards',
+                  desc: 'Specifications designed for rigorous scientific investigation, not novelty applications.'
+                },
+              ].map((point, idx) => (
+                <div key={idx} className="flex gap-4">
+                  <Check className="w-5 h-5 text-orange-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-medium mb-1">{point.title}</h3>
+                    <p className="text-gray-400 text-sm">{point.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ SECTION ===== */}
+      <section id="faq" className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-gray-950/30">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <h2
+              className="text-4xl sm:text-5xl font-light mb-4"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              Frequently Asked
+            </h2>
+          </div>
 
           <div className="space-y-4">
-            {[
-              {
-                q: 'How do I know your peptides are pure?',
-                a: 'Every batch undergoes High-Performance Liquid Chromatography (HPLC) analysis. We provide a Certificate of Analysis (COA) with every order showing purity levels, typically 99% or higher.',
-              },
-              {
-                q: 'What payment methods do you accept?',
-                a: 'We accept credit/debit cards via Stripe, cryptocurrency (BTC, ETH, USDT), and Zelle. All payments are processed securely.',
-              },
-              {
-                q: 'How is shipping handled?',
-                a: 'We ship in plain, unmarked packaging with no indication of contents. Standard shipping takes 5-7 business days, with express options available. All orders include tracking.',
-              },
-              {
-                q: 'What is your return policy?',
-                a: 'Due to the nature of research peptides, we cannot accept returns on opened products. However, if you receive a damaged or incorrect item, contact us within 30 days for a replacement or refund.',
-              },
-              {
-                q: 'How should I store the peptides?',
-                a: 'Lyophilized peptides should be stored at -20°C (-4°F) for long-term stability. Once reconstituted, store at 2-8°C (36-46°F) and use within the timeframe specified in your research protocol.',
-              },
-              {
-                q: 'Are these products for human use?',
-                a: 'No. All products are sold strictly for laboratory research purposes only. They are not intended for human or animal consumption, diagnosis, treatment, or prevention of any disease.',
-              },
-            ].map((faq, i) => (
-              <AnimatedSection key={i} animation="fadeUp" delay={i * 50}>
-                <details className="group rounded-xl bg-white/[0.03] border border-white/10 open:border-[#f97316]/30 transition-all">
-                  <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
-                    <h3 className="text-white font-medium pr-4">{faq.q}</h3>
-                    <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-open:bg-[#f97316]/20 transition-colors flex-shrink-0">
-                      <span className="text-white/60 group-open:text-[#f97316] text-xl transition-transform group-open:rotate-45">+</span>
-                    </span>
-                  </summary>
-                  <div className="px-6 pb-6 text-white/60 leading-relaxed">
-                    {faq.a}
-                  </div>
-                </details>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Blog Section */}
-      <section id="blog" className="py-32 relative">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <AnimatedSection animation="fadeUp" className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-[#f97316] to-[#fb923c] bg-clip-text text-transparent">
-                RESEARCH
-              </span>
-              <span className="text-white"> Journal</span>
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {blogPosts.slice(0, 6).map((post, i) => (
-              <AnimatedSection key={post.slug} animation="fadeUp" delay={i * 100}>
-                <Link 
-                  to={`/blog/${post.slug}`}
-                  className="group block h-full p-6 rounded-2xl bg-white/[0.03] border border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.05] transition-all duration-300 hover:-translate-y-2"
+            {faqItems.map((item, idx) => (
+              <div key={idx} className="border border-gray-800 bg-gray-900/40">
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === idx ? -1 : idx)}
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition-colors text-left"
                 >
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="badge-premium group-hover:scale-110 transition-transform">{post.category}</span>
-                    <span className="text-xs text-white/30">{post.readTime}</span>
+                  <span className="font-medium">{item.question}</span>
+                  <ChevronRight
+                    className={`w-5 h-5 text-orange-500 transition-transform ${
+                      expandedFaq === idx ? 'rotate-90' : ''
+                    }`}
+                  />
+                </button>
+                {expandedFaq === idx && (
+                  <div className="px-6 py-4 bg-gray-900/80 border-t border-gray-800 text-gray-300 text-sm">
+                    {item.answer}
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-[#f97316] transition-colors">
-                    <ScrambleText text={post.title} />
-                  </h3>
-                  <p className="text-sm text-white/40 leading-relaxed line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                </Link>
-              </AnimatedSection>
+                )}
+              </div>
             ))}
           </div>
         </div>
       </section>
-    </div>
+
+      {/* ===== FOOTER CTA ===== */}
+      <section className="w-full py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2
+            className="text-4xl sm:text-5xl font-light mb-6"
+            style={{ fontFamily: 'var(--font-serif)' }}
+          >
+            Ready to advance your research?
+          </h2>
+          <p className="text-gray-400 mb-8">
+            Browse our complete catalog of research-grade peptides or contact our team for custom inquiries.
+          </p>
+          <Link
+            to="/products"
+            className="inline-block px-10 py-4 bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
+          >
+            Explore Our Catalog
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

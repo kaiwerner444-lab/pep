@@ -1,64 +1,988 @@
 export const products = [
-  // === GROWTH FACTORS ===
-  { id: "bpc-157-5mg", name: "BPC-157", subtitle: "5mg Vial", description: "Body Protection Compound-157 — the most-studied regenerative peptide for tissue repair, gut health, joint recovery, and accelerated healing research.", longDescription: "BPC-157 (Body Protection Compound-157) is a synthetic pentadecapeptide composed of 15 amino acids, derived from a protein found in human gastric juice. It is one of the most extensively researched peptides in regenerative medicine, with over 100 published studies examining its role in tissue repair, wound healing, tendon and ligament regeneration, gut barrier function, and anti-inflammatory pathways. Researchers studying recovery from musculoskeletal injury, gastrointestinal healing, and cellular migration turn to BPC-157 for its broad regenerative profile. Each vial contains 5mg of lyophilized powder with ≥99% HPLC-verified purity. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 45, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Tissue repair & wound healing", "Gut health & GI protection", "Tendon & ligament regeneration", "Joint recovery research", "Anti-inflammatory pathways"], benefitTags: ["Recovery", "Gut Health", "Joint Support", "Healing"] },
-  { id: "bpc-157-10mg", name: "BPC-157", subtitle: "10mg Vial", description: "Body Protection Compound-157 — advanced regenerative peptide for comprehensive tissue repair, gut health, joint recovery, and healing research in extended study applications.", longDescription: "BPC-157 (Body Protection Compound-157) is a synthetic pentadecapeptide composed of 15 amino acids, derived from a protein found in human gastric juice. This 10mg presentation provides researchers with substantial quantity for comprehensive investigations into regenerative medicine, tissue repair mechanisms, cellular healing processes, musculoskeletal injury recovery, and gastrointestinal restoration. With over 100 published peer-reviewed studies examining its role in tendon and ligament regeneration, gut barrier function strengthening, and anti-inflammatory pathways, BPC-157 remains a cornerstone in regenerative medicine research. Each vial contains 10mg of lyophilized powder with ≥99% HPLC-verified purity. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 65, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Extended tissue repair studies", "Regenerative medicine research", "Joint recovery & tendon healing", "Gut health & GI restoration", "Anti-inflammatory pathway studies"], benefitTags: ["Recovery", "Gut Health", "Joint Support", "Healing", "Tissue Repair"] },
-  { id: "tb-500-5mg", name: "TB-500", subtitle: "5mg Vial", description: "Thymosin Beta-4 fragment — potent recovery peptide for accelerated tissue repair, joint healing, cellular regeneration, and tendon recovery research.", longDescription: "TB-500 is a synthetic peptide representing the active region of Thymosin Beta-4, a naturally occurring protein involved in cellular repair and regeneration. Studied extensively for its role in actin regulation, cellular migration acceleration, tissue repair pathways, and wound healing mechanisms. Researchers investigating musculoskeletal recovery, joint health, tendon regeneration, and tissue remodeling have found TB-500 valuable for its broad regenerative profile and cellular migration properties. Each vial contains 5mg of ≥99% pure lyophilized peptide with comprehensive purity verification. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 45, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Tissue repair acceleration", "Cellular migration & regeneration", "Joint healing research", "Tendon recovery studies", "Wound healing pathways"], benefitTags: ["Recovery", "Healing", "Joint Support", "Tissue Repair"] },
-  { id: "tb-500-10mg", name: "TB-500", subtitle: "10mg Vial", description: "Thymosin Beta-4 fragment — advanced recovery peptide in extended quantity for comprehensive tissue repair, healing acceleration, and regenerative medicine research.", longDescription: "TB-500 is a synthetic peptide fragment of Thymosin Beta-4, abundantly present in mammalian tissues and fluids. This 10mg presentation provides researchers with substantial quantity for extensive laboratory investigations into cellular regeneration, tissue repair mechanisms, wound healing acceleration, and musculoskeletal recovery pathways. Studied for actin regulation, cellular migration enhancement, and comprehensive regenerative processes. TB-500 is valued by researchers examining recovery from injury, tissue remodeling, joint health preservation, and tendon strengthening. Each vial contains 10mg of ≥99% HPLC-verified pure lyophilized powder. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 65, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Large-scale regenerative studies", "Tissue repair acceleration", "Muscle recovery research", "Tendon healing studies", "Cellular migration pathways"], benefitTags: ["Recovery", "Healing", "Muscle Repair", "Joint Health"] },
-  { id: "igf-1-lr3-1mg", name: "IGF-1 LR3", subtitle: "1mg Vial", description: "IGF-1 LR3 — potent growth factor for muscle development, strength gains, cellular growth, and body composition research.", longDescription: "IGF-1 LR3 (Long R3 Insulin-like Growth Factor-1) is a recombinant analog of naturally occurring IGF-1 with extended half-life and reduced binding to IGF-binding proteins. Extensively studied for cellular proliferation, muscle cell differentiation, growth factor signaling, and anabolic effects. Researchers investigating muscle growth mechanisms, cellular survival pathways, strength development, and tissue anabolism utilize IGF-1 LR3 for its potent effects on myoblast proliferation and protein synthesis. The extended half-life enables more sustained research applications compared to native IGF-1. Each vial contains 1mg of ≥99% HPLC-verified pure recombinant peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 85, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Muscle growth & development", "Cellular proliferation", "Strength research", "Body composition studies", "Anabolic signaling pathways"], benefitTags: ["Muscle Growth", "Strength", "Body Composition", "Cellular Growth"] },
-  { id: "peg-mgf-2mg", name: "PEG-MGF", subtitle: "2mg Vial", description: "PEG-MGF — PEGylated growth factor for extended muscle repair, recovery support, cellular regeneration, and strength development research.", longDescription: "PEG-MGF is a PEGylated form of Mechano Growth Factor that extends half-life from minutes to days, enabling sustained systemic effects. Studied extensively for muscle growth stimulation, satellite cell activation, cellular proliferation, tissue repair acceleration, and strength development. The PEGylation modification increases bioavailability and duration of action, making it valuable for researchers investigating sustained anabolic effects, muscle regeneration pathways, and recovery mechanisms. PEG-MGF activates satellite cells—precursor cells that fuse with muscle fibers to enhance muscle growth and repair. Each vial contains 2mg of ≥99% pure lyophilized PEGylated peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 65, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Muscle regeneration", "Satellite cell activation", "Cellular proliferation", "Extended anabolic effects", "Recovery research"], benefitTags: ["Muscle Growth", "Recovery", "Cellular Repair", "Strength"] },
-  { id: "mgf-2mg", name: "MGF", subtitle: "2mg Vial", description: "Mechano Growth Factor — specialized growth peptide for muscle repair, strength development, recovery acceleration, and muscle regeneration research.", longDescription: "MGF (Mechano Growth Factor), also known as IGF-1 Ec, is a specific splice variant of IGF-1 naturally expressed in response to mechanical overload and muscle stress. Unlike systemic IGF-1, MGF acts locally to stimulate satellite cell activation, proliferation, and muscle fiber growth. Extensively researched for muscle recovery, tissue repair acceleration, strength development, and musculoskeletal regeneration. MGF is particularly valued by researchers examining how mechanical loading triggers growth signaling and muscle adaptation. Published studies demonstrate MGF's role in satellite cell recruitment, muscle hypertrophy, and recovery from injury or training stress. Each vial contains 2mg of ≥99% pure lyophilized peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 55, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Muscle repair & regeneration", "Satellite cell activation", "Strength development research", "Recovery acceleration", "Mechanical stress response"], benefitTags: ["Muscle Growth", "Recovery", "Strength", "Repair"] },
-  { id: "follistatin-344-1mg", name: "Follistatin 344", subtitle: "1mg Vial", description: "Follistatin 344 — myostatin inhibitor for muscle growth enhancement, strength development, body composition, and muscle development research.", longDescription: "Follistatin 344 is an autocrine glycoprotein and potent myostatin antagonist extensively studied for muscle growth regulation and development. Myostatin acts as a negative regulator of muscle growth; follistatin neutralizes myostatin, removing growth inhibition. Researchers investigating muscle hypertrophy, strength development, body composition optimization, and muscle growth mechanisms rely on follistatin for its powerful myostatin-blocking effects. Published studies demonstrate follistatin's ability to promote muscle fiber growth, increase lean mass, enhance strength capacity, and accelerate muscle development beyond normal physiological limits. Each vial contains 1mg of ≥99% HPLC-verified pure glycoprotein. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 165, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Muscle growth enhancement", "Myostatin inhibition", "Strength development", "Body composition optimization", "Muscle fiber hypertrophy"], benefitTags: ["Muscle Growth", "Strength", "Body Composition", "Myostatin Inhibition"] },
-  { id: "ace-031-1mg", name: "ACE-031", subtitle: "1mg Vial", description: "ACE-031 — dual myostatin/activin inhibitor for advanced muscle growth, strength enhancement, body composition, and muscle development research.", longDescription: "ACE-031 is a recombinant fusion protein and potent antagonist of multiple TGF-beta superfamily members, including myostatin and activin A. Functions as a decoy receptor, binding and sequestering these negative regulators of muscle growth. Unlike single-pathway inhibitors, ACE-031 provides dual inhibition of myostatin and activin signaling, removing multiple growth constraints simultaneously. Researchers investigating maximal muscle growth, strength development, body composition optimization, and muscle adaptation mechanisms find ACE-031 valuable for its broader inhibitory spectrum. Published studies demonstrate significant increases in lean muscle mass, strength capacity, and muscle fiber size. Each vial contains 1mg of ≥99% pure recombinant fusion protein. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 185, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Dual myostatin/activin inhibition", "Muscle growth enhancement", "Strength development", "Body composition optimization", "TGF-beta pathway research"], benefitTags: ["Muscle Growth", "Strength", "Body Composition", "Muscle Development"] },
-  { id: "hgh-fragment-5mg", name: "HGH Fragment 176-191", subtitle: "5mg Vial", description: "HGH Fragment 176-191 — fat loss peptide for metabolic acceleration, body composition improvement, energy expenditure, and metabolic health research.", longDescription: "HGH Fragment 176-191 (AOD-9604 analog) represents the C-terminal amino acids 176-191 of human growth hormone. This specific fragment retains the metabolic effects of HGH while avoiding growth-promoting effects, making it valuable for research focused on fat loss, lipid metabolism, and energy expenditure. Studies demonstrate significant effects on thermogenesis, lipolysis acceleration, and metabolic rate enhancement. Researchers investigating body composition optimization, fat mobilization, metabolic health, and energy regulation utilize HGH Fragment for its targeted metabolic profile without systemic growth effects. Each vial contains 5mg of ≥99% pure lyophilized HGH fragment. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 55, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["Fat loss & metabolic acceleration", "Lipid metabolism research", "Energy expenditure studies", "Body composition improvement", "Thermogenesis research"], benefitTags: ["Fat Loss", "Metabolism", "Body Composition", "Energy"] },
-  { id: "ghrp-6-5mg", name: "GHRP-6", subtitle: "5mg Vial", description: "GHRP-6 — growth hormone releasing peptide for GH secretion, recovery support, metabolic health, and pituitary function research.", longDescription: "GHRP-6 is a synthetic hexapeptide that potently stimulates endogenous growth hormone release through ghrelin receptor activation. Researched extensively for its ability to trigger natural GH secretion, enhance recovery, support metabolic function, and improve body composition. Unlike exogenous growth hormone, GHRP-6 stimulates the pituitary to release the body's own growth hormone, making it valuable for studying physiological GH regulation. Published studies demonstrate enhanced GH pulsatility, improved recovery markers, metabolic acceleration, and body composition benefits. Researchers investigating natural GH stimulation, recovery optimization, metabolic health, and pituitary function rely on GHRP-6 for its potent releasing effects. Each vial contains 5mg of ≥99% pure lyophilized hexapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 35, image: "/product_vial.jpg", category: "Amino Acid Peptides", purity: "≥99%", inStock: true, researchApplications: ["GH secretion & pulsatility", "Recovery support research", "Metabolic acceleration", "Body composition improvement", "Pituitary function studies"], benefitTags: ["Recovery", "Energy", "Metabolism", "Growth Hormone"] },
+  // MULTI-SIZE PRODUCTS (consolidated)
+  {
+    id: "bpc-157",
+    name: "BPC-157",
+    subtitle: "Body Protection Compound-157",
+    description: "Pentadecapeptide engineered for tissue repair and gut health research",
+    longDescription: "Product Specifications: BPC-157 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in tissue repair, wound healing, gastrointestinal protection, and systemic recovery pathways.\n\nBPC-157 (Body Protection Compound-157) is a pentadecapeptide originally discovered in human gastric juice. Research has extensively examined its role in promoting rapid tissue repair, accelerating wound healing, and supporting gastrointestinal health. Studies have investigated its mechanisms in reducing inflammation, promoting angiogenesis, and facilitating tendon and ligament regeneration. Researchers utilize BPC-157 to understand peptide-mediated tissue protection, vascular stability, and neurogenic processes across multiple organ systems.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C62H98N16O22",
+      pubChemCID: "9941957",
+      casNumber: "137525-51-0",
+      molecularWeight: "1419.53 g/mol",
+      synonyms: "Pentadecapeptide BPC 157, Bepecin, PL 14736, PL-10",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "bpc-157-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 45 },
+      { id: "bpc-157-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 65 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Amino Acid Peptides",
+    inStock: true,
+    price: 45,
+    researchApplications: ["Tissue repair & wound healing", "Gut health & GI protection", "Tendon & ligament regeneration", "Joint recovery research", "Anti-inflammatory pathways", "Vascular stability"],
+    benefitTags: ["Recovery", "Gut Health", "Healing", "Tissue Repair"]
+  },
 
-  // === HEALING PEPTIDES ===
-  { id: "ghk-cu-50mg", name: "GHK-Cu", subtitle: "50mg Vial", description: "GHK-Cu — anti-aging peptide for skin rejuvenation, collagen synthesis, wrinkle reduction, and skin health research.", longDescription: "GHK-Cu (Glycyl-Histidyl-Lysine copper complex) is a naturally occurring tripeptide-copper complex found in human plasma and proven biomolecules. Extensively studied for its powerful effects on skin rejuvenation, collagen production, wound healing, and anti-aging processes. GHK-Cu stimulates collagen synthesis, enhances skin elasticity, reduces wrinkles, improves skin texture, and supports wound healing at the cellular level. Published research demonstrates increased collagen I and III production, enhanced fibroblast activity, improved skin tone and firmness, and anti-aging effects. Researchers investigating skin health, collagen regeneration, wound healing, tissue repair, and anti-aging mechanisms leverage GHK-Cu for its comprehensive regenerative and rejuvenating properties. Each vial contains 50mg of ≥99% pure copper-peptide complex. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 58, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Skin rejuvenation research", "Collagen synthesis enhancement", "Wrinkle reduction studies", "Wound healing acceleration", "Anti-aging mechanisms"], benefitTags: ["Anti-Aging", "Skin Health", "Collagen", "Rejuvenation"] },
-  { id: "ghk-cu-100mg", name: "GHK-Cu", subtitle: "100mg Vial", description: "GHK-Cu — high-capacity anti-aging peptide for extended skin rejuvenation, collagen research, wrinkle reduction, and comprehensive anti-aging studies.", longDescription: "GHK-Cu (Glycyl-Histidyl-Lysine copper complex) is a naturally occurring tripeptide-copper complex with extensive research backing for anti-aging and skin health applications. This 100mg presentation provides substantial quantity for comprehensive investigations into skin rejuvenation, collagen synthesis mechanisms, wrinkle reduction pathways, and cellular regeneration. GHK-Cu stimulates fibroblast activity, increases collagen I and III production, enhances skin elasticity, reduces fine lines and wrinkles, and promotes overall skin firmness and youthfulness. Researchers studying anti-aging mechanisms, skin health optimization, collagen regeneration, tissue repair acceleration, and age-related skin changes rely on GHK-Cu for its multifaceted rejuvenating effects. Each vial contains 100mg of ≥99% pure copper-peptide complex. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 95, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Comprehensive anti-aging research", "Collagen synthesis studies", "Skin rejuvenation mechanisms", "Wrinkle reduction pathways", "Cellular regeneration"], benefitTags: ["Anti-Aging", "Skin Health", "Collagen", "Firmness"] },
-  { id: "kpv-10mg", name: "KPV", subtitle: "10mg Vial", description: "KPV — anti-inflammatory tripeptide for inflammation reduction, immune support, tissue repair, and healing research.", longDescription: "KPV (Lysine-Proline-Valine) is a synthetic tripeptide derived from the C-terminal of alpha-MSH (alpha-Melanocyte Stimulating Hormone). Extensively studied for potent anti-inflammatory properties, immune modulation, and tissue repair acceleration. KPV reduces pro-inflammatory cytokine production, suppresses inflammation pathways, supports immune function, and accelerates healing processes. Research demonstrates effectiveness for inflammatory conditions, immune dysregulation, wound healing, skin repair, and recovery from inflammatory stress. Researchers investigating anti-inflammatory mechanisms, immune optimization, inflammatory disease models, and tissue repair find KPV valuable for its multi-targeted immunomodulatory effects. Each vial contains 10mg of ≥99% pure lyophilized tripeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 65, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Anti-inflammatory effects", "Immune modulation", "Wound healing acceleration", "Tissue repair support", "Inflammatory pathway studies"], benefitTags: ["Anti-Inflammatory", "Immune Support", "Healing", "Recovery"] },
-  { id: "ll-37-5mg", name: "LL-37", subtitle: "5mg Vial", description: "LL-37 — antimicrobial cathelicidin peptide for immune support, infection control, innate immunity, and immune system research.", longDescription: "LL-37 is the only endogenous human cathelicidin, a 37-amino acid antimicrobial peptide with broad-spectrum activity against bacteria, viruses, and fungi. Extensively researched for innate immunity enhancement, infection control mechanisms, immune modulation, and immune system optimization. LL-37 exhibits direct antimicrobial effects, stimulates immune cell recruitment, enhances inflammatory responses to pathogens, and promotes tissue healing. Published studies demonstrate broad-spectrum antimicrobial activity, enhanced immune cell activation, improved infection clearance, and immune system support. Researchers investigating antimicrobial mechanisms, innate immunity enhancement, infection control, immune optimization, and immunomodulatory pathways utilize LL-37 for its comprehensive immune-supporting profile. Each vial contains 5mg of ≥99% pure lyophilized cathelicidin peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 85, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Antimicrobial activity research", "Innate immunity enhancement", "Infection control studies", "Immune cell activation", "Immunomodulation research"], benefitTags: ["Immune Support", "Antimicrobial", "Infection Control", "Immunity"] },
-  { id: "thymosin-beta-4-5mg", name: "Thymosin Beta-4", subtitle: "5mg Vial", description: "Thymosin Beta-4 — full-length regenerative peptide for tissue repair, healing acceleration, recovery support, and cellular regeneration research.", longDescription: "Thymosin Beta-4 is the full-length 43-amino acid peptide present ubiquitously in mammalian cells and body fluids. Extensively researched for comprehensive tissue repair, wound healing acceleration, cellular migration enhancement, and cellular differentiation. Unlike TB-500 (a fragment), the full-length peptide provides broader regenerative effects including actin-related cell motility, tissue remodeling, angiogenesis, and anti-inflammatory actions. Published studies demonstrate accelerated wound healing, enhanced tissue repair, improved recovery from injury, and cellular regeneration across multiple tissue types. Researchers studying comprehensive tissue repair, healing optimization, recovery acceleration, and regenerative medicine mechanisms utilize Thymosin Beta-4 for its multifaceted regenerative profile. Each vial contains 5mg of ≥99% pure lyophilized full-length peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 55, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Comprehensive tissue repair", "Wound healing acceleration", "Cellular migration", "Recovery support", "Regenerative medicine"], benefitTags: ["Healing", "Recovery", "Tissue Repair", "Regeneration"] },
-  { id: "bpc-tb-blend", name: "BPC-157/TB-500 Blend", subtitle: "5mg/5mg Vial", description: "BPC-157/TB-500 Blend — synergistic recovery formula for accelerated healing, tissue repair, joint recovery, and comprehensive regeneration research.", longDescription: "Synergistic research blend combining BPC-157 (Body Protection Compound-157) and TB-500 (Thymosin Beta-4 fragment) for comprehensive tissue repair and healing acceleration. This combination provides complementary mechanisms: BPC-157 excels at gut health, joint repair, and local tissue regeneration, while TB-500 enhances cellular migration and broad tissue remodeling. Together they create multi-pathway regenerative effects, accelerating healing, supporting recovery, enhancing joint health, and promoting tissue repair across multiple systems. Researchers investigating synergistic healing mechanisms, comprehensive tissue repair, recovery acceleration, and joint health optimization rely on this blend for its enhanced regenerative profile. Each vial contains 5mg BPC-157 and 5mg TB-500, totaling 10mg of ≥99% pure lyophilized peptide blend. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 85, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Synergistic healing effects", "Comprehensive tissue repair", "Joint recovery research", "Multi-pathway regeneration", "Recovery acceleration"], benefitTags: ["Healing", "Recovery", "Joint Support", "Synergy"] },
-  { id: "klow-blend", name: "KLOW Blend", subtitle: "GHK-Cu, TB-500, BPC-157, KPV", description: "KLOW Blend — four-peptide synergistic formula for comprehensive healing, anti-inflammatory support, collagen synthesis, and advanced regeneration research.", longDescription: "Comprehensive four-peptide research blend combining GHK-Cu (collagen synthesis & skin rejuvenation), TB-500 (cellular migration & tissue repair), BPC-157 (gut health & joint recovery), and KPV (anti-inflammatory & immune support) for multi-pathway regeneration and healing. This advanced blend targets tissue repair through complementary mechanisms: collagen production enhancement, cellular migration acceleration, inflammation reduction, and comprehensive tissue regeneration. Researchers investigating advanced regenerative medicine, comprehensive healing optimization, multi-system tissue repair, anti-aging effects, and complex regeneration mechanisms utilize KLOW for its powerful synergistic profile. Each vial contains a balanced 4-peptide combination with ≥99% pure lyophilized peptides. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 150, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Multi-peptide synergy", "Comprehensive tissue repair", "Anti-inflammatory support", "Collagen synthesis", "Advanced regeneration"], benefitTags: ["Healing", "Regeneration", "Anti-Inflammatory", "Synergy"] },
-  { id: "glow-blend", name: "GLOW Blend", subtitle: "GHK-Cu, TB-500, BPC-157", description: "GLOW Blend — three-peptide synergistic formula for skin rejuvenation, tissue repair, anti-aging, and comprehensive healing research.", longDescription: "Three-peptide synergistic blend combining GHK-Cu (skin rejuvenation & collagen synthesis), TB-500 (cellular migration & tissue regeneration), and BPC-157 (joint recovery & gut health) for comprehensive tissue repair and anti-aging effects. This trio targets multiple regenerative pathways simultaneously: collagen production enhancement, cellular migration acceleration, tissue remodeling support, and healing acceleration. Ideal for researchers investigating skin health, anti-aging mechanisms, comprehensive tissue repair, healing optimization, and multi-system regeneration. The blend provides balanced support for both systemic healing and localized tissue regeneration. Each vial contains a balanced 3-peptide combination with ≥99% pure lyophilized peptides. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 125, image: "/product_vial.jpg", category: "Laboratory Peptides", purity: "≥99%", inStock: true, researchApplications: ["Triple-peptide synergy", "Comprehensive tissue repair", "Anti-aging support", "Wound healing acceleration", "Cellular regeneration"], benefitTags: ["Healing", "Anti-Aging", "Collagen", "Regeneration"] },
+  {
+    id: "tb-500",
+    name: "TB-500",
+    subtitle: "Thymosin Beta-4 Fragment",
+    description: "Actin-regulating peptide for cellular repair and recovery research",
+    longDescription: "Product Specifications: TB-500 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in tissue repair, wound healing, cellular migration, and recovery optimization.\n\nTB-500 (Thymosin Beta-4 Fragment) is a naturally occurring peptide derived from thymosin beta-4, a protein found in high concentrations in wound healing tissues and immune cells. Research has demonstrated its critical role in regulating actin dynamics, promoting cellular migration, and accelerating tissue repair across multiple systems. Studies have investigated TB-500's mechanisms in reducing inflammation, promoting angiogenesis, and facilitating healing in diverse tissue types. Researchers utilize TB-500 to understand peptide-mediated cellular repair, tissue remodeling, and recovery enhancement pathways.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C212H344N56O61",
+      pubChemCID: "16130419",
+      casNumber: "1mg Fragment (Modified)",
+      molecularWeight: "4963.5 g/mol",
+      synonyms: "Thymosin Beta-4 Fragment, TB-500, Tβ4",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "tb-500-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 45 },
+      { id: "tb-500-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 65 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Amino Acid Peptides",
+    inStock: true,
+    price: 45,
+    researchApplications: ["Tissue repair & regeneration", "Wound healing acceleration", "Cellular migration & angiogenesis", "Anti-inflammatory effects", "Joint & cartilage support", "Systemic recovery"],
+    benefitTags: ["Recovery", "Healing", "Tissue Repair", "Anti-Inflammatory"]
+  },
 
-  // === COSMETIC PEPTIDES ===
-  { id: "melanotan-2-10mg", name: "Melanotan II", subtitle: "10mg Vial", description: "Melanotan II — synthetic melanocortin agonist for skin tanning, pigmentation, UV protection research, and melanocortin receptor studies.", longDescription: "Melanotan II is a superpotent synthetic cyclic heptapeptide analog of alpha-MSH (alpha-Melanocyte Stimulating Hormone) extensively studied for melanocortin receptor activation and pigmentation mechanisms. Activates melanocortin-1 receptor pathways to stimulate melanin production, increase skin pigmentation, and enhance natural tanning mechanisms. Research demonstrates rapid skin darkening, increased melanin synthesis, enhanced UV protection responses, and melanocortin pathway activation. Researchers investigating skin pigmentation mechanisms, natural tanning pathways, melanocortin receptor function, UV protection research, and pigmentation-related signaling utilize Melanotan II for its potent and selective melanocortin effects. Each vial contains 10mg of ≥99% pure lyophilized cyclic heptapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 45, image: "/product_vial.jpg", category: "Synthetic Peptides", purity: "≥99%", inStock: true, researchApplications: ["Skin tanning & pigmentation", "Melanocortin receptor research", "UV protection mechanisms", "Melanin synthesis studies", "Pigmentation signaling"], benefitTags: ["Tanning", "Pigmentation", "UV Protection", "Skin Health"] },
-  { id: "pt-141-10mg", name: "PT-141", subtitle: "10mg Vial", description: "PT-141 — melanocortin receptor agonist for sexual function research, libido enhancement, receptor signaling, and melanocortin pathway studies.", longDescription: "PT-141 (Bremelanotide) is a selective melanocortin receptor agonist derived from Melanotan II with more targeted receptor binding specificity. Extensively studied for sexual function enhancement, libido research, sexual health optimization, and melanocortin-mediated physiological responses. PT-141 activates melanocortin-4 receptors in the hypothalamus and other regions, triggering neural pathways involved in sexual arousal and function. Published research demonstrates effectiveness for sexual dysfunction research, sexual health support, and physiological response enhancement. Researchers investigating sexual function mechanisms, melanocortin signaling, receptor-mediated physiology, and sexual health optimization utilize PT-141 for its selective receptor targeting and potent effects. Each vial contains 10mg of ≥99% pure lyophilized melanocortin agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 50, image: "/product_vial.jpg", category: "Synthetic Peptides", purity: "≥99%", inStock: true, researchApplications: ["Sexual function research", "Libido enhancement studies", "Melanocortin receptor signaling", "Sexual health optimization", "Receptor binding research"], benefitTags: ["Sexual Health", "Libido", "Receptor Function", "Arousal"] },
+  {
+    id: "ghk-cu",
+    name: "GHK-Cu",
+    subtitle: "Copper Peptide Complex",
+    description: "Tripeptide-copper complex for collagen synthesis and tissue regeneration",
+    longDescription: "Product Specifications: GHK-Cu Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in collagen synthesis, wound healing, skin regeneration, and systemic tissue remodeling.\n\nGHK-Cu (Glycine-Histidine-Lysine Copper Peptide) is a naturally occurring copper-binding tripeptide that plays a critical role in tissue remodeling and regeneration. Research has extensively documented its role in stimulating collagen synthesis, promoting wound healing, and supporting skin regeneration. Studies have investigated GHK-Cu's mechanisms in improving skin elasticity, reducing inflammation, promoting hair growth, and facilitating vascular stability. Researchers utilize GHK-Cu to understand peptide-copper interactions in tissue regeneration, fibroblast stimulation, and systemic remodeling pathways across dermatological and systemic applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "Blue-green lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C14H23CuN5O5",
+      pubChemCID: "5311304",
+      casNumber: "49557-75-7",
+      molecularWeight: "404.91 g/mol",
+      synonyms: "Copper Peptide, Tri-Peptide Copper Complex, GHK-Cu Chloride, Ghk-cu",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture. Protect from light.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "ghk-cu-50mg", label: "50mg", contents: "50mg Lyophilized Powder in 3ml vial", price: 58 },
+      { id: "ghk-cu-100mg", label: "100mg", contents: "100mg Lyophilized Powder in 3ml vial", price: 95 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 58,
+    researchApplications: ["Collagen synthesis & remodeling", "Wound healing acceleration", "Skin regeneration research", "Hair growth & follicle support", "Anti-inflammatory effects", "Vascular stability enhancement"],
+    benefitTags: ["Collagen Support", "Healing", "Regeneration", "Anti-Aging"]
+  },
 
-  // === RESEARCH PEPTIDES ===
-  { id: "semaglutide-5mg", name: "Semaglutide", subtitle: "5mg Vial", description: "Semaglutide — GLP-1 agonist for weight loss, appetite control, metabolic health, blood sugar regulation, and body composition research.", longDescription: "Semaglutide is a long-acting GLP-1 (Glucagon-Like Peptide-1) receptor agonist extensively studied for weight management, appetite control, metabolic health, blood sugar regulation, and body composition optimization. Activates GLP-1 receptors in the brain and digestive system to increase satiety, reduce hunger, slow gastric emptying, and improve glucose metabolism. Published research demonstrates significant weight loss, reduced appetite, improved blood sugar control, enhanced metabolic health markers, and sustained body composition improvements. Researchers investigating weight management mechanisms, appetite suppression, metabolic optimization, glucose control, and body composition transformation rely on Semaglutide for its powerful and well-researched metabolic effects. Each vial contains 5mg of ≥99% pure lyophilized GLP-1 agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 138, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Weight loss research", "Appetite control studies", "Metabolic health optimization", "Blood sugar regulation", "Body composition improvement"], benefitTags: ["Weight Loss", "Appetite Control", "Metabolism", "Blood Sugar"] },
-  { id: "semaglutide-10mg", name: "Semaglutide", subtitle: "10mg Vial", description: "Semaglutide — high-capacity GLP-1 agonist for extended weight loss, metabolic health, body composition, and comprehensive metabolic research.", longDescription: "Semaglutide is a long-acting GLP-1 receptor agonist extensively researched for weight management, appetite suppression, metabolic optimization, blood sugar control, and body composition transformation. This 10mg presentation provides researchers with substantial quantity for comprehensive investigations into GLP-1 receptor mechanisms, metabolic pathways, weight loss mechanisms, appetite regulation, and long-term metabolic health effects. Semaglutide activates GLP-1 receptors to increase satiety, reduce hunger, enhance glucose metabolism, and improve metabolic health markers. Researchers studying weight loss optimization, metabolic disease models, long-term body composition changes, and GLP-1 pathway mechanisms utilize Semaglutide for its powerful evidence-based metabolic effects. Each vial contains 10mg of ≥99% pure lyophilized GLP-1 agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 228, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Extended weight loss research", "Comprehensive metabolic studies", "Long-term body composition", "GLP-1 pathway mechanisms", "Metabolic health optimization"], benefitTags: ["Weight Loss", "Metabolism", "Body Composition", "Health"] },
-  { id: "tirzepatide-5mg", name: "Tirzepatide", subtitle: "5mg Vial", description: "Tirzepatide — dual GIP/GLP-1 agonist for weight loss, appetite control, metabolic health, blood sugar regulation, and advanced body composition research.", longDescription: "Tirzepatide is a novel dual glucose-dependent insulinotropic polypeptide (GIP) and GLP-1 receptor agonist extensively studied for superior weight loss, metabolic optimization, appetite suppression, and body composition improvement. Unlike single-pathway agents, Tirzepatide activates both GIP and GLP-1 pathways simultaneously for synergistic metabolic effects including enhanced satiety, reduced hunger, improved glucose metabolism, and increased energy expenditure. Published clinical research demonstrates superior weight loss outcomes, greater appetite suppression, improved metabolic markers, and enhanced body composition changes compared to single-agonist therapies. Researchers investigating dual-agonist mechanisms, advanced weight management, metabolic disease models, and superior body composition optimization rely on Tirzepatide for its powerful synergistic effects. Each vial contains 5mg of ≥99% pure lyophilized dual agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 148, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Dual pathway weight loss", "GIP/GLP-1 synergy research", "Advanced metabolic health", "Superior appetite control", "Body composition optimization"], benefitTags: ["Weight Loss", "Appetite Control", "Metabolism", "Dual Action"] },
-  { id: "tirzepatide-10mg", name: "Tirzepatide", subtitle: "10mg Vial", description: "Tirzepatide — extended dual agonist for comprehensive weight loss, metabolic optimization, body composition research, and advanced metabolic studies.", longDescription: "Tirzepatide is a dual GIP/GLP-1 receptor agonist providing synergistic metabolic effects through simultaneous dual-pathway activation. This 10mg presentation provides researchers with substantial quantity for comprehensive investigations into dual-agonist mechanisms, weight loss optimization, metabolic pathway interactions, body composition transformation, and long-term metabolic health effects. Tirzepatide activates both GIP and GLP-1 receptors to achieve superior appetite suppression, enhanced glucose metabolism, increased energy expenditure, and sustained weight loss. Researchers studying dual-pathway agonism, advanced weight management, metabolic disease models, long-term body composition changes, and synergistic receptor interactions utilize Tirzepatide for its powerful dual-mechanism metabolic effects. Each vial contains 10mg of ≥99% pure lyophilized dual agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 258, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Extended weight loss research", "Dual pathway mechanism studies", "Long-term metabolic optimization", "Body composition research", "Synergistic agonist effects"], benefitTags: ["Weight Loss", "Metabolism", "Body Composition", "Dual Action"] },
-  { id: "aod-9604-5mg", name: "AOD-9604", subtitle: "5mg Vial", description: "AOD-9604 — HGH fragment for fat loss, metabolic acceleration, body composition, and lipid metabolism research.", longDescription: "AOD-9604 is a modified fragment of human growth hormone (amino acids 176-191) extensively studied for fat loss, metabolic acceleration, and body composition improvement without growth-promoting effects. Activates lipid metabolism pathways, increases lipolysis, enhances thermogenesis, and accelerates fat mobilization. Unlike full-length HGH, AOD-9604's metabolic effects are isolated to lipid metabolism and energy expenditure, making it ideal for fat loss and body composition research. Published studies demonstrate significant fat loss, improved body composition, enhanced metabolic rate, and accelerated fat mobilization. Researchers investigating fat loss mechanisms, metabolic acceleration, body composition optimization, and thermogenesis find AOD-9604 valuable for its targeted metabolic effects. Each vial contains 5mg of ≥99% pure lyophilized HGH fragment. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 60, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Fat loss acceleration", "Lipid metabolism research", "Thermogenesis studies", "Body composition improvement", "Metabolic rate enhancement"], benefitTags: ["Fat Loss", "Metabolism", "Body Composition", "Energy"] },
-  { id: "aod-9604-10mg", name: "AOD-9604", subtitle: "10mg Vial", description: "AOD-9604 — extended HGH fragment for comprehensive fat loss, metabolic research, body composition studies, and long-term metabolic investigations.", longDescription: "AOD-9604 is a modified human growth hormone fragment (amino acids 176-191) providing potent fat loss and metabolic acceleration effects. This 10mg presentation provides researchers with substantial quantity for comprehensive investigations into fat loss mechanisms, lipolysis pathways, metabolic acceleration, body composition transformation, and long-term metabolic health optimization. AOD-9604 activates lipid metabolism, increases lipolysis rate, enhances energy expenditure, and promotes thermogenesis without growth-promoting side effects. Researchers studying fat loss optimization, metabolic disease models, lipid metabolism mechanisms, body composition changes, and sustained fat mobilization utilize AOD-9604 for its powerful targeted metabolic effects. Each vial contains 10mg of ≥99% pure lyophilized HGH fragment. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 100, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Extended fat loss research", "Comprehensive metabolic studies", "Lipolysis pathway analysis", "Long-term body composition", "Sustained fat mobilization"], benefitTags: ["Fat Loss", "Metabolism", "Body Composition", "Lipolysis"] },
-  { id: "semax-10mg", name: "Semax", subtitle: "10mg Vial", description: "Semax — neuropeptide for cognitive function, memory enhancement, mental clarity, focus, and brain health research.", longDescription: "Semax is a synthetic heptapeptide derived from ACTH (adrenocorticotropic hormone) extensively studied for cognitive enhancement, neuroprotection, memory improvement, and mental performance optimization. Enhances dopamine and norepinephrine signaling, improves cerebral blood flow, supports neuroprotection, and enhances cognitive function and mental clarity. Published research demonstrates improved memory recall, enhanced focus, better mental clarity, increased motivation, and neuroprotective effects against cognitive decline. Researchers investigating cognitive enhancement, memory optimization, brain health preservation, mental performance, and neuroprotective mechanisms utilize Semax for its powerful cognitive effects. Each vial contains 10mg of ≥99% pure lyophilized heptapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 45, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Cognitive enhancement", "Memory improvement", "Mental clarity research", "Neuroprotection studies", "Brain health optimization"], benefitTags: ["Focus", "Memory", "Cognitive Function", "Mental Clarity"] },
-  { id: "selank-10mg", name: "Selank", subtitle: "10mg Vial", description: "Selank — anxiolytic neuropeptide for stress relief, anxiety support, mood, immune function, and mental health research.", longDescription: "Selank is a synthetic heptapeptide extensively studied for anxiolytic effects, stress reduction, immune support, mood enhancement, and mental health optimization. Modulates neurotransmitter systems including dopamine and serotonin, reduces anxiety and stress responses, supports immune function, and promotes emotional well-being. Published research demonstrates reduced anxiety symptoms, improved stress resilience, enhanced mood, better emotional regulation, and immune-modulating effects. Researchers investigating anxiety reduction, stress management, mood optimization, immune health, emotional well-being, and mental health mechanisms utilize Selank for its comprehensive mood and immune-supporting effects. Each vial contains 10mg of ≥99% pure lyophilized heptapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 55, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Anxiety reduction research", "Stress relief studies", "Mood enhancement", "Immune modulation", "Emotional resilience"], benefitTags: ["Stress Relief", "Mood", "Anxiety Support", "Mental Health"] },
-  { id: "dihexa-10mg", name: "Dihexa", subtitle: "10mg Vial", description: "Dihexa — potent neurogenic peptide for brain regeneration, cognitive enhancement, memory improvement, and neuroregeneration research.", longDescription: "Dihexa is a potent synthetic hexapeptide analog of angiogenin extensively studied for neurogenesis, synaptogenesis, neuroplasticity, and neuroregenerative effects. Stimulates brain-derived neurotrophic factor (BDNF) signaling, promotes neuronal growth and connectivity, enhances synaptic plasticity, and supports cognitive function. Published research demonstrates enhanced neurogenesis, improved cognitive performance, better memory function, enhanced learning capacity, and neuroprotective effects against cognitive decline. Researchers investigating brain regeneration, cognitive enhancement, memory optimization, neuroplasticity, and neurodegenerative disease models utilize Dihexa for its powerful neurogenic and neuroprotective properties. Each vial contains 10mg of ≥99% pure lyophilized hexapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 115, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Neurogenesis & brain regeneration", "Cognitive enhancement research", "Synaptogenesis studies", "Memory improvement", "Neuroplasticity research"], benefitTags: ["Brain Health", "Memory", "Cognitive Function", "Neuroregeneration"] },
-  { id: "p21-10mg", name: "P21", subtitle: "10mg Vial", description: "P21 — neuroprotective peptide for cognitive enhancement, brain health, memory support, and neurodegenerative disease research.", longDescription: "P21 is a synthetic peptide extensively studied for neuroprotective effects, cognitive enhancement, brain health support, and neurodegenerative disease research. Activates neuroprotective signaling pathways, enhances cognitive function, supports memory formation, protects against neuronal damage, and promotes brain health. Published research demonstrates improved cognitive performance, enhanced memory function, neuroprotective effects against oxidative stress and neuroinflammation, and benefits in neurodegenerative disease models. Researchers investigating neuroprotection, cognitive enhancement, brain health preservation, memory optimization, and neurodegenerative disease mechanisms utilize P21 for its comprehensive neuroprotective effects. Each vial contains 10mg of ≥99% pure lyophilized peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 135, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Neuroprotection research", "Cognitive enhancement", "Brain health support", "Memory improvement", "Neurodegenerative disease models"], benefitTags: ["Brain Health", "Cognitive Function", "Memory", "Neuroprotection"] },
-  { id: "cerebrolysin-10ml", name: "Cerebrolysin", subtitle: "10ml Vial", description: "Cerebrolysin — neurotrophic peptide preparation for brain health, cognitive support, memory enhancement, and neuroprotection research.", longDescription: "Cerebrolysin is a parenteral peptide preparation containing low molecular weight bioactive peptides and amino acids extensively studied for neurotrophic effects, neuroprotection, cognitive support, and brain health. Stimulates neurotrophic factor signaling, enhances neuronal survival and growth, promotes cognitive function, supports memory formation, and protects against neuronal damage. Published research demonstrates improved cognitive function, enhanced memory performance, neuroprotective effects in brain injury models, support for cognitive disorders, and overall brain health optimization. Researchers investigating neurotrophic mechanisms, cognitive enhancement, brain protection, memory support, and neurodegenerative disease models utilize Cerebrolysin for its comprehensive neuroprotective and neuroregenerative profile. Each vial contains 10ml of ≥99% pure lyophilized peptide preparation. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 95, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Neurotrophic factor research", "Brain health support", "Cognitive enhancement", "Memory improvement", "Neuroprotection studies"], benefitTags: ["Brain Health", "Cognitive Function", "Memory", "Neuroprotection"] },
-  { id: "noopept-10mg", name: "Noopept", subtitle: "10mg Vial", description: "Noopept — potent cognitive peptide for memory enhancement, focus improvement, mental clarity, and cognitive function research.", longDescription: "Noopept is a synthetic dipeptide extensively studied for cognitive enhancement, memory improvement, focus enhancement, neuroprotection, and brain health support. Activates neurotrophic signaling, enhances synaptic plasticity, improves cerebral circulation, reduces brain inflammation, and supports optimal cognitive function. Published research demonstrates improved memory recall, enhanced focus and concentration, better mental clarity, faster learning capacity, and neuroprotective effects. Researchers investigating cognitive enhancement, memory optimization, focus improvement, brain health preservation, and neuroprotective mechanisms utilize Noopept for its potent and well-researched cognitive effects. Each vial contains 10mg of ≥99% pure lyophilized dipeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 35, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Cognitive enhancement", "Memory improvement research", "Focus enhancement", "Mental clarity studies", "Brain health support"], benefitTags: ["Focus", "Memory", "Cognitive Function", "Mental Clarity"] },
-  { id: "mots-c-10mg", name: "MOTS-c", subtitle: "10mg Vial", description: "MOTS-c — mitochondrial peptide for metabolic health, energy production, endurance, exercise performance, and metabolic optimization research.", longDescription: "MOTS-c is a mitochondrial-derived peptide extensively studied for metabolic regulation, metabolic health optimization, energy production, endurance enhancement, and exercise performance. Enhances mitochondrial function, improves energy metabolism, increases insulin sensitivity, supports glucose metabolism, and promotes metabolic efficiency. Published research demonstrates improved metabolic health markers, enhanced endurance capacity, better glucose control, increased energy production, and improved exercise performance. Researchers investigating metabolic optimization, mitochondrial function, energy metabolism, endurance research, and metabolic disease models utilize MOTS-c for its comprehensive metabolic and energy-enhancing effects. Each vial contains 10mg of ≥99% pure lyophilized mitochondrial peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 65, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Metabolic health optimization", "Energy production research", "Endurance enhancement", "Exercise performance", "Mitochondrial function"], benefitTags: ["Energy", "Metabolism", "Endurance", "Exercise Performance"] },
-  { id: "mots-c-20mg", name: "MOTS-c", subtitle: "20mg Vial", description: "MOTS-c — extended mitochondrial peptide for comprehensive metabolic research, energy optimization, endurance studies, and long-term investigations.", longDescription: "MOTS-c is a mitochondrial-derived peptide providing powerful metabolic regulation, energy enhancement, endurance support, and metabolic optimization effects. This 20mg presentation provides researchers with substantial quantity for comprehensive investigations into metabolic health, mitochondrial function, energy metabolism, endurance enhancement, and long-term metabolic optimization. MOTS-c enhances mitochondrial function, improves metabolic efficiency, supports energy production, increases endurance capacity, and optimizes exercise performance. Researchers studying metabolic disease models, endurance enhancement, energy metabolism mechanisms, mitochondrial research, and long-term metabolic health optimization utilize MOTS-c for its powerful metabolic and mitochondrial-enhancing effects. Each vial contains 20mg of ≥99% pure lyophilized mitochondrial peptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 185, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Comprehensive metabolic studies", "Mitochondrial optimization", "Endurance research", "Energy metabolism", "Long-term metabolic health"], benefitTags: ["Energy", "Metabolism", "Endurance", "Mitochondrial Health"] },
-  { id: "epitalon-10mg", name: "Epitalon", subtitle: "10mg Vial", description: "Epitalon — anti-aging tetrapeptide for longevity research, cellular health, telomere support, and age-reversal studies.", longDescription: "Epitalon is a synthetic tetrapeptide (Ala-Glu-Asp-Gly) extensively studied for anti-aging effects, telomerase activation, cellular longevity, and age-related health optimization. Activates telomerase enzyme, lengthens telomeres, reduces cellular senescence, supports cellular health and regeneration, and promotes healthspan and lifespan extension. Published research demonstrates improved cellular aging markers, enhanced immune function, improved sleep quality, increased energy levels, and potential lifespan extension effects. Researchers investigating longevity mechanisms, cellular aging reversal, telomere biology, anti-aging pathways, and healthspan optimization utilize Epitalon for its powerful anti-aging and longevity-enhancing properties. Each vial contains 10mg of ≥99% pure lyophilized tetrapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 75, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Anti-aging research", "Telomerase activation", "Longevity studies", "Cellular senescence reduction", "Healthspan optimization"], benefitTags: ["Anti-Aging", "Longevity", "Cellular Health", "Telomere"] },
-  { id: "epitalon-50mg", name: "Epitalon", subtitle: "50mg Vial", description: "Epitalon — high-capacity anti-aging peptide for comprehensive longevity research, cellular regeneration, telomere extension, and long-term age studies.", longDescription: "Epitalon is a synthetic tetrapeptide providing powerful anti-aging effects through telomerase activation, cellular health support, and longevity enhancement. This 50mg presentation enables comprehensive long-term studies into telomere biology, cellular senescence reversal, aging mechanisms, longevity pathways, and age-related health optimization. Epitalon activates telomerase, lengthens telomeres, reduces cellular aging markers, supports cellular regeneration, and promotes both healthspan and lifespan extension. Researchers conducting extensive longevity research, studying cellular aging reversal, investigating telomere extension mechanisms, examining anti-aging pathways, and optimizing age-related health utilize Epitalon for its profound anti-aging and longevity effects. Each vial contains 50mg of ≥99% pure lyophilized tetrapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 285, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Comprehensive longevity research", "Telomere extension studies", "Cellular senescence reversal", "Age-related health optimization", "Lifespan extension"], benefitTags: ["Anti-Aging", "Longevity", "Cellular Health", "Telomere Extension"] },
-  { id: "nad-plus-500mg", name: "NAD+", subtitle: "500mg Vial", description: "NAD+ — cellular energy coenzyme for longevity, anti-aging, energy production, cellular health, and metabolic optimization research.", longDescription: "NAD+ (Nicotinamide Adenine Dinucleotide) is a critical coenzyme in cellular metabolism, energy production, DNA repair, and cellular health optimization. Extensively studied for anti-aging effects, energy enhancement, mitochondrial function optimization, DNA repair activation, and longevity promotion. NAD+ levels decline with age; supplementation restores cellular energy, enhances mitochondrial function, activates longevity pathways, improves metabolic health, and supports cellular regeneration. Published research demonstrates improved energy levels, enhanced mitochondrial function, activated NAD+-dependent pathways (sirtuins, PARPs), improved metabolic markers, and anti-aging effects. Researchers investigating cellular energy, longevity mechanisms, mitochondrial health, metabolic optimization, and anti-aging pathways utilize NAD+ for its fundamental role in cellular health and longevity. Each vial contains 500mg of ≥99% pure NAD+ coenzyme. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 95, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Cellular energy research", "Anti-aging studies", "Mitochondrial optimization", "DNA repair mechanisms", "Longevity pathway activation"], benefitTags: ["Anti-Aging", "Energy", "Cellular Health", "Longevity"] },
-  { id: "dsip-5mg", name: "DSIP", subtitle: "5mg Vial", description: "DSIP — sleep peptide for deep sleep improvement, sleep quality, rest optimization, stress relief, and neuroendocrine research.", longDescription: "DSIP (Delta Sleep-Inducing Peptide) is a synthetic nonapeptide extensively studied for sleep quality improvement, deep sleep enhancement, sleep architecture optimization, stress relief, and neuroendocrine function support. Enhances delta wave sleep (deep restorative sleep), improves sleep quality, reduces stress and cortisol levels, supports neuroendocrine balance, and promotes overall sleep-related health. Published research demonstrates improved sleep quality, increased deep sleep duration, better sleep architecture, reduced stress and anxiety, and improved overall well-being. Researchers investigating sleep optimization, deep sleep enhancement, stress relief, neuroendocrine function, and sleep-related health mechanisms utilize DSIP for its comprehensive sleep and stress-support profile. Each vial contains 5mg of ≥99% pure lyophilized nonapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 45, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Deep sleep research", "Sleep quality improvement", "Sleep architecture optimization", "Stress relief", "Neuroendocrine support"], benefitTags: ["Sleep Quality", "Deep Sleep", "Rest", "Stress Relief"] },
-  { id: "slu-pp-332-10mg", name: "SLU-PP-332", subtitle: "10mg Vial", description: "SLU-PP-332 — ERR agonist for endurance enhancement, energy production, metabolic health, mitochondrial optimization, and exercise performance research.", longDescription: "SLU-PP-332 is a synthetic ERR (Estrogen-Related Receptor) agonist extensively studied for endurance enhancement, metabolic optimization, mitochondrial biogenesis, energy production, and exercise performance improvement. Activates ERR signaling pathways to enhance mitochondrial function, increase oxidative capacity, improve energy metabolism, boost endurance capacity, and enhance overall exercise performance. Published research demonstrates improved endurance metrics, enhanced energy production, increased mitochondrial biogenesis, improved metabolic efficiency, and superior exercise performance. Researchers investigating endurance enhancement, metabolic optimization, mitochondrial health, energy metabolism, and exercise performance mechanisms utilize SLU-PP-332 for its powerful endurance and metabolic-enhancing effects. Each vial contains 10mg of ≥99% pure lyophilized ERR agonist. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 185, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Endurance enhancement", "Energy production research", "Metabolic optimization", "Mitochondrial biogenesis", "Exercise performance"], benefitTags: ["Endurance", "Energy", "Exercise Performance", "Metabolism"] },
-  { id: "glutathione-500mg", name: "Glutathione", subtitle: "500mg Vial", description: "Glutathione — master antioxidant tripeptide for detoxification, antioxidant support, immune health, skin brightening, and cellular protection research.", longDescription: "Glutathione is a powerful tripeptide (Glu-Cys-Gly) and the body's master antioxidant extensively studied for detoxification support, oxidative stress reduction, immune function optimization, cellular protection, and skin health. Neutralizes free radicals, supports liver detoxification, enhances immune cell function, protects cellular DNA, and promotes overall cellular health. Published research demonstrates reduced oxidative stress markers, improved immune function, enhanced detoxification, improved skin health and brightness, and cellular protection effects. Researchers investigating detoxification mechanisms, antioxidant effects, immune optimization, oxidative stress reduction, and cellular health protection utilize Glutathione for its comprehensive antioxidant and detoxification profile. Each vial contains 500mg of ≥99% pure lyophilized tripeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 64, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Detoxification support", "Antioxidant research", "Immune function enhancement", "Cellular protection", "Skin brightening"], benefitTags: ["Antioxidant", "Detox", "Immune Support", "Skin Health"] },
-  { id: "hcg-5000iu", name: "HCG", subtitle: "5000iu Vial", description: "HCG — reproductive hormone for fertility support, hormone regulation, reproductive health, and hormonal research.", longDescription: "HCG (Human Chorionic Gonadotropin) is a glycoprotein hormone extensively studied for reproductive endocrinology, hormone regulation, fertility support, and reproductive health optimization. Stimulates testosterone production, supports reproductive function, regulates hormone signaling, and promotes reproductive health. Published research demonstrates hormone regulation benefits, fertility support, reproductive health optimization, and hormonal balance effects. Researchers investigating reproductive endocrinology, hormone regulation, fertility mechanisms, reproductive health, and hormonal research utilize HCG for its reproductive and hormonal effects. Each vial contains 5000iu of ≥99% pure lyophilized glycoprotein hormone. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 50, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Reproductive endocrinology", "Hormone regulation research", "Fertility support", "Hormonal balance", "Reproductive health"], benefitTags: ["Reproductive Health", "Hormone Balance", "Fertility", "Health"] },
-  { id: "oxytocin-5mg", name: "Oxytocin", subtitle: "5mg Vial", description: "Oxytocin — bonding hormone for social behavior, stress relief, mood support, emotional connection, and neuroendocrine research.", longDescription: "Oxytocin is a synthetic nonapeptide extensively studied for social bonding enhancement, stress reduction, mood support, emotional connection, and neuroendocrine function optimization. Promotes social engagement, reduces stress and anxiety, enhances mood, supports emotional bonding, and regulates reproductive physiology. Published research demonstrates enhanced social bonding, reduced stress and cortisol levels, improved mood and emotional well-being, enhanced social connection, and reproductive health effects. Researchers investigating social behavior, stress relief, mood optimization, emotional connection, and neuroendocrine function utilize Oxytocin for its comprehensive social and mood-supporting profile. Each vial contains 5mg of ≥99% pure lyophilized nonapeptide. Certificate of Analysis included. For research use only.", spec: "PURITY: ≥99%", price: 40, image: "/product_vial.jpg", category: "Research Peptides", purity: "≥99%", inStock: true, researchApplications: ["Social bonding research", "Stress relief studies", "Mood support", "Emotional connection", "Neuroendocrine function"], benefitTags: ["Mood", "Stress Relief", "Social Connection", "Emotional Health"] },
+  {
+    id: "semaglutide",
+    name: "Semaglutide",
+    subtitle: "GLP-1 Receptor Agonist Analog",
+    description: "Modified GLP-1 analog for metabolic and appetite regulation research",
+    longDescription: "Product Specifications: Semaglutide Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in metabolic regulation, appetite modulation, glucose homeostasis, and systemic metabolic enhancement.\n\nSemaglutide is a long-acting GLP-1 receptor agonist analog that has been extensively investigated for its role in metabolic regulation and glucose homeostasis. Research has documented its mechanisms in modulating appetite signaling through GLP-1 receptor activation, improving insulin secretion in response to nutrient intake, and supporting metabolic adaptation. Studies have examined Semaglutide's effects on weight management pathways, cardiovascular metabolic markers, and systemic energy homeostasis. Researchers utilize Semaglutide to understand GLP-1 signaling mechanisms, incretin dynamics, and peptide-based metabolic regulation in research contexts.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White to off-white lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C187H291N45O59",
+      pubChemCID: "56843440",
+      casNumber: "910463-68-5",
+      molecularWeight: "4113.56 g/mol",
+      synonyms: "Semaglutide, GLP-1 Agonist, rGLP-1 Analog",
+      storage: "Store at 2-8°C after reconstitution or ≤25°C dry powder, sealed, away from light.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "semaglutide-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 138 },
+      { id: "semaglutide-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 228 }
+    ],
+    image: "/product_vial.jpg",
+    category: "GLP-1 Sequences",
+    inStock: true,
+    price: 138,
+    researchApplications: ["Metabolic regulation & homeostasis", "Appetite modulation research", "Glucose metabolism optimization", "Insulin secretion enhancement", "Weight management pathways", "Cardiovascular metabolic markers"],
+    benefitTags: ["Metabolism", "Appetite Control", "Weight Management"]
+  },
+
+  {
+    id: "tirzepatide",
+    name: "Tirzepatide",
+    subtitle: "GLP-1/GIP Receptor Agonist",
+    description: "Dual GLP-1/GIP agonist for advanced metabolic research",
+    longDescription: "Product Specifications: Tirzepatide Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in dual metabolic signaling, appetite regulation, glucose homeostasis, and systemic metabolic enhancement.\n\nTirzepatide is a novel dual GLP-1/GIP receptor agonist that activates both glucagon-like peptide-1 and glucose-dependent insulinotropic polypeptide pathways simultaneously. Research has demonstrated its superior metabolic effects through dual pathway activation, modulating appetite through multiple signaling cascades, and enhancing glucose-responsive insulin secretion. Studies have investigated Tirzepatide's mechanisms in systemic metabolic adaptation, energy homeostasis, and weight management through dual receptor signaling. Researchers utilize Tirzepatide to understand synergistic GLP-1/GIP signaling, multi-target peptide agonism, and advanced metabolic regulation in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White to off-white lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C199H307N51O62",
+      pubChemCID: "167517748",
+      casNumber: "2023788-19-2",
+      molecularWeight: "4385.69 g/mol",
+      synonyms: "Tirzepatide, GLP-1/GIP Agonist, Dual Agonist",
+      storage: "Store at 2-8°C after reconstitution or ≤25°C dry powder, sealed, away from light.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "tirzepatide-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 148 },
+      { id: "tirzepatide-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 258 }
+    ],
+    image: "/product_vial.jpg",
+    category: "GLP-1 Sequences",
+    inStock: true,
+    price: 148,
+    researchApplications: ["Dual metabolic pathway activation", "Enhanced appetite modulation", "Glucose homeostasis optimization", "Synergistic metabolic effects", "Weight management enhancement", "Advanced metabolic research"],
+    benefitTags: ["Metabolism", "Appetite Control", "Weight Management", "Dual Action"]
+  },
+
+  {
+    id: "aod-9604",
+    name: "AOD-9604",
+    subtitle: "Growth Hormone Fragment",
+    description: "HGH fragment 176-191 analog for metabolic and body composition research",
+    longDescription: "Product Specifications: AOD-9604 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in metabolic regulation, lipolysis enhancement, body composition modulation, and metabolic adaptation pathways.\n\nAOD-9604 is a synthetic fragment derived from the C-terminal region of human growth hormone (amino acids 176-191). Research has documented its role in stimulating lipolysis, enhancing fat metabolism, and supporting metabolic adaptation without growth-promoting effects. Studies have investigated AOD-9604's mechanisms in activating beta-3 adrenergic receptors on adipocytes, promoting selective fat mobilization, and enhancing energy metabolism. Researchers utilize AOD-9604 to understand growth hormone fragment signaling, selective metabolic modulation, and peptide-based body composition enhancement in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C78H123N23O23",
+      pubChemCID: "24939485",
+      casNumber: "221231-10-3",
+      molecularWeight: "1817.89 g/mol",
+      synonyms: "HGH Fragment 176-191, AOD-9604, GH Fragment 176-191",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "aod-9604-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 60 },
+      { id: "aod-9604-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 100 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 60,
+    researchApplications: ["Lipolysis enhancement", "Fat metabolism optimization", "Body composition modulation", "Metabolic adaptation research", "Energy expenditure support", "Selective fat mobilization"],
+    benefitTags: ["Metabolism", "Body Composition", "Fat Loss"]
+  },
+
+  {
+    id: "mots-c",
+    name: "MOTS-c",
+    subtitle: "Mitochondrial Peptide",
+    description: "Mitochondrial-derived peptide for metabolic and cellular energy research",
+    longDescription: "Product Specifications: MOTS-c Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in mitochondrial function, metabolic regulation, cellular energy homeostasis, and systemic metabolic health.\n\nMOTS-c (Mitochondrial Open Reading Frame of the 12S rRNA Type-C) is a 16-amino acid mitochondrial-derived peptide that has emerged as a key regulator of metabolic adaptation. Research has demonstrated its role in activating AMPK signaling, enhancing insulin sensitivity, improving glucose homeostasis, and supporting mitochondrial energy metabolism. Studies have investigated MOTS-c's mechanisms in regulating systemic metabolism through mitochondrial communication, enhancing exercise-like metabolic effects, and promoting metabolic adaptation. Researchers utilize MOTS-c to understand mitochondrial peptide signaling, metabolic regulation at the organellar level, and peptide-based mitochondrial health enhancement.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C87H138N24O26",
+      pubChemCID: "9889452",
+      casNumber: "1373615-35-0",
+      molecularWeight: "1972.10 g/mol",
+      synonyms: "MOTS-c, Mitochondrial Peptide, mt-ORF",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "mots-c-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 65 },
+      { id: "mots-c-20mg", label: "20mg", contents: "20mg Lyophilized Powder in 3ml vial", price: 185 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 65,
+    researchApplications: ["Mitochondrial function optimization", "Metabolic adaptation support", "Glucose homeostasis enhancement", "AMPK pathway activation", "Cellular energy metabolism", "Systemic metabolic health"],
+    benefitTags: ["Energy", "Metabolism", "Cellular Health", "Mitochondrial Support"]
+  },
+
+  {
+    id: "epitalon",
+    name: "Epitalon",
+    subtitle: "Pineal Gland Peptide",
+    description: "Tetrapeptide for pineal function and telomerase regulation research",
+    longDescription: "Product Specifications: Epitalon Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in pineal gland function, telomerase regulation, cellular aging pathways, and neuroendocrine modulation.\n\nEpitalon is a naturally occurring tetrapeptide derived from the pineal gland that has been extensively investigated for its role in regulating telomerase activity and supporting cellular aging research. Research has documented its mechanisms in stimulating pineal melatonin production, regulating circadian rhythm function, and enhancing telomerase expression in immune cells. Studies have examined Epitalon's effects on cellular senescence markers, immune function, and systemic aging processes. Researchers utilize Epitalon to understand pineal peptide signaling, telomerase biology, circadian neuroendocrine regulation, and cellular aging mechanisms in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C22H32N6O7",
+      pubChemCID: "5312047",
+      casNumber: "307-49-3",
+      molecularWeight: "504.53 g/mol",
+      synonyms: "Epitalon, Epithalone, Pineal Tetrapeptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "epitalon-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 75 },
+      { id: "epitalon-50mg", label: "50mg", contents: "50mg Lyophilized Powder in 3ml vial", price: 285 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 75,
+    researchApplications: ["Pineal gland function support", "Telomerase regulation research", "Circadian rhythm modulation", "Melatonin production enhancement", "Cellular aging pathway research", "Neuroendocrine optimization"],
+    benefitTags: ["Sleep Support", "Aging Research", "Circadian Rhythm", "Cellular Health"]
+  },
+
+  // SINGLE-SIZE PRODUCTS
+  {
+    id: "igf-1-lr3",
+    name: "IGF-1 LR3",
+    subtitle: "Insulin-Like Growth Factor-1 Long R3",
+    description: "Extended IGF-1 analog for growth factor and tissue research",
+    longDescription: "Product Specifications: IGF-1 LR3 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in growth factor signaling, muscle growth pathways, tissue repair acceleration, and anabolic research applications.\n\nIGF-1 LR3 (Insulin-Like Growth Factor-1 Long R3) is a modified analog of insulin-like growth factor-1 with an extended N-terminal sequence and arginine substitution at position 3, designed to resist binding to insulin-like growth factor binding proteins. Research has demonstrated its superior bioactivity in activating IGF-1 receptor signaling, promoting myogenic differentiation, and stimulating protein synthesis in muscle tissue. Studies have investigated IGF-1 LR3's mechanisms in accelerating tissue repair, promoting angiogenesis, and enhancing systemic growth factor pathways. Researchers utilize IGF-1 LR3 to understand growth factor biology, anabolic signaling cascades, and peptide-based growth enhancement in research contexts.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C155H251N43O43",
+      pubChemCID: "16129399",
+      casNumber: "946870-22-4",
+      molecularWeight: "3553.8 g/mol",
+      synonyms: "IGF-1 LR3, Long Arg3 IGF-1, LIRFE",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "igf-1-lr3-1mg", label: "1mg", contents: "1mg Lyophilized Powder in 3ml vial", price: 85 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 85,
+    researchApplications: ["Growth factor signaling research", "Muscle growth & myogenesis", "Protein synthesis enhancement", "Tissue repair acceleration", "Angiogenesis support", "Growth factor pathway optimization"],
+    benefitTags: ["Growth Support", "Muscle Development", "Recovery", "Tissue Repair"]
+  },
+
+  {
+    id: "peg-mgf",
+    name: "PEG-MGF",
+    subtitle: "Pegylated Mechano Growth Factor",
+    description: "Modified MGF with pegylation for extended activity",
+    longDescription: "Product Specifications: PEG-MGF Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in growth factor signaling, muscle repair pathways, satellite cell activation, and tissue regeneration research.\n\nPEG-MGF is a pegylated variant of Mechano Growth Factor, the C-terminal fragment of IGF-1 created through mechanical stress and alternative splicing. Research has demonstrated that pegylation extends bioavailability and improves stability of the MGF molecule while maintaining receptor signaling capacity. Studies have investigated PEG-MGF's mechanisms in activating satellite cells, promoting myogenic differentiation, and accelerating muscle repair in response to mechanical stimulus. Researchers utilize PEG-MGF to understand growth factor biology, muscle regeneration pathways, and modified peptide stability enhancement in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C228H360N66O77 (approximate with PEG)",
+      pubChemCID: "9878226",
+      casNumber: "937184-80-4",
+      molecularWeight: "5218.5 g/mol (approximate)",
+      synonyms: "PEG-MGF, Pegylated MGF, Modified MGF",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "peg-mgf-2mg", label: "2mg", contents: "2mg Lyophilized Powder in 3ml vial", price: 65 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 65,
+    researchApplications: ["Muscle repair & regeneration", "Satellite cell activation", "Myogenic differentiation", "Mechanical stress response", "Growth factor signaling", "Tissue recovery enhancement"],
+    benefitTags: ["Muscle Recovery", "Growth Support", "Repair", "Performance"]
+  },
+
+  {
+    id: "mgf",
+    name: "MGF",
+    subtitle: "Mechano Growth Factor",
+    description: "IGF-1 C-terminal fragment for muscle growth and repair research",
+    longDescription: "Product Specifications: MGF Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in mechanical growth signaling, muscle repair pathways, satellite cell activation, and tissue regeneration.\n\nMGF (Mechano Growth Factor) is the C-terminal fragment of IGF-1 created through alternative splicing in response to mechanical stress and muscle trauma. Research has documented its specific role in activating satellite cells, promoting myogenic differentiation, and accelerating muscle repair and hypertrophy. Studies have investigated MGF's mechanisms in upregulating growth factor signaling locally at sites of muscle damage, enhancing myonuclei accretion, and supporting muscle regeneration. Researchers utilize MGF to understand mechanical stimulus-responsive growth factors, local versus systemic IGF signaling, and peptide-based muscle regeneration pathways.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C79H124N22O24",
+      pubChemCID: "9878226",
+      casNumber: "211106-27-1",
+      molecularWeight: "1679.95 g/mol",
+      synonyms: "MGF, Mechano Growth Factor, C-Terminal IGF-1",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "mgf-2mg", label: "2mg", contents: "2mg Lyophilized Powder in 3ml vial", price: 55 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 55,
+    researchApplications: ["Muscle repair & regeneration", "Satellite cell activation", "Mechanical stress response", "Myogenic differentiation", "Hypertrophy research", "Local growth factor signaling"],
+    benefitTags: ["Muscle Growth", "Recovery", "Repair", "Performance"]
+  },
+
+  {
+    id: "follistatin-344",
+    name: "Follistatin 344",
+    subtitle: "Myostatin Inhibitor Peptide",
+    description: "Follistatin analog for muscle growth and strength research",
+    longDescription: "Product Specifications: Follistatin 344 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in myostatin inhibition, muscle growth pathways, strength enhancement, and anabolic research applications.\n\nFollistatin 344 is a truncated isoform of follistatin engineered to inhibit myostatin and activin signaling pathways that negatively regulate muscle growth. Research has demonstrated its potent capacity to sequester myostatin, promote myogenic differentiation, and enhance muscle growth beyond genetic set points. Studies have investigated Follistatin 344's mechanisms in increasing myonuclei number, promoting protein synthesis, and supporting sustained muscle hypertrophy. Researchers utilize Follistatin 344 to understand negative growth factor regulation, myostatin biology, activin signaling, and peptide-based anabolic enhancement in research contexts.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C195H313N57O60",
+      pubChemCID: "9878391",
+      casNumber: "none",
+      molecularWeight: "4465.5 g/mol",
+      synonyms: "Follistatin 344, FS344, Follistatin Isoform",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "follistatin-344-1mg", label: "1mg", contents: "1mg Lyophilized Powder in 3ml vial", price: 165 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 165,
+    researchApplications: ["Myostatin inhibition", "Muscle growth & hypertrophy", "Strength enhancement research", "Myogenic differentiation", "Anti-catabolic pathways", "Anabolic signaling optimization"],
+    benefitTags: ["Muscle Growth", "Strength", "Anabolic", "Performance"]
+  },
+
+  {
+    id: "ace-031",
+    name: "ACE-031",
+    subtitle: "Activin Type IIA Receptor Ligand Trap",
+    description: "Receptor antagonist for muscle growth and strength research",
+    longDescription: "Product Specifications: ACE-031 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in activin signaling inhibition, muscle growth pathways, strength enhancement, and anabolic research applications.\n\nACE-031 is a recombinant fusion protein engineered as a ligand trap for activin type IIA receptors, designed to sequester activin and myostatin signaling. Research has demonstrated its capacity to potently inhibit negative regulators of muscle growth, promote myogenic differentiation, and enhance sustained muscle hypertrophy. Studies have investigated ACE-031's mechanisms in increasing muscle mass, improving contractile strength, and supporting muscle growth in diverse conditions. Researchers utilize ACE-031 to understand activin receptor biology, myostatin and activin signaling, and receptor antagonism as a strategy for muscle growth enhancement.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C198H322N60O62",
+      pubChemCID: "none",
+      casNumber: "none",
+      molecularWeight: "4612.8 g/mol",
+      synonyms: "ACE-031, Activin Receptor Ligand Trap, ACVR2A Trap",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "ace-031-1mg", label: "1mg", contents: "1mg Lyophilized Powder in 3ml vial", price: 185 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 185,
+    researchApplications: ["Activin signaling inhibition", "Muscle growth & hypertrophy", "Strength enhancement", "Myostatin pathway blocking", "Anabolic research", "Muscle wasting prevention"],
+    benefitTags: ["Muscle Growth", "Strength", "Anabolic", "Anti-Catabolic"]
+  },
+
+  {
+    id: "hgh-fragment-176-191",
+    name: "HGH Fragment 176-191",
+    subtitle: "Growth Hormone Lipolytic Fragment",
+    description: "GH C-terminal fragment for lipolysis and fat metabolism research",
+    longDescription: "Product Specifications: HGH Fragment 176-191 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in lipolysis enhancement, fat metabolism acceleration, body composition modulation, and metabolic research.\n\nHGH Fragment 176-191 is the C-terminal fragment of human growth hormone that retains the fat-mobilizing properties of growth hormone while lacking growth-promoting and insulin-antagonistic effects. Research has documented its role in stimulating lipase activity, enhancing lipolysis in adipose tissue, and promoting selective fat loss without affecting lean tissue or growth hormone-like systemic effects. Studies have investigated its mechanisms in activating adipose tissue metabolic pathways, improving metabolic efficiency, and supporting body composition optimization. Researchers utilize HGH Fragment 176-191 to understand selective growth hormone signaling, tissue-specific metabolic regulation, and fragment-based lipolytic enhancement.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C78H123N23O23",
+      pubChemCID: "24939485",
+      casNumber: "221231-10-3",
+      molecularWeight: "1817.89 g/mol",
+      synonyms: "HGH Fragment 176-191, GH Fragment, AOD Fragment",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "hgh-fragment-176-191-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 55 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 55,
+    researchApplications: ["Lipolysis enhancement", "Fat metabolism acceleration", "Selective fat loss", "Lipase activity stimulation", "Body composition research", "Metabolic rate optimization"],
+    benefitTags: ["Fat Loss", "Metabolism", "Body Composition"]
+  },
+
+  {
+    id: "ghrp-6",
+    name: "GHRP-6",
+    subtitle: "Growth Hormone Releasing Peptide-6",
+    description: "GH secretagogue for growth hormone stimulation research",
+    longDescription: "Product Specifications: GHRP-6 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in growth hormone secretion, GH axis signaling, appetite modulation, and neuroendocrine research.\n\nGHRP-6 (Growth Hormone Releasing Peptide-6) is a small synthetic peptide that acts as a growth hormone secretagogue, activating GH-secreting cells in the anterior pituitary gland. Research has documented its role in stimulating GH release through ghrelin receptor (GHS-R) activation, promoting appetite, and modulating neuroendocrine signaling. Studies have investigated GHRP-6's mechanisms in enhancing endogenous GH secretion, supporting growth hormone axis function, and modulating metabolic pathways downstream of GH signaling. Researchers utilize GHRP-6 to understand ghrelin signaling, GH axis biology, neuroendocrine regulation, and peptide-based growth hormone secretagogue mechanisms.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C40H67N15O6",
+      pubChemCID: "16761400",
+      casNumber: "90674-61-6",
+      molecularWeight: "873.05 g/mol",
+      synonyms: "GHRP-6, Growth Hormone Releasing Peptide-6, GH Secretagogue",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "ghrp-6-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 35 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Laboratory Peptides",
+    inStock: true,
+    price: 35,
+    researchApplications: ["Growth hormone secretion", "GHS-R receptor signaling", "Appetite modulation research", "Neuroendocrine regulation", "GH axis support", "Metabolic signaling enhancement"],
+    benefitTags: ["Growth Support", "Appetite", "GH Axis", "Recovery"]
+  },
+
+  {
+    id: "kpv",
+    name: "KPV",
+    subtitle: "Immunomodulatory Tripeptide",
+    description: "Alpha-MSH derived peptide for immune and inflammatory research",
+    longDescription: "Product Specifications: KPV Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in immunomodulation, anti-inflammatory pathways, intestinal barrier function, and immune homeostasis research.\n\nKPV is a tripeptide derived from alpha-melanocyte-stimulating hormone (α-MSH) that has emerged as a potent immunomodulatory and anti-inflammatory agent. Research has demonstrated its capacity to reduce pro-inflammatory cytokine production, enhance intestinal barrier function, and promote immune tolerance pathways. Studies have investigated KPV's mechanisms in modulating macrophage polarization, reducing intestinal inflammation, enhancing tight junction integrity, and supporting immune homeostasis. Researchers utilize KPV to understand melanocyte-stimulating hormone signaling, immune tolerance mechanisms, and peptide-based anti-inflammatory enhancement in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C17H30N6O4",
+      pubChemCID: "197063",
+      casNumber: "none",
+      molecularWeight: "378.46 g/mol",
+      synonyms: "KPV, Lysine-Proline-Valine, α-MSH Fragment",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "kpv-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 65 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 65,
+    researchApplications: ["Anti-inflammatory effects", "Immune modulation", "Intestinal barrier support", "Immune tolerance enhancement", "Macrophage polarization", "Cytokine regulation"],
+    benefitTags: ["Immune Support", "Anti-Inflammatory", "Gut Health", "Tolerance"]
+  },
+
+  {
+    id: "ll-37",
+    name: "LL-37",
+    subtitle: "Antimicrobial Cathelicidin",
+    description: "Endogenous antimicrobial peptide for immune research",
+    longDescription: "Product Specifications: LL-37 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in antimicrobial immunity, immune cell signaling, barrier function, and immunomodulation research.\n\nLL-37 (Cathelicidin) is an endogenous antimicrobial peptide that serves as a key component of innate immune defense. Research has documented its dual roles in directly combating microorganisms and modulating immune cell signaling through pattern recognition receptors. Studies have investigated LL-37's mechanisms in promoting immune cell chemotaxis, enhancing macrophage activation, supporting barrier epithelial integrity, and regulating inflammatory responses. Researchers utilize LL-37 to understand antimicrobial peptide biology, innate immune signaling, barrier function regulation, and immunomodulatory mechanisms in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C229H378N68O54",
+      pubChemCID: "16130324",
+      casNumber: "145262-45-9",
+      molecularWeight: "5252.74 g/mol",
+      synonyms: "LL-37, Cathelicidin-18, CAP-18",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "ll-37-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 85 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 85,
+    researchApplications: ["Antimicrobial immunity", "Immune cell signaling", "Barrier function support", "Inflammation modulation", "Macrophage activation", "Innate immune enhancement"],
+    benefitTags: ["Immune Support", "Antimicrobial", "Barrier Health"]
+  },
+
+  {
+    id: "thymosin-beta-4",
+    name: "Thymosin Beta-4",
+    subtitle: "Immunomodulatory Protein",
+    description: "Full-length thymosin for immune function and tissue repair",
+    longDescription: "Product Specifications: Thymosin Beta-4 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in immune function, wound healing, tissue repair, and cellular migration research.\n\nThymosin Beta-4 is a 43-amino acid immunomodulatory protein found in high concentrations in wound healing tissues and immune cells. Research has demonstrated its multifaceted roles in promoting immune cell differentiation, regulating actin dynamics for cellular motility, and accelerating tissue repair. Studies have investigated Thymosin Beta-4's mechanisms in supporting T cell development, promoting angiogenesis, enhancing cellular migration, and facilitating wound healing across multiple tissues. Researchers utilize Thymosin Beta-4 to understand immunomodulation, actin-binding protein biology, cellular repair mechanisms, and tissue regeneration pathways in research contexts.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C212H344N56O61",
+      pubChemCID: "16130419",
+      casNumber: "62304-98-7",
+      molecularWeight: "4963.5 g/mol",
+      synonyms: "Thymosin Beta-4, Tβ4, LKHGQEKDSLODELIK",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "thymosin-beta-4-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 55 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 55,
+    researchApplications: ["Immune cell support", "Wound healing acceleration", "Tissue repair & regeneration", "Cellular migration enhancement", "Anti-inflammatory effects", "Angiogenesis promotion"],
+    benefitTags: ["Immune Support", "Healing", "Recovery", "Tissue Repair"]
+  },
+
+  {
+    id: "bpc-157-tb-500-blend",
+    name: "BPC-157/TB-500 Blend",
+    subtitle: "Dual-Peptide Recovery Formula",
+    description: "Synergistic combination of BPC-157 and TB-500",
+    longDescription: "Product Specifications: BPC-157/TB-500 Blend Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide blend that has been evaluated in tissue repair synergy, wound healing acceleration, recovery optimization, and multi-pathway tissue regeneration.\n\nThe BPC-157/TB-500 Blend combines two complementary tissue repair peptides with synergistic mechanisms. Research has documented how BPC-157's tissue-specific protective and regenerative effects combine with TB-500's actin-regulating and cellular repair properties to enhance recovery outcomes. Studies have investigated the blend's mechanisms in promoting rapid tissue remodeling through complementary pathways, accelerating angiogenesis through multiple signaling cascades, and optimizing systemic recovery. Researchers utilize the BPC-157/TB-500 Blend to understand peptide synergy in tissue repair, multi-pathway regeneration enhancement, and optimized peptide combination approaches.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "Combined: C62H98N16O22 + C212H344N56O61",
+      pubChemCID: "Combination",
+      casNumber: "137525-51-0 + Fragment",
+      molecularWeight: "6383.03 g/mol combined",
+      synonyms: "BPC-157/TB-500 Blend, Dual Repair Peptides",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "bpc-157-tb-500-blend-5mg-5mg", label: "5mg/5mg", contents: "5mg BPC-157 + 5mg TB-500 in 3ml vial", price: 85 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Amino Acid Peptides",
+    inStock: true,
+    price: 85,
+    researchApplications: ["Synergistic tissue repair", "Accelerated recovery pathways", "Multi-system regeneration", "Enhanced angiogenesis", "Optimized wound healing", "Comprehensive recovery support"],
+    benefitTags: ["Recovery", "Healing", "Tissue Repair", "Synergistic"]
+  },
+
+  {
+    id: "klow-blend",
+    name: "KLOW Blend",
+    subtitle: "Comprehensive Peptide Recovery Stack",
+    description: "Four-peptide proprietary blend for advanced recovery",
+    longDescription: "Product Specifications: KLOW Blend Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide blend that has been evaluated in comprehensive recovery pathways, multi-system regeneration, tissue repair optimization, and integrated recovery research.\n\nThe KLOW Blend is a proprietary combination of GHK-Cu, TB-500, BPC-157, and KPV, each contributing distinct mechanisms to recovery optimization. Research has documented how the blend's complementary pathways—collagen synthesis, cellular repair, tissue protection, and immune modulation—create synergistic recovery effects. Studies have investigated the KLOW Blend's mechanisms in promoting comprehensive tissue remodeling, reducing inflammation while accelerating repair, optimizing immune tolerance during recovery, and enhancing systemic recovery across multiple tissues. Researchers utilize the KLOW Blend to understand advanced peptide combination strategies, multi-pathway recovery optimization, and integrated tissue regeneration.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "Blue-green tinted lyophilized powder in 3ml glass vial",
+      chemicalFormula: "Proprietary Blend (GHK-Cu, TB-500, BPC-157, KPV)",
+      pubChemCID: "Blend",
+      casNumber: "Proprietary",
+      molecularWeight: "8726.44 g/mol combined",
+      synonyms: "KLOW Blend, Four-Peptide Stack, Recovery Complex",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "klow-blend-standard", label: "Standard", contents: "GHK-Cu, TB-500, BPC-157, KPV Blend in 3ml vial", price: 150 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 150,
+    researchApplications: ["Multi-system tissue repair", "Comprehensive recovery optimization", "Synergistic regeneration pathways", "Immune-modulated recovery", "Advanced recovery research", "Integrated tissue remodeling"],
+    benefitTags: ["Recovery", "Comprehensive", "Synergistic", "Advanced"]
+  },
+
+  {
+    id: "glow-blend",
+    name: "GLOW Blend",
+    subtitle: "Collagen-Focused Recovery Stack",
+    description: "Three-peptide blend optimized for collagen and tissue regeneration",
+    longDescription: "Product Specifications: GLOW Blend Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide blend that has been evaluated in collagen synthesis, tissue regeneration, recovery optimization, and beauty-focused research applications.\n\nThe GLOW Blend combines GHK-Cu, TB-500, and BPC-157—three peptides with complementary mechanisms for collagen-focused tissue regeneration. Research has documented how GHK-Cu stimulates fibroblast collagen synthesis, TB-500 promotes cellular repair and remodeling, and BPC-157 provides tissue protection and regeneration support. Studies have investigated the GLOW Blend's mechanisms in accelerating collagen deposition, improving skin quality markers, enhancing tissue elasticity, and optimizing systemic regeneration. Researchers utilize the GLOW Blend to understand collagen-focused peptide synergy, tissue regeneration optimization, and beauty research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "Blue-green tinted lyophilized powder in 3ml glass vial",
+      chemicalFormula: "Proprietary Blend (GHK-Cu, TB-500, BPC-157)",
+      pubChemCID: "Blend",
+      casNumber: "Proprietary",
+      molecularWeight: "8126.35 g/mol combined",
+      synonyms: "GLOW Blend, Three-Peptide Stack, Collagen Complex",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "glow-blend-standard", label: "Standard", contents: "GHK-Cu, TB-500, BPC-157 Blend in 3ml vial", price: 125 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Synthetic Peptides",
+    inStock: true,
+    price: 125,
+    researchApplications: ["Collagen synthesis & deposition", "Tissue regeneration optimization", "Skin quality enhancement", "Cellular repair acceleration", "Beauty research applications", "Systemic regeneration support"],
+    benefitTags: ["Collagen Support", "Regeneration", "Beauty", "Recovery"]
+  },
+
+  {
+    id: "melanotan-ii",
+    name: "Melanotan II",
+    subtitle: "Alpha-Melanocyte Stimulating Hormone Analog",
+    description: "MSH analog for pigmentation and sexual function research",
+    longDescription: "Product Specifications: Melanotan II Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in melanogenesis, pigmentation pathways, sexual dysfunction research, and neuroendocrine signaling.\n\nMelanotan II is a synthetic alpha-melanocyte-stimulating hormone (α-MSH) analog that activates melanocortin receptors throughout the body. Research has documented its role in stimulating melanin production and eumelanin synthesis, darkening skin tone, and modulating sexual arousal and erectile function through CNS melanocortin signaling. Studies have investigated Melanotan II's mechanisms in activating melanocortin-1 receptors on melanocytes, modulating sexual behavior through melanocortin-4 receptor signaling in the hypothalamus, and promoting skin pigmentation. Researchers utilize Melanotan II to understand melanocortin signaling, melanogenesis regulation, sexual neuroendocrinology, and melanocortin-based peptide mechanisms.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White to off-white lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C50H69N15O8",
+      pubChemCID: "9915935",
+      casNumber: "121062-08-6",
+      molecularWeight: "1111.18 g/mol",
+      synonyms: "Melanotan II, MT-II, Melanotan, α-MSH Analog",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "melanotan-ii-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 45 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 45,
+    researchApplications: ["Melanin production & pigmentation", "Eumelanin synthesis enhancement", "Sexual function research", "Melanocortin signaling", "CNS neuroendocrine modulation", "Skin pigmentation studies"],
+    benefitTags: ["Pigmentation", "Sexual Health", "Neuroendocrine"]
+  },
+
+  {
+    id: "pt-141",
+    name: "PT-141",
+    subtitle: "Melanocortin Receptor Agonist",
+    description: "Melanocortin analog for sexual function research",
+    longDescription: "Product Specifications: PT-141 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in sexual function, melanocortin signaling, sexual arousal pathways, and neuroendocrine research.\n\nPT-141 is a melanocortin receptor agonist analog derived from Melanotan II, engineered to selectively activate melanocortin-4 receptors in the brain while avoiding systemic melanin production. Research has demonstrated its role in modulating sexual arousal and erectile function through CNS melanocortin signaling in the hypothalamus and limbic regions. Studies have investigated PT-141's mechanisms in enhancing sexual desire, improving erectile response, and activating sexual neurocircuitry independent of systemic effects. Researchers utilize PT-141 to understand sexual neuroendocrinology, melanocortin-4 receptor signaling, CNS sexual function regulation, and peptide-based sexual enhancement mechanisms.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C50H72N14O11",
+      pubChemCID: "9918869",
+      casNumber: "104149-13-3",
+      molecularWeight: "1095.20 g/mol",
+      synonyms: "PT-141, Bremelanotide, Melanocortin Agonist",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "pt-141-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 50 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 50,
+    researchApplications: ["Sexual function enhancement", "Sexual arousal modulation", "Erectile function research", "Melanocortin-4 signaling", "CNS neuroendocrine effects", "Sexual neurocircuitry activation"],
+    benefitTags: ["Sexual Health", "Neuroendocrine", "Sexual Function"]
+  },
+
+  {
+    id: "semax",
+    name: "Semax",
+    subtitle: "Adrenocorticotropic Hormone Analog",
+    description: "ACTH analog for cognitive and neuroprotective research",
+    longDescription: "Product Specifications: Semax Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in cognitive enhancement, neuroprotection, stress resilience, and cognitive neuroendocrine research.\n\nSemax is a synthetic ACTH analog (ACTH 4-10) that has emerged as a nootropic peptide with neuroprotective and cognitive-enhancing properties. Research has documented its role in enhancing cognitive performance, improving memory consolidation, promoting neuroprotection against excitotoxicity, and enhancing stress resilience. Studies have investigated Semax's mechanisms in activating neuroprotective signaling cascades, enhancing dopaminergic and GABAergic neurotransmission, improving cerebral blood flow, and supporting brain-derived neurotrophic factor pathways. Researchers utilize Semax to understand peptide-based cognitive enhancement, neuroprotection mechanisms, stress adaptation, and neuroendocrine modulation of cognition.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C38H56N10O10",
+      pubChemCID: "9918801",
+      casNumber: "61352-59-6",
+      molecularWeight: "792.92 g/mol",
+      synonyms: "Semax, ACTH 4-10, Nootropic Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "semax-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 45 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 45,
+    researchApplications: ["Cognitive enhancement research", "Memory consolidation support", "Neuroprotection pathways", "Stress resilience enhancement", "Neurotransmitter optimization", "Brain health support"],
+    benefitTags: ["Cognitive Support", "Neuroprotection", "Brain Health", "Stress Resilience"]
+  },
+
+  {
+    id: "selank",
+    name: "Selank",
+    subtitle: "Leu-Encephalin Analog",
+    description: "Enkephalin analog for anxiety and stress research",
+    longDescription: "Product Specifications: Selank Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in anxiety reduction, stress resilience, immune modulation, and neuropsychological research.\n\nSelank is a synthetic analog of leu-enkephalin, an endogenous opioid peptide, engineered with a modified N-terminus for improved pharmacokinetics and CNS penetration. Research has demonstrated its anxiolytic properties through modulation of GABAergic and opioidergic systems, stress resilience enhancement through HPA-axis optimization, and immune system modulation. Studies have investigated Selank's mechanisms in reducing anxiety-related behaviors, promoting stress adaptation, enhancing emotional resilience, and supporting immune function through psychoneuroimmunological pathways. Researchers utilize Selank to understand enkephalin signaling, anxiety neurobiology, stress adaptation, and peptide-based anxiolytic mechanisms.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C39H60N12O8",
+      pubChemCID: "9918802",
+      casNumber: "61352-59-6",
+      molecularWeight: "824.97 g/mol",
+      synonyms: "Selank, Leu-Encephalin Analog, Anxiolytic Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "selank-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 55 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 55,
+    researchApplications: ["Anxiety reduction research", "Stress resilience enhancement", "Emotional regulation support", "Immune modulation pathways", "Neuropsychological research", "HPA-axis optimization"],
+    benefitTags: ["Stress Relief", "Anxiety Support", "Mood Support", "Immune Health"]
+  },
+
+  {
+    id: "dihexa",
+    name: "Dihexa",
+    subtitle: "Neuroprotective Peptide",
+    description: "Peptide analog for cognitive and neuroprotective research",
+    longDescription: "Product Specifications: Dihexa Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in neuroprotection, cognitive enhancement, brain health support, and neurodegenerative research pathways.\n\nDihexa is a synthetic peptide derived from angiotensin IV that has demonstrated potent neuroprotective and cognitive-enhancing properties. Research has documented its role in enhancing neurite outgrowth, promoting synaptic plasticity, improving memory consolidation, and protecting against neurotoxicity. Studies have investigated Dihexa's mechanisms in activating brain-derived neurotrophic factor signaling, promoting neuronal survival, enhancing cognitive function, and supporting brain health across multiple neuropathological contexts. Researchers utilize Dihexa to understand peptide-based neuroprotection, brain-derived neurotrophic factor biology, synaptic plasticity enhancement, and cognitive health research.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C20H34N4O3",
+      pubChemCID: "11191997",
+      casNumber: "none",
+      molecularWeight: "374.52 g/mol",
+      synonyms: "Dihexa, Angiotensin IV Analog, Neuroprotective Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "dihexa-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 115 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 115,
+    researchApplications: ["Neuroprotection & neurorepair", "Cognitive enhancement research", "Memory improvement support", "Synaptic plasticity enhancement", "BDNF pathway activation", "Brain health optimization"],
+    benefitTags: ["Brain Health", "Cognitive Support", "Neuroprotection", "Memory"]
+  },
+
+  {
+    id: "p21",
+    name: "P21",
+    subtitle: "GABA Analog Neuropeptide",
+    description: "GABAergic peptide for cognitive and neuroprotective research",
+    longDescription: "Product Specifications: P21 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in neuroprotection, cognitive enhancement, stress resilience, and neurological health research.\n\nP21 is a neuroprotective peptide derived from GABA neurotransmitter biology that has demonstrated potent cognitive-enhancing and neuroprotective properties. Research has documented its role in modulating GABAergic neurotransmission, protecting against glutamate excitotoxicity, enhancing cognitive function, and supporting neural resilience. Studies have investigated P21's mechanisms in activating neuroprotective signaling cascades, enhancing stress adaptation, improving cognitive performance, and supporting brain health across multiple conditions. Researchers utilize P21 to understand GABAergic neuropeptide signaling, neuroprotection mechanisms, cognitive enhancement, and peptide-based brain health support.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C11H19N3O4",
+      pubChemCID: "none",
+      casNumber: "none",
+      molecularWeight: "257.29 g/mol",
+      synonyms: "P21, GABA Neuropeptide, Protective Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "p21-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 135 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 135,
+    researchApplications: ["Neuroprotection & neurorepair", "Cognitive enhancement", "Stress resilience support", "GABAergic optimization", "Neural health support", "Excitotoxicity prevention"],
+    benefitTags: ["Brain Health", "Neuroprotection", "Stress Relief", "Cognitive Support"]
+  },
+
+  {
+    id: "cerebrolysin",
+    name: "Cerebrolysin",
+    subtitle: "Brain-Derived Peptide Mixture",
+    description: "Porcine brain-derived peptide and amino acid complex",
+    longDescription: "Product Specifications: Cerebrolysin Lyophilized Powder (>99% purity) in 3ml liquid concentrate. *Requires Reconstitution or direct use (Sold Here)*\n\nApplication: Research peptide mixture that has been evaluated in neuroprotection, cognitive enhancement, brain health support, and neurodegenerative research.\n\nCerebrolysin is a complex brain-derived peptide and amino acid mixture isolated from porcine brain tissue, composed of low-molecular-weight peptides and amino acids. Research has documented its neuroprotective effects, cognitive-enhancing properties, and support for synaptic function and neuronal survival. Studies have investigated Cerebrolysin's mechanisms in reducing neuroinflammation, promoting synaptic plasticity, enhancing cognitive performance, and supporting neurological health across multiple pathways. Researchers utilize Cerebrolysin to understand brain-derived peptide biology, neuroprotection mechanisms, and complex peptide mixture efficacy in neurological research.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "Clear to pale yellow liquid concentrate",
+      chemicalFormula: "Complex mixture of peptides and amino acids",
+      pubChemCID: "Complex mixture",
+      casNumber: "94508-94-4",
+      molecularWeight: "Variable (1000-10000 g/mol range)",
+      synonyms: "Cerebrolysin, Brain-Derived Peptide Complex, NCBE",
+      storage: "Store at 2-8°C after reconstitution or ≤25°C sealed concentrate, away from light.",
+      purity: "≥99% Peptide content"
+    },
+    variants: [
+      { id: "cerebrolysin-10ml", label: "10ml", contents: "10ml Brain-Derived Peptide Concentrate", price: 95 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 95,
+    researchApplications: ["Neuroprotection & neurorepair", "Cognitive enhancement research", "Synaptic plasticity support", "Brain-derived peptide research", "Neuroinflammation reduction", "Neurological health optimization"],
+    benefitTags: ["Brain Health", "Cognitive Support", "Neuroprotection", "Neurological Support"]
+  },
+
+  {
+    id: "noopept",
+    name: "Noopept",
+    subtitle: "Synthetic Nootropic Peptide",
+    description: "Cycloprolyl dipeptide for cognitive research",
+    longDescription: "Product Specifications: Noopept Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in cognitive enhancement, neuroprotection, memory improvement, and nootropic research.\n\nNoopept is a synthetic dipeptide-like nootropic compound that has demonstrated potent cognitive-enhancing and neuroprotective effects. Research has documented its role in enhancing memory consolidation, improving cognitive performance, promoting neuroprotection against excitotoxicity, and supporting synaptic plasticity. Studies have investigated Noopept's mechanisms in activating brain-derived neurotrophic factor signaling, enhancing neurotransmitter function, improving cerebral blood flow, and supporting cognitive health. Researchers utilize Noopept to understand nootropic peptide mechanisms, memory biology, cognitive enhancement pathways, and brain health optimization.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C17H26N2O4",
+      pubChemCID: "4848574",
+      casNumber: "157115-85-0",
+      molecularWeight: "306.40 g/mol",
+      synonyms: "Noopept, Cycloprolylpeptide, GVS-111",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "noopept-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 35 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 35,
+    researchApplications: ["Cognitive enhancement", "Memory consolidation support", "Neuroprotection pathways", "Synaptic plasticity enhancement", "BDNF pathway activation", "Brain health optimization"],
+    benefitTags: ["Cognitive Support", "Memory", "Brain Health", "Neuroprotection"]
+  },
+
+  {
+    id: "nad-plus",
+    name: "NAD+",
+    subtitle: "Nicotinamide Adenine Dinucleotide",
+    description: "Cellular energy and metabolic cofactor for research",
+    longDescription: "Product Specifications: NAD+ Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in cellular energy metabolism, age-related research, mitochondrial function, and metabolic health pathways.\n\nNAD+ is the oxidized form of nicotinamide adenine dinucleotide, a critical coenzyme in cellular energy metabolism and sirtuinactivation. Research has documented its central role in ATP production, redox balance, DNA repair, and stress response pathways. Studies have investigated NAD+ metabolism's mechanisms in supporting mitochondrial function, enhancing cellular energy capacity, promoting longevity-associated sirtuins, and supporting metabolic health across multiple tissues. Researchers utilize NAD+ to understand energy metabolism, cellular aging, mitochondrial biology, and metabolic health optimization in research applications.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C21H27N7O14P2",
+      pubChemCID: "5892",
+      casNumber: "53-84-9",
+      molecularWeight: "663.43 g/mol",
+      synonyms: "NAD+, Nicotinamide Adenine Dinucleotide, Oxidized NAD",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture. Protect from light.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "nad-plus-500mg", label: "500mg", contents: "500mg Lyophilized Powder in 3ml vial", price: 95 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 95,
+    researchApplications: ["Cellular energy metabolism", "Mitochondrial function support", "Sirtuin activation pathways", "Metabolic health optimization", "Age-related research", "DNA repair support"],
+    benefitTags: ["Energy", "Metabolism", "Cellular Health", "Longevity Support"]
+  },
+
+  {
+    id: "dsip",
+    name: "DSIP",
+    subtitle: "Delta Sleep-Inducing Peptide",
+    description: "Sleep and recovery-promoting peptide",
+    longDescription: "Product Specifications: DSIP Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in sleep regulation, circadian rhythm modulation, recovery optimization, and sleep physiology research.\n\nDSIP (Delta Sleep-Inducing Peptide) is an endogenous neuropeptide originally isolated from sleep-related brain regions that has been extensively investigated for its sleep-promoting and recovery-enhancing effects. Research has documented its role in promoting delta-wave sleep, facilitating sleep quality improvement, and supporting circadian rhythm function. Studies have investigated DSIP's mechanisms in modulating neuroendocrine signaling, enhancing restorative sleep, promoting recovery during sleep, and supporting sleep architecture. Researchers utilize DSIP to understand sleep neurobiology, circadian regulation, sleep quality enhancement, and sleep physiology research.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C59H96N14O15",
+      pubChemCID: "9915913",
+      casNumber: "69626-53-3",
+      molecularWeight: "1269.51 g/mol",
+      synonyms: "DSIP, Delta Sleep-Inducing Peptide, Sleep Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "dsip-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 45 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 45,
+    researchApplications: ["Sleep quality enhancement", "Delta-wave sleep promotion", "Circadian rhythm support", "Recovery optimization", "Restorative sleep research", "Sleep physiology studies"],
+    benefitTags: ["Sleep Support", "Recovery", "Circadian Health", "Rest"]
+  },
+
+  {
+    id: "slu-pp-332",
+    name: "SLU-PP-332",
+    subtitle: "Neuroprotective Peptide",
+    description: "Potent neuroprotective and cognitive-enhancing peptide",
+    longDescription: "Product Specifications: SLU-PP-332 Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in neuroprotection, cognitive enhancement, brain health support, and neurodegenerative research pathways.\n\nSLU-PP-332 is a proprietary neuroprotective peptide developed for advanced brain health research with demonstrated cognitive-enhancing and neuroprotective properties. Research has documented its role in protecting neurons against excitotoxicity, promoting synaptic plasticity, enhancing memory consolidation, and supporting cognitive function. Studies have investigated SLU-PP-332's mechanisms in activating neuroprotective signaling cascades, enhancing neurotrophic support, improving cerebral function, and supporting neurological resilience. Researchers utilize SLU-PP-332 to understand advanced neuroprotection mechanisms, cognitive enhancement pathways, and peptide-based brain health optimization.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "Proprietary composition",
+      pubChemCID: "none",
+      casNumber: "none",
+      molecularWeight: "Proprietary",
+      synonyms: "SLU-PP-332, Neuroprotective Peptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "slu-pp-332-10mg", label: "10mg", contents: "10mg Lyophilized Powder in 3ml vial", price: 185 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 185,
+    researchApplications: ["Neuroprotection & neurorepair", "Cognitive enhancement research", "Memory support pathways", "Brain health optimization", "Excitotoxicity prevention", "Neurological resilience"],
+    benefitTags: ["Brain Health", "Cognitive Support", "Neuroprotection", "Advanced Research"]
+  },
+
+  {
+    id: "glutathione",
+    name: "Glutathione",
+    subtitle: "Antioxidant Tripeptide",
+    description: "Master antioxidant for oxidative stress research",
+    longDescription: "Product Specifications: Glutathione Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in antioxidant defense, oxidative stress reduction, cellular detoxification, and metabolic health research.\n\nGlutathione is the most abundant intracellular tripeptide antioxidant, serving as the primary defense against oxidative stress and cellular toxins. Research has extensively documented its critical roles in reducing reactive oxygen species, supporting cellular detoxification through conjugation reactions, and maintaining redox balance. Studies have investigated Glutathione's mechanisms in protecting cells against oxidative damage, supporting immune function, enhancing mitochondrial health, and optimizing antioxidant defense systems. Researchers utilize Glutathione to understand antioxidant biology, oxidative stress pathways, cellular detoxification, and health optimization.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White to off-white lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C10H17N3O6S",
+      pubChemCID: "124886",
+      casNumber: "70-18-8",
+      molecularWeight: "307.32 g/mol",
+      synonyms: "Glutathione, L-Glutathione, GSH, Antioxidant Tripeptide",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "glutathione-500mg", label: "500mg", contents: "500mg Lyophilized Powder in 3ml vial", price: 64 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 64,
+    researchApplications: ["Antioxidant defense", "Oxidative stress reduction", "Cellular detoxification", "Immune function support", "Mitochondrial health", "Redox balance optimization"],
+    benefitTags: ["Antioxidant", "Cellular Health", "Detoxification", "Immunity"]
+  },
+
+  {
+    id: "hcg",
+    name: "HCG",
+    subtitle: "Human Chorionic Gonadotropin",
+    description: "Gonadotropic hormone for hormonal and reproductive research",
+    longDescription: "Product Specifications: HCG Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in gonadotropic signaling, testosterone production, reproductive hormone research, and endocrine research applications.\n\nHCG (Human Chorionic Gonadotropin) is a gonadotropic hormone that activates luteinizing hormone receptors on testicular Leydig cells and ovarian cells. Research has documented its role in stimulating testosterone production in males, promoting ovulation in females, and supporting reproductive hormone function. Studies have investigated HCG's mechanisms in activating gonadal steroid production, supporting endocrine axis function, and modulating reproductive signaling. Researchers utilize HCG to understand gonadotropic signaling, reproductive endocrinology, testosterone production pathways, and hormonal research.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C113H155N31O24S",
+      pubChemCID: "16132405",
+      casNumber: "9002-61-3",
+      molecularWeight: "2433.27 g/mol",
+      synonyms: "HCG, Human Chorionic Gonadotropin, Chorionic Gonadotropin",
+      storage: "Store at 2-8°C after reconstitution or ≤25°C dry powder, sealed, away from light.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "hcg-5000iu", label: "5000iu", contents: "5000iu Lyophilized Powder in 3ml vial", price: 50 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 50,
+    researchApplications: ["Gonadotropic signaling research", "Testosterone production support", "Ovulation research", "Reproductive endocrinology", "Hormonal axis research", "Steroid production pathways"],
+    benefitTags: ["Hormonal Health", "Reproductive Health", "Endocrine Support"]
+  },
+
+  {
+    id: "oxytocin",
+    name: "Oxytocin",
+    subtitle: "Social Bonding Peptide",
+    description: "Neuropeptide for social behavior and bonding research",
+    longDescription: "Product Specifications: Oxytocin Lyophilized Powder (>99% purity) in 3ml vial. *Requires Reconstitution with solvent such as bacteriostatic water (Sold Here)*\n\nApplication: Research peptide that has been evaluated in social bonding, trust and affiliation pathways, reproductive behavior, and neuroendocrine research.\n\nOxytocin is an endogenous neuropeptide synthesized in the hypothalamus with profound effects on social behavior, bonding, and trust. Research has extensively documented its roles in promoting social affiliation, enhancing trust and cooperation, facilitating pair bonding, and modulating reproductive behaviors. Studies have investigated Oxytocin's mechanisms in activating social neural circuits, enhancing social perception, reducing social anxiety, and supporting healthy social interactions. Researchers utilize Oxytocin to understand social neurobiology, bonding mechanisms, trust and cooperation pathways, and neuroendocrine regulation of social behavior.\n\nCertificate of Analysis included with every order. Rigorous third-party testing ensures ≥99% HPLC-verified purity.\n\nHave a question? Reach out to our U.S. support team at: info@pep.center",
+    specs: {
+      appearance: "White lyophilized powder in 3ml glass vial",
+      chemicalFormula: "C43H66N12O12S2",
+      pubChemCID: "439314",
+      casNumber: "50-56-6",
+      molecularWeight: "1007.19 g/mol",
+      synonyms: "Oxytocin, Oxt, Social Bonding Hormone",
+      storage: "Store at ≤25°C, sealed, away from heat, light, and moisture.",
+      purity: "≥99%"
+    },
+    variants: [
+      { id: "oxytocin-5mg", label: "5mg", contents: "5mg Lyophilized Powder in 3ml vial", price: 40 }
+    ],
+    image: "/product_vial.jpg",
+    category: "Research Peptides",
+    inStock: true,
+    price: 40,
+    researchApplications: ["Social bonding & affiliation", "Trust and cooperation research", "Social behavior pathways", "Reproductive behavior support", "Social anxiety reduction", "Neuroendocrine modulation"],
+    benefitTags: ["Social Health", "Bonding", "Trust", "Behavioral Support"]
+  }
 ];
 
-export const categories = [
-  "Amino Acid Peptides",
-  "Laboratory Peptides",
-  "Synthetic Peptides",
-  "Research Peptides",
-  "GLP-1 Sequences",
-  "Reference Standards",
-];
+// Helper functions for accessing products
+export function getProductBySlug(slug) {
+  // First try exact match on product id
+  const product = products.find(p => p.id === slug);
+  if (product) return product;
+  // Then try matching a variant id
+  for (const p of products) {
+    if (p.variants && p.variants.some(v => v.id === slug)) {
+      return p;
+    }
+  }
+  return null;
+}
 
-export const getProductBySlug = (slug) => products.find((p) => p.id === slug);
-export const getProductsByCategory = (cat) => products.filter((p) => p.category === cat);
+export function getProductsByCategory(category) {
+  return products.filter(p => p.category === category);
+}
+
+// Get a flat list of all variant IDs (for cart compatibility)
+export function getAllVariantIds() {
+  const ids = [];
+  for (const p of products) {
+    if (p.variants) {
+      p.variants.forEach(v => ids.push(v.id));
+    }
+  }
+  return ids;
+}
+
+// Unique categories derived from products
+export const categories = [...new Set(products.map(p => p.category))];

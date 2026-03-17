@@ -28,7 +28,7 @@ export default function QuickViewModal({ product, isOpen, onClose }) {
   };
 
   const specs = [
-    { icon: Beaker, label: 'Purity', value: product.purity || '≥99%', color: 'text-[#f97316]' },
+    { icon: Beaker, label: 'Purity', value: product.specs?.purity || product.purity || '≥99%', color: 'text-[#f97316]' },
     { icon: Shield, label: 'Testing', value: 'HPLC', color: 'text-green-400' },
     { icon: Snowflake, label: 'Form', value: 'Lyophilized', color: 'text-blue-400' },
     { icon: FileCheck, label: 'COA', value: 'Included', color: 'text-green-400' },
@@ -71,7 +71,7 @@ export default function QuickViewModal({ product, isOpen, onClose }) {
                 />
                 <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
                   <span className="px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-[#f97316]/20 border border-[#f97316]/30 text-[10px] sm:text-xs font-semibold text-[#f97316]">
-                    {product.purity || '≥99%'}
+                    {product.specs?.purity || product.purity || '≥99%'}
                   </span>
                 </div>
                 <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
