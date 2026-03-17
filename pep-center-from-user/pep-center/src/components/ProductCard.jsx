@@ -121,7 +121,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
               <span className="px-3 py-1.5 rounded-full bg-green-500/15 border border-green-500/30 text-xs font-medium text-green-400 backdrop-blur-sm flex items-center gap-1">
                 <TrendingDown className="w-3 h-3" />
                 {pricing.discount}% OFF
-              </span
+              </span>
             </div>
           )}
           
