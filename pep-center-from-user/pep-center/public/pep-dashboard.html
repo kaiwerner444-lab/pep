@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PEP.CENTER — Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    body { background:#0a0c10; color:#e2e8f0; font-family:'Inter',system-ui,sans-serif; }
+    .card { background:#111318; border:1px solid #1e2130; border-radius:14px; }
+    .glow { box-shadow:0 0 20px rgba(234,88,12,.08); }
+    .badge { display:inline-block; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+    .tab { padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; white-space:nowrap; }
+    .tab.active { background:#ea580c; color:white; }
+    .tab:not(.active) { background:#1a1d27; color:#94a3b8; }
+    .tab:not(.active):hover { background:#252836; }
+    .row { border-bottom:1px solid #1e2130; }
+    .row:last-child { border-bottom:none; }
+    .spinner { border:3px solid #1e2130; border-top:3px solid #ea580c; border-radius:50%; width:28px; height:28px; animation:spin .7s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation:fadeIn .3s ease; }
+    ::-webkit-scrollbar { width:6px; }
+    ::-webkit-scrollbar-track { background:#0a0c10; }
+    ::-webkit-scrollbar-thumb { background:#2d3148; border-radius:3px; }
+    .pulse { animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+    .pipeline-step { position:relative; flex:1; text-align:center; padding:12px 8px; border-radius:10px; cursor:pointer; transition:all .2s; }
+    .pipeline-step.active { background:rgba(234,88,12,.15); border:1px solid rgba(234,88,12,.4); }
+    .pipeline-step:not(.active) { background:#1a1d27; border:1px solid transparent; }
+    .pipeline-step:hover { background:#1f2233; }
+    .pipeline-arrow { color:#3d4165; font-size:20px; display:flex; align-items:center; }
+    .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(4px); z-index:60; display:flex; align-items:center; justify-content:center; }
+    .btn { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; transition:all .15s; }
+    .btn-orange { background:#ea580c; color:white; }
+    .btn-orange:hover { background:#c2410c; }
+    .btn-ghost { background:#1a1d27; border:1px solid #2d3148; color:#94a3b8; }
+    .btn-ghost:hover { background:#252836; }
+    .comp-row { transition:all .15s; }
+    .comp-row:hover { background:rgba(255,255,255,.02); }
+    .idea-card { transition:all .15s; cursor:pointer; }
+    .idea-card:hover { border-color:rgba(234,88,12,.4); transform:translateY(-1px); }
+    .toast { position:fixed; bottom:24px; right:24px; z-index:100; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; animation:fadeIn .3s ease; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- PIN Lock -->
+<div id="lockScreen" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center">
+  <div class="card p-8 w-80 text-center glow">
+    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-orange-600 flex items-center justify-center text-white font-bold text-lg">P</div>
+    <h2 class="text-lg font-bold mb-1">PEP.CENTER</h2>
+    <p class="text-sm text-slate-400 mb-5">Command Center</p>
+    <input id="pinInput" type="password" maxlength="4" placeholder="PIN"
+      class="w-full bg-[#1a1d27] border border-[#2d3148] rounded-lg px-4 py-3 text-center text-xl tracking-[.5em] focus:outline-none focus:border-orange-500 mb-3"/>
+    <p id="pinError" class="text-red-400 text-xs hidden mb-2">Wrong PIN</p>
+    <button onclick="checkPin()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2.5 rounded-lg transition">Unlock</button>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div id="orderModal" class="modal-bg hidden" onclick="if(event.target===this)closeOrderModal()">
+  <div class="card p-6 w-[600px] max-h-[80vh] overflow-y-auto glow">
+    <div class="flex justify-between items-center mb-5">
+      <h3 class="font-bold text-lg">Order Details</h3>
+      <button onclick="closeOrderModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+    </div>
+    <div id="orderModalContent"></div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="hidden p-6 max-w-[1440px] mx-auto">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-orange-600 flex items-center justify-center text-white font-bold text-sm">P</div>
+      <div>
+        <h1 class="text-xl font-bold">PEP.CENTER</h1>
+        <p class="text-xs text-slate-400">Command Center</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="flex items-center gap-1.5 text-xs text-slate-400">
+        <span class="w-2 h-2 rounded-full bg-green-500 pulse"></span> Live
+      </span>
+      <button onclick="refreshAll()" class="btn btn-ghost">Refresh</button>
+      <a href="https://pep.center" target="_blank" class="btn btn-ghost">Visit Site &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-6 overflow-x-auto pb-1">
+    <div class="tab active" onclick="switchTab('fulfillment',this)">Fulfillment</div>
+    <div class="tab" onclick="switchTab('analytics',this)">Analytics</div>
+    <div class="tab" onclick="switchTab('products',this)">Products</div>
+    <div class="tab" onclick="switchTab('competitors',this)">Competitors</div>
+    <div class="tab" onclick="switchTab('ideas',this)">Ideas & Roadmap</div>
+    <div class="tab" onclick="switchTab('seo',this)">SEO Health</div>
+  </div>
+
+  <!-- ═══════════════ FULFILLMENT TAB ═══════════════ -->
+  <div id="tab-fulfillment" class="fade-in">
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Total Orders</p><p id="fTotal" class="text-2xl font-bold">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Revenue</p><p id="fRevenue" class="text-2xl font-bold text-green-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Avg Order</p><p id="fAvg" class="text-2xl font-bold text-orange-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Need Action</p><p id="fAction" class="text-2xl font-bold text-yellow-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Completed</p><p id="fDone" class="text-2xl font-bold text-emerald-400">—</p></div>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-4">Fulfillment Pipeline</h3>
+      <div class="flex items-center gap-2" id="pipeline"></div>
+    </div>
+
+    <!-- Orders Chart -->
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-3">Orders Over Time</h3>
+      <canvas id="ordersChart" height="120"></canvas>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="card glow overflow-hidden">
+      <div class="flex items-center justify-between p-4 border-b border-[#1e2130]">
+        <h3 class="text-sm font-semibold">All Orders</h3>
+        <div class="flex gap-2">
+          <select id="statusFilter" onchange="filterOrders()" class="bg-[#1a1d27] border border-[#2d3148] rounded-lg px-3 py-1.5 text-xs">
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <button onclick="exportCSV()" class="btn btn-ghost">Export CSV</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-xs text-slate-400 border-b border-[#1e2130]">
+            <th class="text-left p-3">Order</th><th class="text-left p-3">Customer</th><th class="text-left p-3">Items</th>
+            <th class="text-left p-3">Total</th><th class="text-left p-3">Status</th><th class="text-left p-3">Date</th><th class="p-3">Actions</th>
+          </tr></thead>
+          <tbody id="ordersBody"><tr><td colspan="7" class="p-8 text-center text-slate-500"><div class="spinner mx-auto"></div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ ANALYTICS TAB ═══════════════ -->
+  <div id="tab-analytics" class="hidden fade-in">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Page Views</p><p id="aViews" class="text-2xl font-bold">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Product Views</p><p id="aProd" class="text-2xl font-bold text-orange-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Add to Cart</p><p id="aCart" class="text-2xl font-bold text-purple-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Checkouts</p><p id="aCheck" class="text-2xl font-bold text-cyan-400">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Avg Session</p><p id="aSession" class="text-2xl font-bold text-green-400">—</p></div>
+    </div>
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-3">Traffic & Conversions (30 Days)</h3>
+      <canvas id="trafficChart" height="130"></canvas>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 mb-6">
+      <div class="card p-5 glow">
+        <h3 class="text-sm font-semibold mb-3">Conversion Funnel</h3>
+        <canvas id="funnelChart" height="180"></canvas>
+      </div>
+      <div class="card p-5 glow">
+        <h3 class="text-sm font-semibold mb-3">Top Pages by Views</h3>
+        <div id="topPages"></div>
+      </div>
+    </div>
+    <div class="card p-5 glow">
+      <h3 class="text-sm font-semibold mb-3">Time Spent Per Page (avg seconds)</h3>
+      <div id="timeOnPage"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PRODUCTS TAB ═══════════════ -->
+  <div id="tab-products" class="hidden fade-in">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Total Products</p><p id="pTotal" class="text-2xl font-bold">43</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Most Viewed</p><p id="pViewed" class="text-2xl font-bold text-orange-400 text-sm">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">Most Carted</p><p id="pCarted" class="text-2xl font-bold text-purple-400 text-sm">—</p></div>
+      <div class="card p-4 glow"><p class="text-xs text-slate-400 mb-1">View-to-Cart %</p><p id="pConv" class="text-2xl font-bold text-green-400">—</p></div>
+    </div>
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-3">Product Views vs Cart Adds (Top 10)</h3>
+      <canvas id="productChart" height="160"></canvas>
+    </div>
+    <div class="card glow overflow-hidden">
+      <div class="p-4 border-b border-[#1e2130]"><h3 class="text-sm font-semibold">Product Performance</h3></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm"><thead><tr class="text-xs text-slate-400 border-b border-[#1e2130]">
+          <th class="text-left p-3">Product</th><th class="text-left p-3">Views</th><th class="text-left p-3">Carts</th><th class="text-left p-3">Purchases</th><th class="text-left p-3">Conv %</th>
+        </tr></thead><tbody id="productsBody"><tr><td colspan="5" class="p-8 text-center text-slate-500"><div class="spinner mx-auto"></div></td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ COMPETITORS TAB ═══════════════ -->
+  <div id="tab-competitors" class="hidden fade-in">
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-1">Competitive Landscape</h3>
+      <p class="text-xs text-slate-400 mb-4">Research peptide market — top 10 vendors vs PEP.CENTER</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-xs text-slate-400 border-b border-[#1e2130]">
+            <th class="text-left p-3">Vendor</th><th class="text-left p-3">Key Strengths</th><th class="text-left p-3">Pricing</th>
+            <th class="text-left p-3">Testing</th><th class="text-left p-3">Shipping</th><th class="text-left p-3">Threat</th>
+          </tr></thead>
+          <tbody id="compBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-5 glow">
+        <h3 class="text-sm font-semibold mb-3">Feature Comparison</h3>
+        <canvas id="compChart" height="220"></canvas>
+      </div>
+      <div class="card p-5 glow">
+        <h3 class="text-sm font-semibold mb-3">Where PEP.CENTER Wins / Loses</h3>
+        <div id="compWinLose"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ IDEAS TAB ═══════════════ -->
+  <div id="tab-ideas" class="hidden fade-in">
+    <div class="card p-5 mb-6 glow">
+      <h3 class="text-sm font-semibold mb-1">Feature Ideas & Roadmap</h3>
+      <p class="text-xs text-slate-400 mb-4">Based on competitor analysis, analytics gaps, and industry trends</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="ideasGrid"></div>
+  </div>
+
+  <!-- ═══════════════ SEO HEALTH TAB ═══════════════ -->
+  <div id="tab-seo" class="hidden fade-in">
+    <div class="card p-5 mb-6 glow">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 text-lg font-bold" id="seoScore">—</div>
+        <div><h3 class="text-sm font-semibold">SEO Health Score</h3><p class="text-xs text-slate-400" id="seoSubtext">Checking...</p></div>
+      </div>
+      <div id="seoChecklist" class="space-y-3"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── Config ───
+const SB_URL='https://whquibmxhuhhtlnotzop.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndocXVpYm14aHVoaHRsbm90em9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0MTE3MjIsImV4cCI6MjA4Nzk4NzcyMn0.idZFxCwu9o_Tyk53h--KjYYq2gg8o_vd5tHNkeYIlys';
+const PIN='0314';
+const STAGES=['pending','paid','processing','shipped','delivered','cancelled'];
+const STAGE_COLORS={pending:'bg-yellow-500/20 text-yellow-400',paid:'bg-green-500/20 text-green-400',processing:'bg-blue-500/20 text-blue-400',shipped:'bg-purple-500/20 text-purple-400',delivered:'bg-emerald-500/20 text-emerald-400',cancelled:'bg-red-500/20 text-red-400'};
+const STAGE_NEXT={pending:'paid',paid:'processing',processing:'shipped',shipped:'delivered'};
+
+let sb=null, allOrders=[], allEvents=[], charts={};
+
+// ─── PIN ───
+document.getElementById('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPin()});
+function checkPin(){
+  if(document.getElementById('pinInput').value===PIN){
+    document.getElementById('lockScreen').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    init();
+  } else {
+    document.getElementById('pinError').classList.remove('hidden');
+    document.getElementById('pinInput').value='';
+  }
+}
+
+async function init(){ sb=supabase.createClient(SB_URL,SB_KEY); await refreshAll(); renderCompetitors(); renderIdeas(); }
+async function refreshAll(){ await Promise.all([loadOrders(),loadAnalytics()]); }
+
+function switchTab(name,el){
+  document.querySelectorAll('[id^="tab-"]').forEach(t=>t.classList.add('hidden'));
+  const tab=document.getElementById('tab-'+name);
+  tab.classList.remove('hidden'); tab.classList.add('fade-in');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toast(msg,color='bg-green-600'){
+  const t=document.createElement('div');
+  t.className='toast '+color+' text-white'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+// ═══════════════ FULFILLMENT ═══════════════
+async function loadOrders(){
+  try{ const{data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false}); if(error)throw error; allOrders=data||[]; }
+  catch(e){ console.warn('Orders:',e.message); allOrders=[]; }
+  renderFulfillment();
+}
+
+function renderFulfillment(){
+  const total=allOrders.length;
+  const rev=allOrders.filter(o=>o.status!=='cancelled').reduce((s,o)=>s+parseFloat(o.total||o.amount||0),0);
+  const avg=total>0?rev/allOrders.filter(o=>o.status!=='cancelled').length:0;
+  const action=allOrders.filter(o=>['pending','paid','processing'].includes(o.status)).length;
+  const done=allOrders.filter(o=>o.status==='delivered').length;
+  document.getElementById('fTotal').textContent=total;
+  document.getElementById('fRevenue').textContent='$'+rev.toFixed(2);
+  document.getElementById('fAvg').textContent='$'+avg.toFixed(2);
+  document.getElementById('fAction').textContent=action;
+  document.getElementById('fDone').textContent=done;
+  renderPipeline();
+  renderOrdersTable(allOrders);
+  renderOrdersChart();
+}
+
+function renderPipeline(){
+  const counts={};
+  STAGES.forEach(s=>counts[s]=allOrders.filter(o=>o.status===s).length);
+  const el=document.getElementById('pipeline');
+  el.innerHTML=STAGES.map((s,i)=>{
+    const sc=STAGE_COLORS[s]||'';
+    return (i>0?'<div class="pipeline-arrow">&#8594;</div>':'')+
+    `<div class="pipeline-step ${counts[s]>0?'active':''}" onclick="document.getElementById('statusFilter').value='${s}';filterOrders()">
+      <div class="text-2xl font-bold ${sc.split(' ')[1]||''}">${counts[s]}</div>
+      <div class="text-[10px] uppercase tracking-wider text-slate-400 mt-1">${s}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderOrdersTable(orders){
+  const body=document.getElementById('ordersBody');
+  if(!orders.length){ body.innerHTML='<tr><td colspan="7" class="p-8 text-center text-slate-500">No orders yet</td></tr>'; return; }
+  body.innerHTML=orders.slice(0,50).map((o,idx)=>{
+    const items=o.items?(Array.isArray(o.items)?o.items:JSON.parse(o.items||'[]')):[];
+    const itemStr=items.length?items.map(i=>i.name||i.product_name||'Item').join(', '):'--';
+    const sc=STAGE_COLORS[o.status]||'bg-slate-500/20 text-slate-400';
+    const date=o.created_at?new Date(o.created_at).toLocaleDateString():'--';
+    const total=o.total||o.amount||0;
+    const next=STAGE_NEXT[o.status];
+    const nextBtn=next?`<button class="btn btn-orange text-[10px] py-1 px-2" onclick="event.stopPropagation();advanceOrder('${o.id}','${next}')">&#8594; ${next}</button>`:'';
+    return `<tr class="row hover:bg-white/[.02] transition cursor-pointer" onclick="openOrderModal('${o.id}')">
+      <td class="p-3 font-mono text-xs">#${(o.order_number||o.id||'').toString().slice(0,8)}</td>
+      <td class="p-3">${o.customer_name||o.email||o.shipping_name||'--'}</td>
+      <td class="p-3 text-xs text-slate-400 max-w-[180px] truncate">${itemStr}</td>
+      <td class="p-3 font-semibold">$${parseFloat(total).toFixed(2)}</td>
+      <td class="p-3"><span class="badge ${sc}">${o.status||'unknown'}</span></td>
+      <td class="p-3 text-xs text-slate-400">${date}</td>
+      <td class="p-3 text-center">${nextBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function advanceOrder(id,newStatus){
+  try{
+    const{error}=await sb.from('orders').update({status:newStatus,updated_at:new Date().toISOString()}).eq('id',id);
+    if(error)throw error;
+    toast('Order moved to '+newStatus);
+    await loadOrders();
+  }catch(e){ toast('Error: '+e.message,'bg-red-600'); }
+}
+
+function openOrderModal(id){
+  const o=allOrders.find(x=>x.id===id); if(!o)return;
+  const items=o.items?(Array.isArray(o.items)?o.items:JSON.parse(o.items||'[]')):[];
+  const sc=STAGE_COLORS[o.status]||'bg-slate-500/20 text-slate-400';
+  const next=STAGE_NEXT[o.status];
+  document.getElementById('orderModalContent').innerHTML=`
+    <div class="grid grid-cols-2 gap-4 mb-5">
+      <div><p class="text-xs text-slate-400">Order ID</p><p class="font-mono text-sm">${o.order_number||o.id}</p></div>
+      <div><p class="text-xs text-slate-400">Status</p><p><span class="badge ${sc}">${o.status}</span></p></div>
+      <div><p class="text-xs text-slate-400">Date</p><p class="text-sm">${o.created_at?new Date(o.created_at).toLocaleString():'--'}</p></div>
+      <div><p class="text-xs text-slate-400">Total</p><p class="text-lg font-bold text-orange-400">$${parseFloat(o.total||o.amount||0).toFixed(2)}</p></div>
+    </div>
+    <div class="card p-4 mb-4">
+      <p class="text-xs text-slate-400 mb-2">Customer</p>
+      <p class="text-sm font-medium">${o.customer_name||o.shipping_name||'--'}</p>
+      <p class="text-xs text-slate-400">${o.email||''}</p>
+      ${o.shipping_address?`<p class="text-xs text-slate-400 mt-2">${typeof o.shipping_address==='object'?JSON.stringify(o.shipping_address):o.shipping_address}</p>`:''}
+    </div>
+    <div class="card p-4 mb-4">
+      <p class="text-xs text-slate-400 mb-2">Items (${items.length})</p>
+      ${items.length?items.map(i=>`<div class="flex justify-between text-sm py-1 border-b border-[#1e2130] last:border-0">
+        <span>${i.name||i.product_name||'Item'} x${i.quantity||1}</span>
+        <span class="text-slate-400">$${parseFloat(i.price||0).toFixed(2)}</span>
+      </div>`).join(''):'<p class="text-sm text-slate-500">No item details</p>'}
+    </div>
+    <div class="card p-4 mb-4">
+      <p class="text-xs text-slate-400 mb-2">Payment</p>
+      <p class="text-sm">${o.payment_method||o.payment_type||'--'}</p>
+      ${o.payment_id?`<p class="text-xs text-slate-400 font-mono mt-1">${o.payment_id}</p>`:''}
+    </div>
+    <div class="flex gap-2 mt-4">
+      ${next?`<button class="btn btn-orange" onclick="advanceOrder('${o.id}','${next}');closeOrderModal()">Move to ${next} &#8594;</button>`:''}
+      ${o.status!=='cancelled'&&o.status!=='delivered'?`<button class="btn bg-red-600 text-white hover:bg-red-700" onclick="advanceOrder('${o.id}','cancelled');closeOrderModal()">Cancel Order</button>`:''}
+    </div>
+  `;
+  document.getElementById('orderModal').classList.remove('hidden');
+}
+function closeOrderModal(){ document.getElementById('orderModal').classList.add('hidden'); }
+
+function filterOrders(){
+  const v=document.getElementById('statusFilter').value;
+  renderOrdersTable(v==='all'?allOrders:allOrders.filter(o=>o.status===v));
+}
+
+function renderOrdersChart(){
+  const ctx=document.getElementById('ordersChart').getContext('2d');
+  if(charts.orders)charts.orders.destroy();
+  const days={}; const now=new Date();
+  for(let i=29;i>=0;i--){ const d=new Date(now);d.setDate(d.getDate()-i);days[d.toISOString().slice(0,10)]={orders:0,revenue:0}; }
+  allOrders.forEach(o=>{ if(o.created_at){ const d=o.created_at.slice(0,10); if(days[d]){days[d].orders++;days[d].revenue+=parseFloat(o.total||o.amount||0);} } });
+  charts.orders=new Chart(ctx,{type:'bar',data:{
+    labels:Object.keys(days).map(d=>d.slice(5)),
+    datasets:[
+      {label:'Orders',data:Object.values(days).map(d=>d.orders),backgroundColor:'rgba(234,88,12,.6)',borderRadius:4,yAxisID:'y'},
+      {label:'Revenue',data:Object.values(days).map(d=>d.revenue),type:'line',borderColor:'#22c55e',backgroundColor:'transparent',tension:.3,yAxisID:'y1'}
+    ]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},
+    scales:{x:{grid:{display:false},ticks:{color:'#64748b',font:{size:10}}},y:{grid:{color:'#1e2130'},ticks:{color:'#64748b',stepSize:1}},y1:{position:'right',grid:{display:false},ticks:{color:'#22c55e',callback:v=>'$'+v}}}}});
+}
+
+function exportCSV(){
+  if(!allOrders.length)return alert('No orders');
+  const h=['order_id','customer','email','total','status','date','items'];
+  const rows=allOrders.map(o=>{const items=o.items?(Array.isArray(o.items)?o.items:JSON.parse(o.items||'[]')):[];return[o.order_number||o.id,o.customer_name||o.shipping_name||'',o.email||'',o.total||o.amount||0,o.status,o.created_at,items.map(i=>i.name||'').join(';')];});
+  const csv=[h.join(','),...rows.map(r=>r.map(v=>`"${v}"`).join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`pep-orders-${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+
+// ═══════════════ ANALYTICS ═══════════════
+async function loadAnalytics(){
+  try{ const{data,error}=await sb.from('analytics_events').select('*').order('created_at',{ascending:false}).limit(10000); if(error)throw error; allEvents=data||[]; }
+  catch(e){ console.warn('Analytics:',e.message); allEvents=[]; }
+  renderAnalytics();
+  renderProductStats();
+  renderSEO();
+}
+
+function renderAnalytics(){
+  const pv=allEvents.filter(e=>e.event_type==='page_view').length;
+  const prodv=allEvents.filter(e=>e.event_type==='product_view').length;
+  const cart=allEvents.filter(e=>e.event_type==='add_to_cart').length;
+  const checkout=allEvents.filter(e=>e.event_type==='checkout_start').length;
+  document.getElementById('aViews').textContent=pv.toLocaleString();
+  document.getElementById('aProd').textContent=prodv.toLocaleString();
+  document.getElementById('aCart').textContent=cart.toLocaleString();
+  document.getElementById('aCheck').textContent=checkout.toLocaleString();
+
+  // Avg session time estimate
+  const sessions={};
+  allEvents.forEach(e=>{
+    const sid=e.session_id||e.visitor_id||'unknown';
+    if(!sessions[sid])sessions[sid]={min:e.created_at,max:e.created_at};
+    if(e.created_at<sessions[sid].min)sessions[sid].min=e.created_at;
+    if(e.created_at>sessions[sid].max)sessions[sid].max=e.created_at;
+  });
+  const durations=Object.values(sessions).map(s=>(new Date(s.max)-new Date(s.min))/1000).filter(d=>d>0&&d<3600);
+  const avgSess=durations.length?Math.round(durations.reduce((a,b)=>a+b,0)/durations.length):0;
+  document.getElementById('aSession').textContent=avgSess>0?(avgSess>60?Math.round(avgSess/60)+'m':avgSess+'s'):'--';
+
+  renderTrafficChart();
+  renderFunnelChart(pv,prodv,cart,checkout);
+  renderTopPages();
+  renderTimeOnPage();
+}
+
+function renderTrafficChart(){
+  const ctx=document.getElementById('trafficChart').getContext('2d');
+  if(charts.traffic)charts.traffic.destroy();
+  const days={}; const now=new Date();
+  for(let i=29;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days[d.toISOString().slice(0,10)]={v:0,p:0,c:0,ch:0};}
+  allEvents.forEach(e=>{if(e.created_at){const d=e.created_at.slice(0,10);if(days[d]){
+    if(e.event_type==='page_view')days[d].v++;if(e.event_type==='product_view')days[d].p++;
+    if(e.event_type==='add_to_cart')days[d].c++;if(e.event_type==='checkout_start')days[d].ch++;}}});
+  charts.traffic=new Chart(ctx,{type:'line',data:{labels:Object.keys(days).map(d=>d.slice(5)),datasets:[
+    {label:'Page Views',data:Object.values(days).map(d=>d.v),borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,.1)',fill:true,tension:.3},
+    {label:'Product Views',data:Object.values(days).map(d=>d.p),borderColor:'#a855f7',tension:.3},
+    {label:'Cart Adds',data:Object.values(days).map(d=>d.c),borderColor:'#22c55e',tension:.3},
+    {label:'Checkouts',data:Object.values(days).map(d=>d.ch),borderColor:'#06b6d4',tension:.3}
+  ]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{grid:{display:false},ticks:{color:'#64748b',font:{size:10}}},y:{grid:{color:'#1e2130'},ticks:{color:'#64748b'}}}}});
+}
+
+function renderFunnelChart(pv,prodv,cart,checkout){
+  const ctx=document.getElementById('funnelChart').getContext('2d');
+  if(charts.funnel)charts.funnel.destroy();
+  charts.funnel=new Chart(ctx,{type:'bar',data:{labels:['Page Views','Product Views','Add to Cart','Checkout'],datasets:[{
+    data:[pv,prodv,cart,checkout],backgroundColor:['rgba(234,88,12,.6)','rgba(168,85,247,.6)','rgba(34,197,94,.6)','rgba(6,182,212,.6)'],borderRadius:6
+  }]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#1e2130'},ticks:{color:'#64748b'}},y:{grid:{display:false},ticks:{color:'#e2e8f0',font:{size:12}}}}}});
+}
+
+function renderTopPages(){
+  const pages={};
+  allEvents.filter(e=>e.event_type==='page_view').forEach(e=>{const p=e.page_url||e.page||e.path||'/';pages[p]=(pages[p]||0)+1;});
+  const sorted=Object.entries(pages).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const el=document.getElementById('topPages');
+  if(!sorted.length){el.innerHTML='<p class="text-slate-500 text-sm">No data yet</p>';return;}
+  const max=sorted[0][1];
+  el.innerHTML=sorted.map(([p,c])=>`<div class="flex items-center gap-3 mb-2">
+    <span class="text-xs text-slate-300 w-36 truncate font-mono">${p}</span>
+    <div class="flex-1 h-4 bg-[#1a1d27] rounded overflow-hidden"><div class="h-full bg-orange-600/40 rounded" style="width:${(c/max*100).toFixed(1)}%"></div></div>
+    <span class="text-xs text-slate-400 w-10 text-right">${c}</span>
+  </div>`).join('');
+}
+
+function renderTimeOnPage(){
+  // Group events by page+session, calculate time between first and last event on that page
+  const pageSessions={};
+  allEvents.forEach(e=>{
+    const page=e.page_url||e.page||e.path||'/';
+    const sid=e.session_id||e.visitor_id||'x';
+    const key=page+'|'+sid;
+    if(!pageSessions[key])pageSessions[key]={page,min:e.created_at,max:e.created_at};
+    if(e.created_at<pageSessions[key].min)pageSessions[key].min=e.created_at;
+    if(e.created_at>pageSessions[key].max)pageSessions[key].max=e.created_at;
+  });
+  const pageTime={};
+  Object.values(pageSessions).forEach(ps=>{
+    const dur=(new Date(ps.max)-new Date(ps.min))/1000;
+    if(dur>0&&dur<600){if(!pageTime[ps.page])pageTime[ps.page]=[];pageTime[ps.page].push(dur);}
+  });
+  const avgTimes=Object.entries(pageTime).map(([page,times])=>({page,avg:Math.round(times.reduce((a,b)=>a+b,0)/times.length),sessions:times.length})).sort((a,b)=>b.avg-a.avg).slice(0,10);
+  const el=document.getElementById('timeOnPage');
+  if(!avgTimes.length){el.innerHTML='<p class="text-slate-500 text-sm">Not enough session data yet</p>';return;}
+  const max=avgTimes[0].avg;
+  el.innerHTML=avgTimes.map(t=>`<div class="flex items-center gap-3 mb-2">
+    <span class="text-xs text-slate-300 w-36 truncate font-mono">${t.page}</span>
+    <div class="flex-1 h-4 bg-[#1a1d27] rounded overflow-hidden"><div class="h-full bg-cyan-500/40 rounded" style="width:${(t.avg/max*100).toFixed(1)}%"></div></div>
+    <span class="text-xs text-slate-400 w-16 text-right">${t.avg}s (${t.sessions})</span>
+  </div>`).join('');
+}
+
+// ═══════════════ PRODUCTS ═══════════════
+function renderProductStats(){
+  const pv={},pc={},pp={};
+  allEvents.forEach(e=>{const n=e.product_name||e.product||'';if(!n)return;
+    if(e.event_type==='product_view')pv[n]=(pv[n]||0)+1;
+    if(e.event_type==='add_to_cart')pc[n]=(pc[n]||0)+1;
+    if(e.event_type==='checkout_complete'||e.event_type==='purchase')pp[n]=(pp[n]||0)+1;});
+  const all=new Set([...Object.keys(pv),...Object.keys(pc)]);
+  document.getElementById('pTotal').textContent=all.size||'43';
+  const tv=Object.entries(pv).sort((a,b)=>b[1]-a[1])[0];
+  const tc=Object.entries(pc).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('pViewed').textContent=tv?tv[0]:'--';
+  document.getElementById('pCarted').textContent=tc?tc[0]:'--';
+  const sumV=Object.values(pv).reduce((s,v)=>s+v,0), sumC=Object.values(pc).reduce((s,v)=>s+v,0);
+  document.getElementById('pConv').textContent=sumV>0?((sumC/sumV)*100).toFixed(1)+'%':'--';
+
+  const prods=[...all].map(n=>({name:n,views:pv[n]||0,carts:pc[n]||0,purchases:pp[n]||0,conv:pv[n]?((pc[n]||0)/pv[n]*100).toFixed(1):'0'})).sort((a,b)=>b.views-a.views);
+  const body=document.getElementById('productsBody');
+  if(!prods.length){body.innerHTML='<tr><td colspan="5" class="p-8 text-center text-slate-500">No data yet</td></tr>';return;}
+  body.innerHTML=prods.slice(0,30).map(p=>`<tr class="row hover:bg-white/[.02]">
+    <td class="p-3 font-medium">${p.name}</td><td class="p-3">${p.views}</td><td class="p-3">${p.carts}</td><td class="p-3">${p.purchases}</td>
+    <td class="p-3"><span class="${parseFloat(p.conv)>10?'text-green-400':'text-slate-400'}">${p.conv}%</span></td></tr>`).join('');
+  // Chart
+  const ctx=document.getElementById('productChart').getContext('2d');
+  if(charts.product)charts.product.destroy();
+  const top=prods.slice(0,10);
+  charts.product=new Chart(ctx,{type:'bar',data:{labels:top.map(p=>p.name.length>14?p.name.slice(0,14)+'..':p.name),datasets:[
+    {label:'Views',data:top.map(p=>p.views),backgroundColor:'rgba(234,88,12,.6)',borderRadius:4},
+    {label:'Cart Adds',data:top.map(p=>p.carts),backgroundColor:'rgba(168,85,247,.6)',borderRadius:4}
+  ]},options:{responsive:true,plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}},scales:{x:{grid:{display:false},ticks:{color:'#64748b',font:{size:10}}},y:{grid:{color:'#1e2130'},ticks:{color:'#64748b'}}}}});
+}
+
+// ═══════════════ COMPETITORS ═══════════════
+const competitors=[
+  {name:'Peptide Sciences',url:'peptidesciences.com',strengths:'Same-day shipping, 15% bundle discounts',pricing:'Mid-Premium',testing:'Internal COA',shipping:'Same-day (before 12 PM)',threat:'high'},
+  {name:'Biotech Peptides',url:'biotechpeptides.com',strengths:'Same-day shipping, 30-day refund, 80+ catalog',pricing:'$44-$305',testing:'99% purity, USA made',shipping:'Same-day (before 1 PM)',threat:'high'},
+  {name:'Core Peptides',url:'corepeptides.com',strengths:'Lowest prices, 15% evergreen codes, holiday sales',pricing:'Budget',testing:'Third-party',shipping:'Free over $200',threat:'medium'},
+  {name:'Direct Peptides',url:'directpeptides.com',strengths:'15% first-order, price matching, shipping protection',pricing:'Mid-range',testing:'99% HPLC + MS',shipping:'24-48h processing',threat:'medium'},
+  {name:'Limitless Biotech',url:'limitlesslifenootropics.com',strengths:'GMP certified, 90+ peptides, Best Company 2024',pricing:'Market rate',testing:'Third-party labs',shipping:'3-5 biz days',threat:'high'},
+  {name:'Particle Peptides',url:'particlepeptides.com',strengths:'Most comprehensive testing (6 categories), blind testing',pricing:'Premium',testing:'UPLC + CLND + bioburden',shipping:'Standard',threat:'medium'},
+  {name:'BioLongevity Labs',url:'biolongevitylabs.com',strengths:'Triple-lab verification, 15-20% promos',pricing:'$56-$160',testing:'Triple third-party',shipping:'Free over $400',threat:'medium'},
+  {name:'PureRawz',url:'purerawz.co',strengths:'Loyalty points, multiple forms (spray/tabs), 35% sales',pricing:'$68-$412',testing:'Third-party, 99%',shipping:'Free over $94',threat:'medium'},
+  {name:'Soma Chems',url:'soma-chems.com',strengths:'Budget pricing, 64+ products, nasal sprays',pricing:'$10-$80',testing:'HPLC, 98-99%',shipping:'Standard',threat:'low'},
+  {name:'Phoenix Pharma',url:'phoenixpeptide.com',strengths:'50+ years, custom synthesis, 7000+ products, bulk scale',pricing:'Quote-based',testing:'>95% guarantee',shipping:'B2B standard',threat:'low'},
+];
+
+function renderCompetitors(){
+  const threatColors={high:'bg-red-500/20 text-red-400',medium:'bg-yellow-500/20 text-yellow-400',low:'bg-green-500/20 text-green-400'};
+  document.getElementById('compBody').innerHTML=competitors.map(c=>`
+    <tr class="comp-row row">
+      <td class="p-3"><a href="https://${c.url}" target="_blank" class="text-orange-400 hover:underline font-medium">${c.name}</a><br><span class="text-[10px] text-slate-500">${c.url}</span></td>
+      <td class="p-3 text-xs text-slate-300 max-w-[200px]">${c.strengths}</td>
+      <td class="p-3 text-xs">${c.pricing}</td>
+      <td class="p-3 text-xs">${c.testing}</td>
+      <td class="p-3 text-xs">${c.shipping}</td>
+      <td class="p-3"><span class="badge ${threatColors[c.threat]}">${c.threat}</span></td>
+    </tr>`).join('');
+
+  // Radar chart
+  const ctx=document.getElementById('compChart').getContext('2d');
+  if(charts.comp)charts.comp.destroy();
+  charts.comp=new Chart(ctx,{type:'radar',data:{
+    labels:['Pricing','Catalog Size','Testing Quality','Shipping Speed','Loyalty/Discounts','Brand Trust'],
+    datasets:[
+      {label:'PEP.CENTER',data:[8,7,8,6,7,5],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,.15)',pointBackgroundColor:'#ea580c'},
+      {label:'Peptide Sciences',data:[6,7,6,9,7,9],borderColor:'#a855f7',backgroundColor:'rgba(168,85,247,.1)',pointBackgroundColor:'#a855f7'},
+      {label:'Core Peptides',data:[10,6,7,7,8,6],borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.1)',pointBackgroundColor:'#22c55e'},
+    ]},options:{responsive:true,scales:{r:{grid:{color:'#1e2130'},ticks:{display:false},pointLabels:{color:'#94a3b8',font:{size:11}}}},plugins:{legend:{labels:{color:'#94a3b8',font:{size:11}}}}}});
+
+  // Win/Lose
+  document.getElementById('compWinLose').innerHTML=`
+    <div class="mb-4">
+      <h4 class="text-xs text-green-400 font-semibold uppercase mb-2">Where PEP.CENTER Wins</h4>
+      <div class="space-y-2 text-sm text-slate-300">
+        <div class="flex items-start gap-2"><span class="text-green-400 mt-0.5">&#10003;</span> 99%+ purity with HPLC verification on all products</div>
+        <div class="flex items-start gap-2"><span class="text-green-400 mt-0.5">&#10003;</span> COA included with every order (many competitors charge extra)</div>
+        <div class="flex items-start gap-2"><span class="text-green-400 mt-0.5">&#10003;</span> Subscription pricing with tiered loyalty (5% off, free shipping, 10% loyalty)</div>
+        <div class="flex items-start gap-2"><span class="text-green-400 mt-0.5">&#10003;</span> Clean modern UI vs competitor sites stuck in 2015</div>
+        <div class="flex items-start gap-2"><span class="text-green-400 mt-0.5">&#10003;</span> Full product-level SEO with structured data</div>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs text-red-400 font-semibold uppercase mb-2">Where PEP.CENTER Needs Work</h4>
+      <div class="space-y-2 text-sm text-slate-300">
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> No same-day shipping (Peptide Sciences & Biotech do)</div>
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> No third-party testing badges visible (Particle & BioLongevity lead)</div>
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> No Trustpilot or review integration (Biotech has 4.8 stars)</div>
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> No loyalty points system (PureRawz has earn-and-redeem)</div>
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> Missing product forms: no nasal sprays, capsules, or tablets</div>
+        <div class="flex items-start gap-2"><span class="text-red-400 mt-0.5">&#10007;</span> No money-back guarantee displayed (Biotech offers 30-day)</div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════ IDEAS ═══════════════
+const ideas=[
+  {title:'Same-Day Shipping Badge',desc:'Add a countdown timer showing cutoff for same-day shipping. Peptide Sciences and Biotech both do this and it drives urgency.',impact:'High',effort:'Low',category:'Conversion'},
+  {title:'Trustpilot Integration',desc:'Add Trustpilot review widget to homepage and product pages. Biotech has 4.8 stars displayed prominently. Social proof is huge in this space.',impact:'High',effort:'Low',category:'Trust'},
+  {title:'Third-Party Testing Badges',desc:'Display COA/testing badges on every product card. Particle Peptides and BioLongevity make this a core selling point.',impact:'High',effort:'Medium',category:'Trust'},
+  {title:'Points-Based Loyalty Program',desc:'Like PureRawz: earn points on every order, redeem for up to 15% off. Increases repeat purchases and LTV.',impact:'High',effort:'High',category:'Retention'},
+  {title:'30-Day Money-Back Guarantee',desc:'Biotech offers this and it removes purchase friction. Display it prominently in checkout and product pages.',impact:'Medium',effort:'Low',category:'Conversion'},
+  {title:'Product Form Expansion',desc:'Add nasal sprays, capsules, and tablets like Soma Chems and PureRawz. Opens new customer segments.',impact:'High',effort:'High',category:'Product'},
+  {title:'Bulk Discount Tiers',desc:'Auto-apply 10% off 5+ items, 15% off 10+. Phoenix and Core Peptides both do volume pricing.',impact:'Medium',effort:'Medium',category:'Pricing'},
+  {title:'Live Chat Support',desc:'PureRawz has live chat. Reduces cart abandonment and builds trust for first-time buyers in a high-trust-required market.',impact:'Medium',effort:'Medium',category:'Support'},
+  {title:'Blog + Education Hub',desc:'SEO content targeting "what is BPC-157", "peptide research guides" etc. Drives organic traffic and positions as authority.',impact:'High',effort:'Medium',category:'SEO'},
+  {title:'Email Capture + Drip',desc:'First-order 15% discount popup (like Direct Peptides). Build email list for launches, restocks, and seasonal sales.',impact:'High',effort:'Low',category:'Marketing'},
+  {title:'Bundle Builder',desc:'Let customers create custom bundles with auto-discount. More engaging than fixed bundles and increases AOV.',impact:'Medium',effort:'High',category:'Product'},
+  {title:'Shipping Protection Option',desc:'Like Direct Peptides: guaranteed re-ship if lost. Small upsell that builds trust and adds revenue.',impact:'Medium',effort:'Low',category:'Conversion'},
+  {title:'Real-Time Inventory Badges',desc:'Show "Only 3 left" or "Selling fast" on product cards. Creates urgency without being pushy.',impact:'Medium',effort:'Low',category:'Conversion'},
+  {title:'Referral Program',desc:'Give $10 credit for every referral. Peptide buyers talk to each other in forums/Reddit. Tap into word-of-mouth.',impact:'High',effort:'Medium',category:'Growth'},
+  {title:'Mobile App / PWA',desc:'Progressive Web App with push notifications for order updates, restock alerts, and flash sales.',impact:'Medium',effort:'High',category:'Tech'},
+];
+
+function renderIdeas(){
+  const catColors={Conversion:'bg-orange-500/20 text-orange-400',Trust:'bg-blue-500/20 text-blue-400',Retention:'bg-purple-500/20 text-purple-400',Product:'bg-cyan-500/20 text-cyan-400',Pricing:'bg-green-500/20 text-green-400',Support:'bg-yellow-500/20 text-yellow-400',SEO:'bg-emerald-500/20 text-emerald-400',Marketing:'bg-pink-500/20 text-pink-400',Growth:'bg-indigo-500/20 text-indigo-400',Tech:'bg-slate-500/20 text-slate-400'};
+  const impactColors={High:'text-green-400',Medium:'text-yellow-400',Low:'text-slate-400'};
+  document.getElementById('ideasGrid').innerHTML=ideas.map(idea=>`
+    <div class="card p-4 glow idea-card">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge ${catColors[idea.category]||'bg-slate-500/20 text-slate-400'}">${idea.category}</span>
+        <span class="text-[10px] ${impactColors[idea.impact]} font-semibold ml-auto">${idea.impact} Impact</span>
+        <span class="text-[10px] text-slate-500">${idea.effort} Effort</span>
+      </div>
+      <h4 class="font-semibold text-sm mb-1">${idea.title}</h4>
+      <p class="text-xs text-slate-400 leading-relaxed">${idea.desc}</p>
+    </div>`).join('');
+}
+
+// ═══════════════ SEO HEALTH ═══════════════
+function renderSEO(){
+  const checks=[
+    {label:'Meta titles on all pages',ok:true,detail:'react-helmet-async active'},
+    {label:'Open Graph tags',ok:true,detail:'og:title, og:description, og:image'},
+    {label:'Twitter Card meta',ok:true,detail:'summary_large_image enabled'},
+    {label:'Canonical URLs',ok:true,detail:'Dynamic canonical on every route'},
+    {label:'JSON-LD structured data',ok:true,detail:'Organization, Product, Breadcrumb'},
+    {label:'Sitemap.xml',ok:true,detail:'/sitemap.xml published'},
+    {label:'Robots.txt',ok:true,detail:'/robots.txt configured'},
+    {label:'Product-specific SEO',ok:true,detail:'43 products with unique descriptions'},
+    {label:'SPA redirects',ok:true,detail:'Netlify redirects configured'},
+    {label:'HTTPS / SSL',ok:true,detail:'Netlify auto-SSL on pep.center'},
+    {label:'Core Web Vitals',ok:false,detail:'Not yet measured - run Lighthouse'},
+    {label:'Blog / content pages',ok:false,detail:'No blog yet - missing organic traffic'},
+    {label:'Backlinks strategy',ok:false,detail:'No outreach or link building in place'},
+    {label:'Google Search Console',ok:false,detail:'Not connected - connect for indexing data'},
+  ];
+  const score=Math.round(checks.filter(c=>c.ok).length/checks.length*100);
+  document.getElementById('seoScore').textContent=score;
+  document.getElementById('seoScore').className='w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold '+(score>=80?'bg-green-500/20 text-green-400':score>=60?'bg-yellow-500/20 text-yellow-400':'bg-red-500/20 text-red-400');
+  document.getElementById('seoSubtext').textContent=`${checks.filter(c=>c.ok).length}/${checks.length} checks passing`;
+  document.getElementById('seoChecklist').innerHTML=checks.map(c=>`
+    <div class="flex items-center gap-3 text-sm">
+      <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs shrink-0 ${c.ok?'bg-green-500/20 text-green-400':'bg-red-500/20 text-red-400'}">${c.ok?'&#10003;':'&#10007;'}</span>
+      <span class="font-medium">${c.label}</span>
+      <span class="text-xs text-slate-500 ml-auto">${c.detail}</span>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>
