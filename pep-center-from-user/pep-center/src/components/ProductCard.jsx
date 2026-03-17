@@ -121,12 +121,12 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
               <span className="px-3 py-1.5 rounded-full bg-green-500/15 border border-green-500/30 text-xs font-medium text-green-400 backdrop-blur-sm flex items-center gap-1">
                 <TrendingDown className="w-3 h-3" />
                 {pricing.discount}% OFF
-              </span>
+              </span
             </div>
           )}
           
           <img 
-            src={product.image} 
+            src={product.image}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
@@ -152,7 +152,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
               <Eye className="w-4 h-4" />
               Quick View
             </button>
-               onCompare && (
+               {onCompare && (
               <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -189,7 +189,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
             </h3>
             <div className="text-right">
               <span className="text-xl font-bold text-[#f97316]">${finalPrice.toFixed(0)}</span>
-              {{(pricing.discount > 0 || isSubscription) && (
+              {(pricing.discount > 0 || isSubscription) && (
                 <span className="text-sm text-white/30 line-through block">${product.price}</span>
               )}
             </div>
@@ -202,14 +202,14 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
         {product.benefitTags && product.benefitTags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-2">
             {product.benefitTags.slice(0, 3).map((tag, i) => (
-              <span key={i} className="px-2 py-0.5 rounded-full text-[10px ] font-semibold bg-[#f97316]/10 text-[#f97316]/80 border border-[#f97316]/15">
+              <span key={i} className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#f97316]/10 text-[#f97316]/80 border border-[#f97316]/15">
                 {tag}
               </span>
             ))}
           </div>
         )}
 
-        {/* Subscription Toggle *"}
+        {/* Subscription Toggle */}
         <div className="mb-3 p-3 rounded-xl bg-purple-500/[0.05] border border-purple-500/20">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
@@ -223,7 +223,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
                 <RefreshCw className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-medium text-white">Subscribe Monthly</span>
                 </div>
-              <p className="text-xs text-purple-400/70">{gvTierBenefits()}</p>
+              <p className="text-xs text-purple-400/70">{getTierBenefits()}</p>
             </div>
             {isSubscription && (
               <span className="text-xs font-bold text-purple-400">-{subscriptionDiscount}%</span>
@@ -309,7 +309,7 @@ export default function ProductCard({ product, index = 0, onQuickView, onCompare
             isAdded 
               ? 'bg-green-500/20 border border-green-500/40 text-green-400' 
               : isSubscription
-                ? 'bg-purple-500/20 border border-purple-500.40 text-purple-400 hover:bg-purple-500.30'
+                ? 'bg-purple-500/20 border border-purple-500/40 text-purple-400 hover:bg-purple-500/30'
                 : 'bg-white/[0.04] border border-white/[0.08] text-white/80 hover:bg-[#f97316] hover:border-[#f97316] hover:text-white'
           }`}
         >
